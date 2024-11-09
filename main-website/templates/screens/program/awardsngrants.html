@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<title>
+    Awards and Grants
+</title>
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Awards and Grants</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+            </nav>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Awards Section Start -->
+    <div class="container py-5">
+        <div class="row g-4">
+            {% for reward in rewards %}
+            <div class="col-12">
+                <div class="d-flex align-items-start mb-4">
+                    <img src="{{ reward.image }}" alt="Award Icon" class="me-4" style="width: 80px; height: 80px; border-radius: 50%;">
+                    <div>
+                        <h2 class="mb-3">{{ reward.title }}</h2>
+                        <p class="text-justify">
+                            {{ reward.description }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Awards Section End -->
+
+{% endblock %}

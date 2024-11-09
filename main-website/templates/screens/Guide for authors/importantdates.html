@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+{% block body %}
+<title>
+    Important Dates
+</title>
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Important Dates</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<style>
+    .dates-table th {
+        padding: 20px;
+        font-size: 1.2rem;
+        background-color: #2b3499;
+        color: white;
+    }
+
+    .dates-table td {
+        padding: 20px;
+        font-size: 1.1rem;
+    }
+</style>
+
+<!-- Important Dates Table -->
+<div class="container mt-5">
+    <div class="table-responsive">
+        <table class="table table-bordered dates-table" style="border-radius: 15px; overflow: hidden;">
+            <thead>
+                <tr>
+                    <th>Important Dates</th>
+                    <th>Deadline</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for date in dates %}
+                <tr>
+                    <td>{{ date.description }}</td>
+                    <td>{{ date.date.strftime('%d %B %Y') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

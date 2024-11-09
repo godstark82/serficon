@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<title>
+    Paper Status
+</title>
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Paper Status</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+            </nav>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Paper Status Form Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5" style="max-width: 1000px;">
+                <p class="mb-4">After submitting your paper, a unique tracking ID has been sent to the corresponding author's email. Please use this ID to check the status of your submission. If you have not received your tracking ID, kindly check your spam/junk folder or contact us.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8 mx-auto">
+                    <form action="{{ url_for('PaperStatus') }}" method="POST">
+                        <div class="mb-3">
+                            <label for="trackCode" class="form-label">Track Code</label>
+                            <input type="text" class="form-control" id="trackCode" name="trackCode" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Check Status</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Paper Status Form End -->
+
+{% endblock %}

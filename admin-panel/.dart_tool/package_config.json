@@ -74,6 +74,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "csslib",
+      "rootUri": "file:///C:/Users/VENOM/AppData/Local/Pub/Cache/hosted/pub.dev/csslib-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///C:/Users/VENOM/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.8",
       "packageUri": "lib/",
@@ -178,6 +184,12 @@
     {
       "name": "flutter_bloc",
       "rootUri": "file:///C:/Users/VENOM/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_bloc-8.1.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_dotenv",
+      "rootUri": "file:///C:/Users/VENOM/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_dotenv-5.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -324,6 +336,12 @@
       "rootUri": "file:///C:/Users/VENOM/AppData/Local/Pub/Cache/hosted/pub.dev/hive_flutter-1.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "html",
+      "rootUri": "file:///C:/Users/VENOM/AppData/Local/Pub/Cache/hosted/pub.dev/html-0.15.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
     },
     {
       "name": "html_editor_enhanced",
@@ -644,7 +662,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-11-09T16:46:52.102334Z",
+  "generated": "2024-11-09T18:12:56.267783Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///C:/src/flutter",

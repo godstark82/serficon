@@ -6,7 +6,7 @@ import 'package:conference_admin/features/imp-dates/presentation/bloc/imp_dates_
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:conference_admin/core/const/login_const.dart';
@@ -17,9 +17,11 @@ import 'package:conference_admin/features/users/presentation/bloc/users_bloc.dar
 import 'package:conference_admin/firebase_options.dart';
 import 'package:conference_admin/routes.dart';
 
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  usePathUrlStrategy();
+  await dotenv.load(fileName: '.env');
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Hive.initFlutter();
   await Hive.openBox('cache');
@@ -27,8 +29,6 @@ void main() async {
   await LoginConst.getCurrentUser();
   runApp(const MainApp());
 }
-
-void usePathUrlStrategy() {}
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});

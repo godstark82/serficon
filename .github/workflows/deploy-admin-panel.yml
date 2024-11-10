@@ -55,6 +55,9 @@ jobs:
             --dart-define=MAILGUN_DOMAIN=$MAILGUN_DOMAIN \
             --dart-define=MAILGUN_API_KEY=$MAILGUN_API_KEY
 
+      - name: Create CNAME file
+        run: echo "${{ secrets.DOMAIN }}" > ./admin-panel/build/web/CNAME
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
 

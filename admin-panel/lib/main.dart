@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:conference_admin/features/committee/presentation/bloc/committee_bloc.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/bloc/detailed_schedule_bloc.dart';
 import 'package:conference_admin/features/faq/presentation/bloc/faq_bloc.dart';
@@ -19,10 +17,8 @@ import 'package:conference_admin/firebase_options.dart';
 import 'package:conference_admin/routes.dart';
 
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Hive.initFlutter();
   await Hive.openBox('cache');

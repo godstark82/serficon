@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:conference_admin/features/committee/presentation/bloc/committee_bloc.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/bloc/detailed_schedule_bloc.dart';
 import 'package:conference_admin/features/faq/presentation/bloc/faq_bloc.dart';
@@ -6,7 +8,6 @@ import 'package:conference_admin/features/imp-dates/presentation/bloc/imp_dates_
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:conference_admin/core/const/login_const.dart';
@@ -21,7 +22,7 @@ import 'package:conference_admin/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Hive.initFlutter();
   await Hive.openBox('cache');

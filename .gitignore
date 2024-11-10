@@ -3,4 +3,5 @@
 .env
 env
 build/
+.dart_tool/
 __pycache__/

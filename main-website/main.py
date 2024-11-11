@@ -16,6 +16,7 @@ def Home():
     home = home_service.get_home_data()
     return render_template('index.html', home=home, website_title=website_title, navbar_title=navbar_title, domain=domain)
 
+
 @app.route("/organizing-committee")
 def OrganizingCommittee():
     title = "Organizing Committee"

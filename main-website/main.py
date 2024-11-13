@@ -10,6 +10,9 @@ website_title = os.getenv('website_title')
 navbar_title = os.getenv('navbar_title')
 domain = os.getenv('domain')
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', website_title=website_title, navbar_title=navbar_title, domain=domain), 404
 
 @app.route("/")
 def Home():

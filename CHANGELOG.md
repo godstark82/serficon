@@ -9,5 +9,6 @@
 - Added Commitee Member as Paragram instead of list of Cards
 
 ## Main Website
+- Added Committee Page for Organizing Committee, Scientific Committee and Scientific Lead
 
 

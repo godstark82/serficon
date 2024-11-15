@@ -1,8 +1,7 @@
 import os
 from flask import Flask, render_template, request, flash, redirect, url_for
 from db_instance import get_db
-from models.committee_model import CommitteeRole
-from services import committee_service, faq_service, home_service, imp_dates_service, mail_service, schedule_service
+from services import faq_service, home_service, imp_dates_service, mail_service, page_service, schedule_service
 
 app = Flask(__name__)
 app.secret_key = 'conference_2024secretkey'
@@ -23,16 +22,20 @@ def Home():
 @app.route("/organizing-committee")
 def OrganizingCommittee():
     title = "Organizing Committee"
-    members = committee_service.get_all_committee_members()
-    members = [member for member in members if member.role == CommitteeRole.ORGANISING_COMMITTEE.value]
-    return render_template('screens/about/oc.html', title=title, members=members, website_title=website_title, navbar_title=navbar_title, domain=domain)
+    page = page_service.get_page_content('organizing-committee')
+    return render_template('screens/about/committee.html', title=title, page=page, website_title=website_title, navbar_title=navbar_title, domain=domain)
 
 @app.route("/scientific-committee")
 def ScientificCommittee():
     title = "Scientific Committee"
-    members = committee_service.get_all_committee_members()
-    members = [member for member in members if member.role == CommitteeRole.SCIENTIFIC_COMMITTEE_MEMBER.value]
-    return render_template('screens/about/oc.html', title=title, members=members, website_title=website_title, navbar_title=navbar_title, domain=domain)
+    page = page_service.get_page_content('scientific-committee-member')
+    return render_template('screens/about/committee.html', title=title, page=page, website_title=website_title, navbar_title=navbar_title, domain=domain)
+
+@app.route("/scientific-lead")
+def ScientificLead():
+    title = "Scientific Lead"
+    page = page_service.get_page_content('scientific-lead')
+    return render_template('screens/about/committee.html', title=title, page=page, website_title=website_title, navbar_title=navbar_title, domain=domain)
 
 
 

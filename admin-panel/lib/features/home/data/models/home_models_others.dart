@@ -3,17 +3,20 @@ import 'package:conference_admin/core/models/card_model.dart';
 class HomeHeroModel {
   final String? image;
   final String htmlContent;
+  final bool showImage;
 
-  HomeHeroModel({required this.image, required this.htmlContent});
+  HomeHeroModel({required this.image, required this.htmlContent, this.showImage = true});
 
   factory HomeHeroModel.fromJson(Map<String, dynamic> json) => HomeHeroModel(
         image: json['image'] ?? 'No Image',
         htmlContent: json['html_content'] ?? 'No Content',
+        showImage: json['show_image'] ?? true,
       );
 
   Map<String, dynamic> toJson() => {
         'image': image,
         'html_content': htmlContent,
+        'show_image': showImage,
       };
 }
 
@@ -21,9 +24,10 @@ class HomePresidentWelcomeModel {
   final String title;
   final String? image;
   final String htmlContent;
+  final bool showImage;
 
   HomePresidentWelcomeModel(
-      {required this.title, required this.image, required this.htmlContent});
+      {required this.title, required this.image, required this.htmlContent, this.showImage = true});
 
   factory HomePresidentWelcomeModel.fromJson(Map<String, dynamic> json) =>
       HomePresidentWelcomeModel(
@@ -31,30 +35,35 @@ class HomePresidentWelcomeModel {
         // sample image url
         image: json['image'] ?? 'No Image',
         htmlContent: json['html_content'] ?? 'No Content',
+        showImage: json['show_image'] ?? true,
       );
 
   Map<String, dynamic> toJson() => {
         'title': title,
         'image': image,
         'html_content': htmlContent,
+        'show_image': showImage,
       };
 }
 
 class HomePublicationModel {
   final String? image;
   final String htmlContent;
+  final bool showImage;
 
-  HomePublicationModel({required this.image, required this.htmlContent});
+  HomePublicationModel({required this.image, required this.htmlContent, this.showImage = true});
 
   factory HomePublicationModel.fromJson(Map<String, dynamic> json) =>
       HomePublicationModel(
         image: json['image'] ?? 'No Image',
         htmlContent: json['html_content'] ?? 'No Content',
+        showImage: json['show_image'] ?? true,
       );
 
   Map<String, dynamic> toJson() => {
         'image': image,
         'html_content': htmlContent,
+        'show_image': showImage,
       };
 }
 

@@ -1,8 +1,10 @@
+import 'package:conference_admin/features/article/presentation/bloc/article_bloc.dart';
 import 'package:conference_admin/features/committee/presentation/bloc/committee_bloc.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/bloc/detailed_schedule_bloc.dart';
 import 'package:conference_admin/features/faq/presentation/bloc/faq_bloc.dart';
 import 'package:conference_admin/features/home/presentation/bloc/home_bloc.dart';
 import 'package:conference_admin/features/imp-dates/presentation/bloc/imp_dates_bloc.dart';
+import 'package:conference_admin/features/pages/presentation/bloc/pages_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +17,6 @@ import 'package:conference_admin/features/login/presentation/pages/login_page.da
 import 'package:conference_admin/features/users/presentation/bloc/users_bloc.dart';
 import 'package:conference_admin/firebase_options.dart';
 import 'package:conference_admin/routes.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
+          BlocProvider<PagesBloc>(create: (context) => sl<PagesBloc>()),
           BlocProvider<HomeBloc>(create: (context) => sl<HomeBloc>()),
           BlocProvider<ImpDatesBloc>(create: (context) => sl<ImpDatesBloc>()),
           BlocProvider<LoginBloc>(create: (context) => sl<LoginBloc>()),
@@ -42,6 +44,7 @@ class MainApp extends StatelessWidget {
           BlocProvider<DetailedScheduleBloc>(
               create: (context) => sl<DetailedScheduleBloc>()),
           BlocProvider<FaqBloc>(create: (context) => sl<FaqBloc>()),
+          BlocProvider<ArticleBloc>(create: (context) => sl<ArticleBloc>()),
         ],
         child: GetMaterialApp(
           defaultTransition: Get.defaultTransition,

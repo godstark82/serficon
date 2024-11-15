@@ -44,6 +44,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> _onGetHome(GetHomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeLoading());
     final result = await getHomeUseCase.call(null);
     if (result is DataSuccess && result.data != null) {
       emit(HomeLoaded(result.data!));

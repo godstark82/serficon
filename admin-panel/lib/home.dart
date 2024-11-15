@@ -1,3 +1,4 @@
+import 'package:conference_admin/features/article/presentation/pages/articles_page.dart';
 import 'package:conference_admin/features/committee/presentation/pages/committee_member_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/schedule_page.dart';
 import 'package:conference_admin/features/faq/presentation/pages/review_process_page.dart';
@@ -40,6 +41,7 @@ class _HomeState extends State<Home> {
       const SubmissionGuidelinesPage(),
       const ImpDatesPage(),
       const RewardsPage(),
+      const ArticlesPage(),
       const SocialLinksPage(),
       const UsersPage(),
     ];
@@ -79,6 +81,11 @@ class _HomeState extends State<Home> {
         icon: const Icon(Icons.card_giftcard),
         label: const Text('Rewards'),
         selectedIcon: Icon(Icons.card_giftcard, color: Colors.blue[800]),
+      ),
+      NavigationRailDestination(
+        icon: const Icon(Icons.article),
+        label: const Text('Articles'),
+        selectedIcon: Icon(Icons.article, color: Colors.blue[800]),
       ),
       NavigationRailDestination(
         icon: const Icon(Icons.link),

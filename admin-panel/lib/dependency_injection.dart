@@ -1,4 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conference_admin/core/services/article_service.dart';
+import 'package:conference_admin/features/article/data/repositories/article_repo_impl.dart';
+import 'package:conference_admin/features/article/domain/repositories/article_repo.dart';
+import 'package:conference_admin/features/article/domain/usecases/add_article_uc.dart';
+import 'package:conference_admin/features/article/domain/usecases/delete_article_uc.dart';
+import 'package:conference_admin/features/article/domain/usecases/edit_article_uc.dart';
+import 'package:conference_admin/features/article/domain/usecases/get_all_article_uc.dart';
+import 'package:conference_admin/features/article/domain/usecases/get_article_by_id_uc.dart';
+import 'package:conference_admin/features/article/presentation/bloc/article_bloc.dart';
 import 'package:conference_admin/features/committee/data/repositories/committee_repo_impl.dart';
 import 'package:conference_admin/features/committee/domain/repositories/committee_repo.dart';
 import 'package:conference_admin/features/committee/domain/usecases/add_member_usecase.dart';
@@ -39,6 +48,11 @@ import 'package:conference_admin/features/imp-dates/domain/repositories/date_rep
 import 'package:conference_admin/features/imp-dates/domain/usecases/get_dates_uc.dart';
 import 'package:conference_admin/features/imp-dates/domain/usecases/update_dates_uc.dart';
 import 'package:conference_admin/features/imp-dates/presentation/bloc/imp_dates_bloc.dart';
+import 'package:conference_admin/features/pages/data/repositories/page_repo_impl.dart';
+import 'package:conference_admin/features/pages/domain/repositories/page_repo.dart';
+import 'package:conference_admin/features/pages/domain/usecases/get_page_uc.dart';
+import 'package:conference_admin/features/pages/domain/usecases/update_page_uc.dart';
+import 'package:conference_admin/features/pages/presentation/bloc/pages_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:conference_admin/features/login/data/repositories/login_repo_impl.dart';
 import 'package:conference_admin/features/login/domain/repositories/login_repo.dart';
@@ -63,6 +77,7 @@ Future<void> initializeDependencies() async {
   //! Services
   sl.registerSingleton<LoginService>(LoginService());
   sl.registerSingleton<UsersService>(UsersService());
+  sl.registerSingleton<ArticleService>(ArticleService());
 
   //! Repositories
   sl.registerSingleton<DateRepo>(DateRepoImpl(firestore: sl()));
@@ -72,8 +87,14 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<CommitteeRepo>(CommitteeRepoImpl());
   sl.registerSingleton<UsersRepo>(UsersRepoImpl(sl()));
   sl.registerSingleton<ScheduleRepo>(ScheduleRepoImpl());
+  sl.registerSingleton<ArticleRepository>(ArticleRepoImpl(sl()));
+  sl.registerSingleton<PageRepo>(PageRepoImpl());
 
   //! Usecases
+
+  //? Pages UseCases
+  sl.registerSingleton<GetPageUseCase>(GetPageUseCase(sl()));
+  sl.registerSingleton<UpdatePageUseCase>(UpdatePageUseCase(sl()));
 
   //? Home UseCases
   sl.registerSingleton<GetHomeUseCase>(GetHomeUseCase(sl()));
@@ -118,7 +139,16 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetSingleScheduleUseCase>(
       GetSingleScheduleUseCase(sl()));
 
+  //? Article UseCases
+  sl.registerSingleton<GetAllArticleUC>(GetAllArticleUC(sl()));
+  sl.registerSingleton<AddArticleUC>(AddArticleUC(sl()));
+  sl.registerSingleton<EditArticleUC>(EditArticleUC(sl()));
+  sl.registerSingleton<DeleteArticleUC>(DeleteArticleUC(sl()));
+  sl.registerSingleton<GetArticleByIdUC>(GetArticleByIdUC(sl()));
+
   //! Blocs
+  //! Blocs
+  sl.registerFactory<PagesBloc>(() => PagesBloc(sl(), sl()));
   sl.registerFactory<HomeBloc>(
       () => HomeBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl()));
   sl.registerFactory<ImpDatesBloc>(() => ImpDatesBloc(sl(), sl()));
@@ -130,4 +160,6 @@ Future<void> initializeDependencies() async {
   sl.registerFactory<UsersBloc>(() => UsersBloc(sl(), sl()));
   sl.registerFactory<DetailedScheduleBloc>(
       () => DetailedScheduleBloc(sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory<ArticleBloc>(
+      () => ArticleBloc(sl(), sl(), sl(), sl(), sl()));
 }

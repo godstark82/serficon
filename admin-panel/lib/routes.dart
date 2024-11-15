@@ -1,3 +1,5 @@
+import 'package:conference_admin/features/article/presentation/pages/add_article_page.dart';
+import 'package:conference_admin/features/article/presentation/pages/edit_article_page.dart';
 import 'package:conference_admin/features/committee/presentation/pages/add_member_page.dart';
 import 'package:conference_admin/features/committee/presentation/pages/update_member_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/add_schedule_page.dart';
@@ -43,6 +45,10 @@ class Routes {
   // Important Dates
   static const String impDates = '/imp-dates';
   static const String updateImpDates = '/update-imp-dates';
+
+  // Article
+  static const String addArticle = '/add-article';
+  static const String editArticle = '/update-article';
 }
 
 List<GetPage> routes = [
@@ -100,4 +106,15 @@ List<GetPage> routes = [
       name: Routes.dashboard + Routes.updateImpDates,
       page: () => const UpdateImpDatesPage(),
       middlewares: [AuthGuard()]),
+
+  GetPage(
+    name: Routes.dashboard + Routes.addArticle,
+    page: () => const AddArticlePage(),
+    middlewares: [AuthGuard()],
+  ),
+  GetPage(
+    name: Routes.dashboard + Routes.editArticle,
+    page: () => const EditArticlePage(),
+    middlewares: [AuthGuard()],
+  )
 ];

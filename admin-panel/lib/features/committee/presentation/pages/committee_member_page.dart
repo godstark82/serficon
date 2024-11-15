@@ -1,8 +1,9 @@
-import 'package:conference_admin/features/committee/presentation/bloc/committee_bloc.dart';
-import 'package:conference_admin/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:conference_admin/features/pages/presentation/bloc/pages_bloc.dart';
 import 'package:get/get.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:conference_admin/features/pages/data/models/pages_model.dart';
 
 class CommitteeMemberPage extends StatefulWidget {
   const CommitteeMemberPage({super.key});
@@ -15,178 +16,159 @@ class _CommitteeMemberPageState extends State<CommitteeMemberPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CommitteeBloc>().add(GetAllCommitteeMembersEvent());
-    });
+    context.read<PagesBloc>().add(GetPagesEvent());
   }
 
-  Color _getRoleColor(String role) {
-    switch (role.toLowerCase()) {
-      case 'advisor':
-        return Colors.blue.shade100;
-      case 'organizer':
-        return Colors.green.shade100;
-      case 'volunteer':
-        return Colors.orange.shade100;
-      default:
-        return Colors.grey.shade100;
-    }
+  void _showEditDialog(PagesModel page) {
+    final titleController = TextEditingController(text: page.title);
+    final htmlController = HtmlEditorController();
+
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.8,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: const InputDecoration(labelText: 'Title'),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: HtmlEditor(
+                  controller: htmlController,
+                  htmlEditorOptions: HtmlEditorOptions(
+                    initialText: page.htmlContent,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Cancel'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final htmlContent = await htmlController.getText();
+                      final updatedPage = PagesModel(
+                        id: page.id,
+                        title: titleController.text,
+                        htmlContent: htmlContent,
+                      );
+                      // if (mounted) {
+                      context.read<PagesBloc>().add(UpdatePageEvent(updatedPage));
+                      Navigator.pop(context);
+                      // }
+                    },
+                    child: const Text('Save'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Committee Members'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.toNamed(Routes.dashboard + Routes.addCommitteeMember);
-              },
-              icon: const Icon(Icons.add))
-        ],
-      ),
-      body: BlocBuilder<CommitteeBloc, CommitteeState>(
+      body: BlocBuilder<PagesBloc, PagesState>(
         builder: (context, state) {
-          if (state is LoadingAllCommitteeState) {
+          if (state is PageLoading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state is LoadedAllCommitteeState) {
-            final members = state.members;
-            if (members.isEmpty) {
-              return const Center(child: Text('No committee members found'));
-            }
-            
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                itemCount: members.length,
-                itemBuilder: (context, index) {
-                  final member = members[index];
-                  return Card(
-                    elevation: 4,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    color: _getRoleColor(member.role.value),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(member.image),
-                                radius: 30,
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      member.name,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      member.role.value,
-                                      style: TextStyle(
-                                        color: Colors.grey[800],
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    if (member.designation.isNotEmpty) ...[
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        member.designation,
-                                        style: TextStyle(
-                                          color: Colors.grey[600],
-                                          fontStyle: FontStyle.italic,
-                                        ),
-                                      ),
-                                    ],
-                                  ]
-                                )
-                              )
-                            ]
+          }
+          if (state is PageError) {
+            return Center(child: Text(state.message));
+          }
+          if (state is PagesLoaded) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Committee Pages',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton.icon(
-                                onPressed: () {
-                                  Get.toNamed(
-                                      Routes.dashboard +
-                                          Routes.updateCommitteeMember,
-                                      parameters: {'memberId': member.id});
-                                },
-                                icon: const Icon(Icons.edit),
-                                label: const Text('Update'),
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.blue,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              TextButton.icon(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text('Delete Member'),
-                                      content: Text(
-                                          'Are you sure you want to delete ${member.name}?'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: const Text('Cancel'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            context.read<CommitteeBloc>().add(
-                                                DeleteCommitteeMemberEvent(
-                                                    member.id));
-                                            Navigator.pop(context);
-                                          },
-                                          style: TextButton.styleFrom(
-                                            foregroundColor: Colors.red,
-                                          ),
-                                          child: const Text('Delete'),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.delete),
-                                label: const Text('Delete'),
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.red,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  );
-                },
+                    const SizedBox(height: 20),
+                    Wrap(
+                      spacing: 20,
+                      runSpacing: 20,
+                      children: [
+                        _buildPageCard(
+                          'Organizing Committee',
+                          state.pages['oc']!.htmlContent,
+                          () => _showEditDialog(state.pages['oc']!),
+                        ),
+                        _buildPageCard(
+                          'Scientific Committee Member',
+                          state.pages['scm']!.htmlContent,
+                          () => _showEditDialog(state.pages['scm']!),
+                        ),
+                        _buildPageCard(
+                          'Scientific Lead',
+                          state.pages['sl']!.htmlContent,
+                          () => _showEditDialog(state.pages['sl']!),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             );
-          } else if (state is ErrorAllCommitteeMember) {
-            return Center(child: Text(state.msg));
           }
-          return const Center(child: Text('Please wait...'));
+          return const SizedBox();
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<CommitteeBloc>().add(GetAllCommitteeMembersEvent());
-        },
-        child: const Icon(Icons.refresh),
+    );
+  }
+
+  Widget _buildPageCard(String title, String content, VoidCallback onTap) {
+    return Card(
+      elevation: 4,
+      child: Container(
+        width: 300,
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              content,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: onTap,
+              child: const Text('Edit'),
+            ),
+          ],
+        ),
       ),
     );
   }

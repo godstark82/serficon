@@ -9,7 +9,7 @@ class PageModel:
         return PageModel(
             id=json.get('id', ''),
             title=json.get('title', ''),
-            content=json.get('content', '')
+            content=json.get('htmlContent', '')
         )
 
     def to_json(self):

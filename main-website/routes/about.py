@@ -5,8 +5,9 @@ about_bp = Blueprint("conferences", __name__)
 
 @about_bp.route("/organizing-committee")
 def OrganizingCommittee():
-    title = "Organizing Committee"
-    page = page_service.get_page_content('organizing-committee')
+    title = "Organising Committee"
+    page = page_service.get_page_content('organising-committee')
+    # print(page.content)
     return render_template('screens/about/committee.html', title=title, page=page, 
                            website_title=current_app.config['website_title'], 
                            navbar_title=current_app.config['navbar_title'], 

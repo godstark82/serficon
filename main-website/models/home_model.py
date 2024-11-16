@@ -7,12 +7,14 @@ from models.card_model import CardModel
 class HomeHeroModel:
     image: Optional[str] = field(default='No Image')
     html_content: str = field(default='No Content')
+    show_image: bool = field(default=False)
 
     @staticmethod
     def from_json(json: Dict[str, Any]) -> 'HomeHeroModel':
         return HomeHeroModel(
             image=json.get('image', 'No Image'),
-            html_content=json.get('html_content', 'No Content')
+            html_content=json.get('html_content', 'No Content'),
+            show_image=json.get('show_image', False)
         )
 
 
@@ -22,13 +24,15 @@ class HomePresidentWelcomeModel:
     title: str
     image: Optional[str] = field(default='No Image')
     html_content: str = field(default='No Content')
+    show_image: bool = field(default=False)
 
     @staticmethod
     def from_json(json: Dict[str, Any]) -> 'HomePresidentWelcomeModel':
         return HomePresidentWelcomeModel(
             title=json.get('title', 'No Title'),
             image=json.get('image', 'No Image'),
-            html_content=json.get('html_content', 'No Content')
+            html_content=json.get('html_content', 'No Content'),
+            show_image=json.get('show_image', False)
         )
 
 
@@ -37,12 +41,13 @@ class HomePresidentWelcomeModel:
 class HomePublicationModel:
     image: Optional[str] = field(default='No Image')
     html_content: str = field(default='No Content')
-
+    show_image: bool = field(default=False)
     @staticmethod
     def from_json(json: Dict[str, Any]) -> 'HomePublicationModel':
         return HomePublicationModel(
             image=json.get('image', 'No Image'),
-            html_content=json.get('html_content', 'No Content')
+            html_content=json.get('html_content', 'No Content'),
+            show_image=json.get('show_image', False)
         )
 
 

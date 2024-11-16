@@ -21,7 +21,7 @@
             <p class="d-inline-block border rounded-pill py-1 px-4">{{ title }}</p>
             <!-- <h1>Our Experience Committee</h1> -->
         </div>
-        <div class="row g-4">
+        <!-- <div class="row g-4"> -->
 
 
 
@@ -39,8 +39,8 @@
                 </div>
             </div>
             {% endfor %} -->
-            {{ page.content }}
-        </div>
+            {{ page.content | safe }}
+        <!-- </div> -->
     </div>
 </div>
 <!-- Team End -->

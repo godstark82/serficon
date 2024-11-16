@@ -1,10 +1,6 @@
 {% extends 'layout.html' %}
 {% block body %}
-<style>
-    .fa-angle-double-right {
-        color: #fa6c00;
-    }
-</style>
+
 <title>{{ website_title }}</title>
 <!-- Header Start -->
 <div class="container-fluid header bg-primary p-0 mb-5">
@@ -21,8 +17,10 @@
             </div>
         </div>
         {% else %}
-        <div class="col-12 text-center wow fadeIn" data-wow-delay="0.1s">
-            {{ home.hero.html_content | safe }}
+        <div class="col-12 text-center wow fadeIn d-flex align-items-center" data-wow-delay="0.1s" style="min-height: 300px;">
+            <div class="mx-auto">
+                {{ home.hero.html_content | safe }}
+            </div>
         </div>
         {% endif %}
     </div>

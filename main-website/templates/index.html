@@ -28,8 +28,8 @@
 <!-- Header End -->
 
 <!-- President's Welcome Start -->
-<div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-    <h3>{{ home.president_welcome.title }}</h3>
+<div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+    <h2>{{ home.president_welcome.title }}</h2>
 </div>
 
 {% if home.president_welcome.show_image %}
@@ -38,21 +38,19 @@
         <div class="row g-5">
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
                 <div class="d-flex flex-column">
-                    <img class="img-fluid rounded w-75 align-self-end" src="{{ home.president_welcome.image }}" alt="">
+                    <img class="img-fluid rounded w-100 align-self-end" src="{{ home.president_welcome.image }}" alt="">
                 </div>
             </div>
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                <p style="text-align: justify;">
                     {{ home.president_welcome.html_content | safe }}
-                </p>
             </div>
         </div>
     </div>
 </div>
 {% else %}
 <div class="container-xxl py-5">
-    <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-        <p style="text-align: center;">{{ home.president_welcome.html_content | safe }}</p>
+    <div class="mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+        {{ home.president_welcome.html_content | safe }}
     </div>
 </div>
 {% endif %}
@@ -60,21 +58,21 @@
 
 
 <!-- Publication of Congress Papers Start -->
-<div class="container-xxl py-5">
+<!-- <div class="container-xxl py-5">
     <div class="container"></div>
     <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
         <h3>Publication of Congress Papers</h3>
     </div>
 </div>
-</div>
+</div> -->
 <!-- Publication of Congress Papers End -->
 
 <!-- Congress Scope Start -->
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 1000px;">
-            <h3>{{ home.congress_scope.title }}</h3>
-            <p>{{ home.congress_scope.description | safe }}</p>
+        <div class="mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s">
+            <h2 class="text-center">{{ home.congress_scope.title }}</h2>
+            {{ home.congress_scope.description | safe }}
         </div>
         
         <div class="row g-4">
@@ -99,9 +97,9 @@
 <!-- Congress Stream Start -->
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 1000px;">
-            <h3>{{ home.congress_stream.title }}</h3>
-            <p>{{ home.congress_stream.description | safe }}</p>
+        <div class="mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s">
+            <h2 class="text-center">{{ home.congress_stream.title }}</h2>
+            {{ home.congress_stream.description | safe }}
         </div>
         <div class="row g-4">
             {% for topic in home.congress_stream.cards %}
@@ -134,9 +132,9 @@
 <!-- Why Choose Us Start -->
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="mx-auto mb-5 wow fadeInUp align-items-left" data-wow-delay="0.1s" style="max-width: 600px;">
-            <h3>{{ home.why_choose_us.title | safe }}</h3>
-            <p>{{ home.why_choose_us.description | safe }}</p>
+        <div class="mx-auto mb-5 wow fadeInUp align-items-left" data-wow-delay="0.1s">
+            <h2 class="text-center">{{ home.why_choose_us.title | safe }}</h2>
+            {{ home.why_choose_us.description | safe }}
         </div>
         <div class="row g-4">
             {% for card in home.why_choose_us.cards %}

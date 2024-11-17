@@ -2,12 +2,12 @@
 {% block body %}
 
 <title>
-    Review Process
+    {{ page.title }}
 </title>
 <!-- Page Header Start -->
 <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="container py-5">
-        <h1 class="display-3 text-white mb-3 animated slideInDown">Review Process</h1>
+        <h1 class="display-3 text-white mb-3 animated slideInDown">{{ page.title }}</h1>
         <nav aria-label="breadcrumb animated slideInDown">
         </nav>
     </div>
@@ -16,38 +16,9 @@
 
 <!-- Content Start -->
 <div class="container py-5">
-    <div class="row">
-        <div class="col-12">
-            <p class="mb-4">
-               {{ review_process.description }}
-            </p>
 
-            <div class="accordion" id="reviewProcessAccordion">
-                <!-- Reviewer Selection -->
-                {% for question in review_process.questions %}
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne">
-                            {{ question.question }}
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#reviewProcessAccordion">
-                        <div class="accordion-body">
-                            <ul>
-                               
-                                <li> {{ question.answer }} </li>
-                            </ul>   
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-                        
-                
-               
-            </div>
-        </div>
-    </div>
+    {{ page.content | safe}}
+
 </div>
 <!-- Content End -->
 

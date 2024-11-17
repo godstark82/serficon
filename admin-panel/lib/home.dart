@@ -1,10 +1,10 @@
 import 'package:conference_admin/features/article/presentation/pages/articles_page.dart';
-import 'package:conference_admin/features/committee/presentation/pages/committee_member_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/schedule_page.dart';
-import 'package:conference_admin/features/faq/presentation/pages/review_process_page.dart';
-import 'package:conference_admin/features/faq/presentation/pages/submission_gl_pages.dart';
 import 'package:conference_admin/features/home/presentation/pages/home_page.dart';
 import 'package:conference_admin/features/imp-dates/presentation/pages/imp_dates_page.dart';
+import 'package:conference_admin/features/pages/presentation/pages/committee_member_page.dart';
+import 'package:conference_admin/features/pages/presentation/pages/review_process_page.dart';
+import 'package:conference_admin/features/pages/presentation/pages/submission_gl_page.dart';
 import 'package:conference_admin/features/rewards/presentation/rewards_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +14,7 @@ import 'package:conference_admin/features/users/presentation/pages/users_page.da
 
 import 'package:conference_admin/routes.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -38,7 +39,7 @@ class _HomeState extends State<Home> {
       const CommitteeMemberPage(),
       const SchedulePage(),
       const ReviewProcessPage(),
-      const SubmissionGuidelinesPage(),
+      const SubmissionGlPage(),
       const ImpDatesPage(),
       const RewardsPage(),
       const ArticlesPage(),

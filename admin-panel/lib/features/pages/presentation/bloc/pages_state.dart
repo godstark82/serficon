@@ -11,6 +11,20 @@ class PagesInitial extends PagesState {}
 
 class PageLoading extends PagesState {}
 
+class PageByIdLoading extends PagesState {}
+
+class PageByIdLoaded extends PagesState {
+  final PagesModel page;
+
+  const PageByIdLoaded(this.page);
+}
+
+class PageByIdError extends PagesState {
+  final String message;
+
+  const PageByIdError(this.message);
+}
+
 class PagesLoaded extends PagesState {
   final Map<String, PagesModel> pages;
 

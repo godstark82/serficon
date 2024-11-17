@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
 import '../bloc/home_bloc.dart';
 import '../../data/models/home_models_others.dart';
 import '../widgets/edit_dialoges.dart';
 import '../widgets/sections.dart';
-import 'package:html/parser.dart' show parse;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,11 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String stripHtml(String htmlString) {
-    final document = parse(htmlString);
-    return document.body?.text ?? '';
-  }
-
   @override
   void initState() {
     super.initState();
@@ -79,10 +74,8 @@ class _HomePageState extends State<HomePage> {
                       SectionWidget(
                           title: 'Hero Section',
                           children: [
-                            InfoRow(
-                                label: 'Content',
-                                value: stripHtml(
-                                    state.homeModel.hero.htmlContent)),
+                            const InfoRow(label: 'Content', value: ''),
+                            HtmlWidget(state.homeModel.hero.htmlContent),
                             InfoRow(
                                 label: 'Image URL',
                                 value:
@@ -126,11 +119,8 @@ class _HomePageState extends State<HomePage> {
                           InfoRow(
                               label: 'Title',
                               value: state.homeModel.presidentWelcome.title),
-                          InfoRow(
-                              label: 'Content',
-                              value: stripHtml(state
-                                  .homeModel.presidentWelcome.htmlContent)),
-                          // Text(stripHtml(state.homeModel.presidentWelcome.htmlContent)),
+                          const InfoRow(label: 'Content', value: ''),
+                          HtmlWidget(state.homeModel.presidentWelcome.htmlContent),
                           InfoRow(
                               label: 'Image URL',
                               value: state.homeModel.presidentWelcome.image ??
@@ -152,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                                   state.homeModel.presidentWelcome.htmlContent,
                               'Image URL':
                                   state.homeModel.presidentWelcome.image ?? '',
-                              'Show Image': 
+                              'Show Image':
                                   state.homeModel.presidentWelcome.showImage,
                             },
                             onSave: (values) {
@@ -179,10 +169,8 @@ class _HomePageState extends State<HomePage> {
                           InfoRow(
                               label: 'Title',
                               value: state.homeModel.congressScope.title),
-                          InfoRow(
-                              label: 'Description',
-                              value: stripHtml(
-                                  state.homeModel.congressScope.description)),
+                          const InfoRow(label: 'Description', value: ''),
+                          HtmlWidget(state.homeModel.congressScope.description),
                           // Text(stripHtml(state.homeModel.congressScope.description)),
                           const Divider(height: 24),
                           CardsList(
@@ -222,10 +210,8 @@ class _HomePageState extends State<HomePage> {
                           InfoRow(
                               label: 'Title',
                               value: state.homeModel.congressStream.title),
-                          InfoRow(
-                              label: 'Description',
-                              value: stripHtml(
-                                  state.homeModel.congressStream.description)),
+                          const InfoRow(label: 'Description', value: ''),
+                          HtmlWidget(state.homeModel.congressStream.description),
                           // Text(stripHtml(state.homeModel.congressStream.description)),
                           const Divider(height: 24),
                           StreamsList(
@@ -262,10 +248,8 @@ class _HomePageState extends State<HomePage> {
                       SectionWidget(
                         title: 'Publications',
                         children: [
-                          InfoRow(
-                              label: 'Content',
-                              value: stripHtml(
-                                  state.homeModel.publication.htmlContent)),
+                          const InfoRow(label: 'Content', value: ''),
+                          HtmlWidget(state.homeModel.publication.htmlContent),
                           //  Text(stripHtml(state.homeModel.publication.htmlContent)),
                           InfoRow(
                               label: 'Image URL',
@@ -312,10 +296,8 @@ class _HomePageState extends State<HomePage> {
                           InfoRow(
                               label: 'Title',
                               value: state.homeModel.whyChooseUs.title),
-                          InfoRow(
-                              label: 'Description',
-                              value: stripHtml(
-                                  state.homeModel.whyChooseUs.description)),
+                          const InfoRow(label: 'Description', value: ''),
+                          HtmlWidget(state.homeModel.whyChooseUs.description),
                           //  Text(stripHtml(state.homeModel.whyChooseUs.description)),
                           const Divider(height: 24),
                           CardsList(

@@ -1,11 +1,7 @@
 import 'package:conference_admin/features/article/presentation/pages/add_article_page.dart';
 import 'package:conference_admin/features/article/presentation/pages/edit_article_page.dart';
-import 'package:conference_admin/features/committee/presentation/pages/add_member_page.dart';
-import 'package:conference_admin/features/committee/presentation/pages/update_member_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/add_schedule_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/update_schedule_page.dart';
-import 'package:conference_admin/features/faq/presentation/pages/update_review_page.dart';
-import 'package:conference_admin/features/faq/presentation/pages/update_submission_page.dart';
 import 'package:conference_admin/features/imp-dates/presentation/pages/imp_dates_page.dart';
 import 'package:conference_admin/features/imp-dates/presentation/pages/update_dates_page.dart';
 import 'package:get/get.dart';
@@ -67,15 +63,6 @@ List<GetPage> routes = [
     middlewares: [AuthGuard()],
   ),
 
-  //! Committee Member
-  GetPage(
-      name: Routes.dashboard + Routes.addCommitteeMember,
-      page: () => const AddMemberPage(),
-      middlewares: [AuthGuard()]),
-  GetPage(
-      name: Routes.dashboard + Routes.updateCommitteeMember,
-      page: () => const UpdateMemberPage(),
-      middlewares: [AuthGuard()]),
 
   // Detailed Schedule
   GetPage(
@@ -87,15 +74,6 @@ List<GetPage> routes = [
       page: () => const UpdateSchedulePage(),
       middlewares: [AuthGuard()]),
 
-  // FAQ
-  GetPage(
-      name: Routes.dashboard + Routes.updateReview,
-      page: () => const UpdateReviewPage(),
-      middlewares: [AuthGuard()]),
-  GetPage(
-      name: Routes.dashboard + Routes.updateSubmission,
-      page: () => const UpdateSubmissionPage(),
-      middlewares: [AuthGuard()]),
 
   // Important Dates
   GetPage(

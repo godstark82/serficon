@@ -15,6 +15,17 @@ class PagesBloc extends Bloc<PagesEvent, PagesState> {
       : super(PagesInitial()) {
     on<GetPagesEvent>(_getPages);
     on<UpdatePageEvent>(_onUpdatePage);
+    on<GetPageByIdEvent>(_onGetPageById);
+  }
+
+  void _onGetPageById(GetPageByIdEvent event, Emitter<PagesState> emit) async {
+    emit(PageByIdLoading());
+    final status = await getPageUseCase.call(event.id);
+    if (status is DataSuccess && status.data != null) {
+      emit(PageByIdLoaded(status.data!));
+    } else {
+      emit(const PageByIdError('Failed to load page'));
+    }
   }
 
   void _onUpdatePage(UpdatePageEvent event, Emitter<PagesState> emit) async {
@@ -22,10 +33,11 @@ class PagesBloc extends Bloc<PagesEvent, PagesState> {
     if (status is DataFailed) {
       print('Failed to update page');
     }
-    add(GetPagesEvent());
+    // add(GetPagesEvent());
   }
 
   void _getPages(GetPagesEvent event, Emitter<PagesState> emit) async {
+    emit(PageLoading());
     // organising committee
     final oc = await getPageUseCase.call('organising-committee');
     // scientific committee member

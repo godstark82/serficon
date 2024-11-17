@@ -1,7 +1,5 @@
 import 'package:conference_admin/features/article/presentation/bloc/article_bloc.dart';
-import 'package:conference_admin/features/committee/presentation/bloc/committee_bloc.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/bloc/detailed_schedule_bloc.dart';
-import 'package:conference_admin/features/faq/presentation/bloc/faq_bloc.dart';
 import 'package:conference_admin/features/home/presentation/bloc/home_bloc.dart';
 import 'package:conference_admin/features/imp-dates/presentation/bloc/imp_dates_bloc.dart';
 import 'package:conference_admin/features/pages/presentation/bloc/pages_bloc.dart';
@@ -40,10 +38,8 @@ class MainApp extends StatelessWidget {
           BlocProvider<ImpDatesBloc>(create: (context) => sl<ImpDatesBloc>()),
           BlocProvider<LoginBloc>(create: (context) => sl<LoginBloc>()),
           BlocProvider<UsersBloc>(create: (context) => sl<UsersBloc>()),
-          BlocProvider<CommitteeBloc>(create: (context) => sl<CommitteeBloc>()),
           BlocProvider<DetailedScheduleBloc>(
               create: (context) => sl<DetailedScheduleBloc>()),
-          BlocProvider<FaqBloc>(create: (context) => sl<FaqBloc>()),
           BlocProvider<ArticleBloc>(create: (context) => sl<ArticleBloc>()),
         ],
         child: GetMaterialApp(

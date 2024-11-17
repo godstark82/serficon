@@ -8,14 +8,6 @@ import 'package:conference_admin/features/article/domain/usecases/edit_article_u
 import 'package:conference_admin/features/article/domain/usecases/get_all_article_uc.dart';
 import 'package:conference_admin/features/article/domain/usecases/get_article_by_id_uc.dart';
 import 'package:conference_admin/features/article/presentation/bloc/article_bloc.dart';
-import 'package:conference_admin/features/committee/data/repositories/committee_repo_impl.dart';
-import 'package:conference_admin/features/committee/domain/repositories/committee_repo.dart';
-import 'package:conference_admin/features/committee/domain/usecases/add_member_usecase.dart';
-import 'package:conference_admin/features/committee/domain/usecases/delete_member_usecase.dart';
-import 'package:conference_admin/features/committee/domain/usecases/get_all_member_uc.dart';
-import 'package:conference_admin/features/committee/domain/usecases/get_member_byid_uc.dart';
-import 'package:conference_admin/features/committee/domain/usecases/update_member_uc.dart';
-import 'package:conference_admin/features/committee/presentation/bloc/committee_bloc.dart';
 import 'package:conference_admin/features/detailed-schedule/data/repositories/schedule_repo_impl.dart';
 import 'package:conference_admin/features/detailed-schedule/domain/repositories/schedule_repo.dart';
 import 'package:conference_admin/features/detailed-schedule/domain/usecases/add_schedule_uc.dart';
@@ -24,15 +16,6 @@ import 'package:conference_admin/features/detailed-schedule/domain/usecases/get_
 import 'package:conference_admin/features/detailed-schedule/domain/usecases/get_single_schedule_uc.dart';
 import 'package:conference_admin/features/detailed-schedule/domain/usecases/update_schedule_uc.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/bloc/detailed_schedule_bloc.dart';
-import 'package:conference_admin/features/faq/data/repositories/faq_repo_impl.dart';
-import 'package:conference_admin/features/faq/domain/repositories/faq_repo.dart';
-import 'package:conference_admin/features/faq/domain/usecases/add_review_uc.dart';
-import 'package:conference_admin/features/faq/domain/usecases/add_submission_uc.dart';
-import 'package:conference_admin/features/faq/domain/usecases/get_review_uc.dart';
-import 'package:conference_admin/features/faq/domain/usecases/get_submission_uc.dart';
-import 'package:conference_admin/features/faq/domain/usecases/update_review_uc.dart';
-import 'package:conference_admin/features/faq/domain/usecases/update_submission_uc.dart';
-import 'package:conference_admin/features/faq/presentation/bloc/faq_bloc.dart';
 import 'package:conference_admin/features/home/data/repositories/home_repo_impl.dart';
 import 'package:conference_admin/features/home/domain/repositories/home_repo.dart';
 import 'package:conference_admin/features/home/domain/usecases/get_home_uc.dart';
@@ -83,8 +66,6 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<DateRepo>(DateRepoImpl(firestore: sl()));
   sl.registerSingleton<HomeRepo>(HomeRepoImpl(firestore: sl()));
   sl.registerSingleton<LoginRepo>(LoginRepoImpl(sl()));
-  sl.registerSingleton<FaqRepo>(FaqRepoImpl());
-  sl.registerSingleton<CommitteeRepo>(CommitteeRepoImpl());
   sl.registerSingleton<UsersRepo>(UsersRepoImpl(sl()));
   sl.registerSingleton<ScheduleRepo>(ScheduleRepoImpl());
   sl.registerSingleton<ArticleRepository>(ArticleRepoImpl(sl()));
@@ -110,20 +91,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetDatesUseCase>(GetDatesUseCase(sl()));
   sl.registerSingleton<UpdateDatesUseCase>(UpdateDatesUseCase(sl()));
 
-  //? Faq UseCases
-  sl.registerSingleton<GetReviewUseCase>(GetReviewUseCase(sl()));
-  sl.registerSingleton<GetSubmissionUseCase>(GetSubmissionUseCase(sl()));
-  sl.registerSingleton<AddReviewUseCase>(AddReviewUseCase(sl()));
-  sl.registerSingleton<AddSubmissionUseCase>(AddSubmissionUseCase(sl()));
-  sl.registerSingleton<UpdateReviewUseCase>(UpdateReviewUseCase(sl()));
-  sl.registerSingleton<UpdateSubmissionUseCase>(UpdateSubmissionUseCase(sl()));
 
-  //? Committee UseCases
-  sl.registerSingleton<AddMemberUsecase>(AddMemberUsecase(sl()));
-  sl.registerSingleton<DeleteMemberUsecase>(DeleteMemberUsecase(sl()));
-  sl.registerSingleton<GetAllMemberUseCase>(GetAllMemberUseCase(sl()));
-  sl.registerSingleton<GetMemberByidUseCase>(GetMemberByidUseCase(sl()));
-  sl.registerSingleton<UpdateMemberUseCase>(UpdateMemberUseCase(sl()));
 
   //? Login Usecases
   sl.registerSingleton<LoginUsecase>(LoginUsecase(sl()));
@@ -152,10 +120,6 @@ Future<void> initializeDependencies() async {
   sl.registerFactory<HomeBloc>(
       () => HomeBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl()));
   sl.registerFactory<ImpDatesBloc>(() => ImpDatesBloc(sl(), sl()));
-  sl.registerFactory<FaqBloc>(
-      () => FaqBloc(sl(), sl(), sl(), sl(), sl(), sl()));
-  sl.registerFactory<CommitteeBloc>(
-      () => CommitteeBloc(sl(), sl(), sl(), sl(), sl()));
   sl.registerFactory<LoginBloc>(() => LoginBloc(sl(), sl(), sl()));
   sl.registerFactory<UsersBloc>(() => UsersBloc(sl(), sl()));
   sl.registerFactory<DetailedScheduleBloc>(

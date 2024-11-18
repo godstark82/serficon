@@ -29,9 +29,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
   late List<String> references = [];
   late String pdf = '';
   late String image = '';
-  String? selectedJournalId;
-  String? selectedVolumeId;
-  String? selectedIssueId;
+  late String author = '';
   double _uploadProgress = 0.0;
   bool _isUploading = false;
 
@@ -104,9 +102,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
             references = article.references;
             pdf = article.pdf;
             image = article.image;
-            selectedJournalId = article.journalId;
-            selectedVolumeId = article.volumeId;
-            selectedIssueId = article.issueId;
+            author = article.author;
 
             return ResponsiveBuilder(
               builder: (context, sizingInformation) {
@@ -268,14 +264,9 @@ class _EditArticlePageState extends State<EditArticlePage> {
                           const SizedBox(height: 32),
                           ElevatedButton(
                             onPressed: () {
-                              if (_formKey.currentState!.validate() &&
-                                  selectedJournalId != null &&
-                                  selectedVolumeId != null &&
-                                  selectedIssueId != null) {
+                              if (_formKey.currentState!.validate()) {
                                 final updatedArticle = article.copyWith(
-                                  journalId: selectedJournalId,
-                                  volumeId: selectedVolumeId,
-                                  issueId: selectedIssueId,
+                                  author: author,
                                   title: title,
                                   documentType: documentType,
                                   abstractString: abstractString,

@@ -4,13 +4,12 @@ import sys
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
 
-from db_instance import get_db  # Now we can use direct import
+from db_instance import db  # Now we can use direct import
 from models import *
 
 from typing import Union
 
 
-db = get_db()
 
 
 def get_home_data() -> Union[str, HomeModel]:

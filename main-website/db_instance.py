@@ -15,3 +15,5 @@ class FirestoreDB:
 # Create a convenience function to get the db instance
 def get_db():
     return FirestoreDB.get_instance()
+
+db = get_db()

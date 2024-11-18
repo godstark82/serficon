@@ -2,9 +2,6 @@
 abstract class ArticleEntity {
   final String id;
   final String title;
-  final String journalId;
-  final String issueId;
-  final String volumeId;
   final String documentType;
   final String status;
   final String pdf;
@@ -13,14 +10,13 @@ abstract class ArticleEntity {
   final List<String> mainSubjects;
   final List<String> references;
   final String image;
+  final String author;
   final DateTime createdAt;
   final DateTime updatedAt;
 
   ArticleEntity({
     required this.id,
-    required this.journalId,
-    required this.issueId,
-    required this.volumeId,
+    required this.author,
     required this.documentType,
     required this.status,
     required this.abstractString,

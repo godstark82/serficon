@@ -1,8 +1,7 @@
-from db_instance import get_db
+from db_instance import db
 from models.page_model import PageModel
 
 
-db = get_db()
 
 def get_page_content(page_id: str) -> PageModel:
     try:

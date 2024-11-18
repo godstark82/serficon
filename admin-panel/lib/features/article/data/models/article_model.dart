@@ -1,13 +1,10 @@
-
 import 'package:conference_admin/features/article/domain/entities/article_entity.dart';
 
 class ArticleModel extends ArticleEntity {
   ArticleModel(
       {required super.id,
-      required super.journalId,
+      required super.author,
       required super.abstractString,
-      required super.issueId,
-      required super.volumeId,
       required super.documentType,
       required super.image,
       required super.keywords,
@@ -22,10 +19,8 @@ class ArticleModel extends ArticleEntity {
   factory ArticleModel.fromJson(Map<String, dynamic> json) {
     return ArticleModel(
       id: json['id'] as String,
-      journalId: json['journalId'] as String,
+      author: json['author'] ?? 'N/A',
       abstractString: (json['abstractString']).toString(),
-      issueId: json['issueId'] as String,
-      volumeId: json['volumeId'] as String,
       documentType: json['documentType'] as String,
       image: json['image'] as String,
       keywords: List<String>.from(json['keywords']),
@@ -42,10 +37,8 @@ class ArticleModel extends ArticleEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'journalId': journalId,
+      'author': author,
       'abstractString': abstractString,
-      'issueId': issueId,
-      'volumeId': volumeId,
       'documentType': documentType,
       'image': image,
       'keywords': keywords,
@@ -62,10 +55,8 @@ class ArticleModel extends ArticleEntity {
   factory ArticleModel.fromEntity(ArticleEntity entity) {
     return ArticleModel(
       id: entity.id,
-      journalId: entity.journalId,
+      author: entity.author,
       abstractString: entity.abstractString,
-      issueId: entity.issueId,
-      volumeId: entity.volumeId,
       documentType: entity.documentType,
       image: entity.image,
       keywords: entity.keywords,
@@ -83,8 +74,6 @@ class ArticleModel extends ArticleEntity {
   ArticleModel copyWith({
     String? id,
     String? abstractString,
-    String? issueId,
-    String? volumeId,
     String? documentType,
     String? image,
     List<String>? keywords,
@@ -94,15 +83,12 @@ class ArticleModel extends ArticleEntity {
     String? pdf,
     List<String>? references,
     String? title,
-    String? journalId,
+    String? author,
     String? status,
   }) {
     return ArticleModel(
       id: id ?? this.id,
       abstractString: abstractString ?? this.abstractString,
-      journalId: journalId ?? this.journalId,
-      issueId: issueId ?? this.issueId,
-      volumeId: volumeId ?? this.volumeId,
       documentType: documentType ?? this.documentType,
       image: image ?? this.image,
       keywords: keywords ?? this.keywords,
@@ -112,6 +98,7 @@ class ArticleModel extends ArticleEntity {
       pdf: pdf ?? this.pdf,
       references: references ?? this.references,
       title: title ?? this.title,
+      author: author ?? this.author,
       status: status ?? this.status,
     );
   }

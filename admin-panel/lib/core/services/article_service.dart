@@ -16,30 +16,6 @@ class ArticleService {
           .map((doc) => ArticleModel.fromJson(doc.data()))
           .toList();
 
-      // Sort articles by journal, volume, issue and status
-      articles.sort((a, b) {
-        // First compare journal IDs
-        int journalCompare = a.journalId.compareTo(b.journalId);
-        if (journalCompare != 0) {
-          return journalCompare;
-        }
-
-        // If same journal, compare volume IDs
-        int volumeCompare = a.volumeId.compareTo(b.volumeId);
-        if (volumeCompare != 0) {
-          return volumeCompare;
-        }
-
-        // If same volume, compare issue IDs
-        int issueCompare = a.issueId.compareTo(b.issueId);
-        if (issueCompare != 0) {
-          return issueCompare;
-        }
-
-        // If same issue, compare status
-        return a.status.compareTo(b.status);
-      });
-
       return DataSuccess(articles);
     } catch (e) {
       return DataFailed(e.toString());
@@ -125,7 +101,6 @@ class ArticleService {
       );
 
       await docRef.set(article.toJson());
-
     } catch (e) {
       log(e.toString());
     }

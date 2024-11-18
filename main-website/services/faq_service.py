@@ -1,12 +1,10 @@
 
 
 from typing import List
-from db_instance import get_db
+from db_instance import db
 from models.card_model import CardModel
 from models.faq_model import FaqModel
 
-
-db = get_db()
 
 def get_review_process() -> FaqModel:
     response = db.collection('faq').document('review_process').get()

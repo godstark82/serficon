@@ -1,4 +1,5 @@
 import 'package:conference_admin/features/article/presentation/pages/articles_page.dart';
+import 'package:conference_admin/features/components/components_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/schedule_page.dart';
 import 'package:conference_admin/features/home/presentation/pages/home_page.dart';
 import 'package:conference_admin/features/imp-dates/presentation/pages/imp_dates_page.dart';
@@ -9,7 +10,6 @@ import 'package:conference_admin/features/rewards/presentation/rewards_page.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:conference_admin/core/const/login_const.dart';
-import 'package:conference_admin/core/common/screens/social_links_page.dart';
 import 'package:conference_admin/features/users/presentation/pages/users_page.dart';
 
 import 'package:conference_admin/routes.dart';
@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
       const ImpDatesPage(),
       const RewardsPage(),
       const ArticlesPage(),
-      const SocialLinksPage(),
+      const ComponentsPage(),
       const UsersPage(),
     ];
 
@@ -90,7 +90,7 @@ class _HomeState extends State<Home> {
       ),
       NavigationRailDestination(
         icon: const Icon(Icons.link),
-        label: const Text('Social Links'),
+        label: const Text('Components'),
         selectedIcon: Icon(Icons.link, color: Colors.blue[800]),
       ),
       NavigationRailDestination(

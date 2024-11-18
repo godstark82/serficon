@@ -1,9 +1,8 @@
 from typing import List
-from db_instance import get_db
+from db_instance import db
 from models.imp_dates import DateModel
 
 
-db = get_db()
 
 def get_imp_dates() -> List[DateModel]:
     response = db.collection('dates').document('important-dates').get()

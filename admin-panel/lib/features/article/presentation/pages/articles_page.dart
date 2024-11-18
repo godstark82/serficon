@@ -42,15 +42,14 @@ class _ArticlesPageState extends State<ArticlesPage> {
               title: const Text('Articles'),
               backgroundColor: Colors.blue,
               actions: [
-            
-                  ElevatedButton(
-                    onPressed: () async {
-                      await Get.toNamed(Routes.dashboard + Routes.addArticle);
-                      _loadData(); 
-                    },
-                    style: ElevatedButton.styleFrom(),
-                    child: const Text('Add Article'),
-                  ),
+                ElevatedButton(
+                  onPressed: () async {
+                    await Get.toNamed(Routes.dashboard + Routes.addArticle);
+                    _loadData();
+                  },
+                  style: ElevatedButton.styleFrom(),
+                  child: const Text('Add Article'),
+                ),
               ],
             ),
             body: ResponsiveBuilder(
@@ -110,12 +109,9 @@ class _ArticlesPageState extends State<ArticlesPage> {
             columnWidths: const {
               0: FlexColumnWidth(2.5), // Title
               1: FlexColumnWidth(2), // Authors
-              2: FlexColumnWidth(2), // Journal
-              3: FlexColumnWidth(2), // Volume
-              4: FlexColumnWidth(2), // Issue
-              5: FlexColumnWidth(1.5), // Status
-              6: FlexColumnWidth(1.5), // Publication Date
-              7: FlexColumnWidth(1), // Actions
+              2: FlexColumnWidth(1.5), // Status
+              3: FlexColumnWidth(1.5), // Publication Date
+              4: FlexColumnWidth(1), // Actions
             },
             border: TableBorder.all(color: Colors.grey[300]!),
             children: [
@@ -124,9 +120,6 @@ class _ArticlesPageState extends State<ArticlesPage> {
                 children: [
                   _buildTableHeader('Title'),
                   _buildTableHeader('Authors'),
-                  _buildTableHeader('Journal'),
-                  _buildTableHeader('Volume'),
-                  _buildTableHeader('Issue'),
                   _buildTableHeader('Status'),
                   _buildTableHeader('Publication Date'),
                   _buildTableHeader('Actions'),
@@ -135,10 +128,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
               ...articles.map((article) => TableRow(
                     children: [
                       _buildTableCell(Text(article.title)),
-                     
-                     
-                     
-                      
+                      _buildTableCell(Text(article.author)),
                       _buildTableCell(
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -157,7 +147,6 @@ class _ArticlesPageState extends State<ArticlesPage> {
                           .format(article.createdAt))),
                       _buildTableCell(
                         PopupMenuButton<String>(
-                          
                           onSelected: (String result) {
                             switch (result) {
                               case 'view':
@@ -169,54 +158,43 @@ class _ArticlesPageState extends State<ArticlesPage> {
                               case 'delete':
                                 deleteArticle(article.id);
                                 break;
-                              // case 'comment':
-                              //   viewComments(article);
-                              //   break;
                               case 'update':
                                 updateStatus(article);
                                 break;
                             }
                           },
-                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<String>>[
                             const PopupMenuItem<String>(
                               value: 'view',
                               child: ListTile(
-                                leading: Icon(Icons.visibility, color: Colors.blue),
+                                leading:
+                                    Icon(Icons.visibility, color: Colors.blue),
                                 title: Text('View Details'),
                               ),
                             ),
-                           
-                              const PopupMenuItem<String>(
-                                value: 'edit',
-                                child: ListTile(
-                                  leading: Icon(Icons.edit, color: Colors.green),
-                                  title: Text('Edit'),
-                                ),
+                            const PopupMenuItem<String>(
+                              value: 'edit',
+                              child: ListTile(
+                                leading: Icon(Icons.edit, color: Colors.green),
+                                title: Text('Edit'),
                               ),
-                          
-                              const PopupMenuItem<String>(
-                                value: 'delete',
-                                child: ListTile(
-                                  leading: Icon(Icons.delete, color: Colors.red),
-                                  title: Text('Delete'),
-                                ),
+                            ),
+                            const PopupMenuItem<String>(
+                              value: 'delete',
+                              child: ListTile(
+                                leading: Icon(Icons.delete, color: Colors.red),
+                                title: Text('Delete'),
                               ),
-                          
-                              const PopupMenuItem<String>(
-                                value: 'comment',
-                                child: ListTile(
-                                  leading: Icon(Icons.comment, color: Colors.orange),
-                                  title: Text('View Comments'),
-                                ),
+                            ),
+                            const PopupMenuItem<String>(
+                              value: 'update',
+                              child: ListTile(
+                                leading:
+                                    Icon(Icons.update, color: Colors.purple),
+                                title: Text('Update Status'),
                               ),
-                           
-                              const PopupMenuItem<String>(
-                                value: 'update',
-                                child: ListTile(
-                                  leading: Icon(Icons.update, color: Colors.purple),
-                                  title: Text('Update Status'),
-                                ),
-                              ),
+                            ),
                           ],
                           child: const Icon(Icons.more_vert),
                         ),
@@ -260,11 +238,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: ExpansionTile(
             title: Text(article.title),
-           
             children: [
-              
-              
-              
               ListTile(
                 title: Row(
                   children: [
@@ -293,35 +267,28 @@ class _ArticlesPageState extends State<ArticlesPage> {
                       viewArticleDetails(article);
                     },
                   ),
-                  
-                    IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () async {
-                        await editArticle(article.id);
-                        _loadData();
-                      },
-                    ),
-                 
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        deleteArticle(article.id);
-                      },
-                    ),
-                 
-                    // IconButton(
-                    //   icon: const Icon(Icons.comment, color: Colors.green),
-                    //   onPressed: () {
-                    //     // viewComments(article);
-                    //   },
-                    // ),
-           
-                    IconButton(
-                      icon: const Icon(Icons.update, color: Colors.orange),
-                      onPressed: () {
-                        updateStatus(article);
-                      },
-                    ),
+
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.blue),
+                    onPressed: () async {
+                      await editArticle(article.id);
+                      _loadData();
+                    },
+                  ),
+
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      deleteArticle(article.id);
+                    },
+                  ),
+
+                  IconButton(
+                    icon: const Icon(Icons.update, color: Colors.orange),
+                    onPressed: () {
+                      updateStatus(article);
+                    },
+                  ),
                 ],
               ),
             ],
@@ -388,7 +355,6 @@ class _ArticlesPageState extends State<ArticlesPage> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
-                 
                   _buildDetailRow(Icons.calendar_today, 'Publication Date',
                       DateFormat('dd/MMMM/yyyy').format(article.createdAt)),
                   _buildDetailRow(
@@ -404,7 +370,6 @@ class _ArticlesPageState extends State<ArticlesPage> {
                   ),
                   Text(article.abstractString),
                   const SizedBox(height: 20),
-                  
                   const SizedBox(height: 20),
                   ElevatedButton.icon(
                     icon: const Icon(Icons.download, color: Colors.white),
@@ -473,7 +438,6 @@ class _ArticlesPageState extends State<ArticlesPage> {
     );
   }
 
- 
   void updateStatus(ArticleModel article) {
     showDialog(
       context: context,
@@ -546,20 +510,6 @@ class _ArticlesPageState extends State<ArticlesPage> {
                     context
                         .read<ArticleBloc>()
                         .add(EditArticleEvent(article: newArticle));
-
-                    // Send email to all authors
-                    // // for (final author in article.authors) {
-                    //   if (author.email != null) {
-                    //     await MailService().sendEmail(
-                    //       author.email!,
-                    //       'Article Status Update - ${article.title}',
-                    //       'Dear ${author.name},\n\n'
-                    //       'Your article "${article.title}" status has been updated to: $newStatus.\n\n'
-                    //       'Thank you for your submission.\n\n'
-                    //       'Best regards,\nAbhi International Journals'
-                    //     );
-                    //   }
-                    // }
 
                     Navigator.of(context).pop();
                     _loadData(); // Reload data after updating status

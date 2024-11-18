@@ -32,6 +32,7 @@ class _AddArticlePageState extends State<AddArticlePage> {
   String? selectedJournalId;
   String? selectedVolumeId;
   String? selectedIssueId;
+  double _uploadProgress = 0.0;
 
   @override
   void initState() {
@@ -164,48 +165,61 @@ class _AddArticlePageState extends State<AddArticlePage> {
                                 type: FileType.custom,
                                 allowedExtensions: ['pdf'],
                                 allowMultiple: false,
+                                withData: true,
                               );
 
-                              if (result != null) {
+                              if (result != null && result.files.isNotEmpty) {
                                 setState(() {
                                   _isPdfUploading = true;
+                                  _uploadProgress = 0.0;
                                 });
 
                                 PlatformFile file = result.files.first;
-                                String journalName = 'DefaultJournal';
-                                String volumeName = 'DefaultVolume';
-                                String issueName = 'DefaultIssue';
-                                String authorsName = 'DefaultAuthor';
+                                if (file.bytes == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Failed to read file')),
+                                  );
+                                  setState(() {
+                                    _isPdfUploading = false;
+                                  });
+                                  return;
+                                }
 
-                                String uniqueId = DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString();
                                 String fileName =
-                                    '${journalName}_${volumeName}_${issueName}_${authorsName}_$uniqueId.pdf';
+                                    'article_${DateTime.now().millisecondsSinceEpoch}.pdf';
 
                                 try {
-                                  // Upload to Firebase Storage
                                   Reference ref = FirebaseStorage.instance
                                       .ref()
-                                      .child('article_pdfs/$fileName');
-                                  UploadTask uploadTask =
-                                      ref.putData(file.bytes!);
+                                      .child('article_pdfs')
+                                      .child(fileName);
 
-                                  // Listen to upload progress
-                                  uploadTask.snapshotEvents
-                                      .listen((TaskSnapshot snapshot) {
-                                    double progress =
-                                        snapshot.bytesTransferred /
-                                            snapshot.totalBytes;
-                                    print(
-                                        'Upload progress: ${(progress * 100).toStringAsFixed(2)}%');
+                                  final metadata = SettableMetadata(
+                                    contentType: 'application/pdf',
+                                  );
+
+                                  UploadTask uploadTask =
+                                      ref.putData(file.bytes!, metadata);
+
+                                  uploadTask.snapshotEvents.listen((snapshot) {
+                                    setState(() {
+                                      _uploadProgress = snapshot.bytesTransferred /
+                                          snapshot.totalBytes;
+                                    });
+                                  }, onError: (error) {
+                                    print('Upload error: $error');
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content:
+                                              Text('Upload error: ${error.toString()}')),
+                                    );
                                   });
 
-                                  TaskSnapshot snapshot = await uploadTask;
-                                  String downloadUrl =
+                                  final snapshot = await uploadTask;
+                                  final downloadUrl =
                                       await snapshot.ref.getDownloadURL();
 
-                                  // Save the download URL to the article
                                   setState(() {
                                     pdf = downloadUrl;
                                     _isPdfUploading = false;
@@ -222,8 +236,9 @@ class _AddArticlePageState extends State<AddArticlePage> {
                                     _isPdfUploading = false;
                                   });
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Failed to upload PDF')),
+                                    SnackBar(
+                                        content:
+                                            Text('Upload failed: ${e.toString()}')),
                                   );
                                 }
                               }
@@ -240,7 +255,7 @@ class _AddArticlePageState extends State<AddArticlePage> {
                                   )
                                 : const Icon(Icons.upload_file, size: 18),
                             label: Text(_isPdfUploading
-                                ? 'Uploading...'
+                                ? 'Uploading ${(_uploadProgress * 100).toStringAsFixed(1)}%'
                                 : 'Upload PDF'),
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
@@ -248,6 +263,10 @@ class _AddArticlePageState extends State<AddArticlePage> {
                               minimumSize: const Size(120, 36),
                             ),
                           ),
+                          if (_isPdfUploading) ...[
+                            const SizedBox(height: 8),
+                            LinearProgressIndicator(value: _uploadProgress),
+                          ],
                           if (pdf.isNotEmpty) ...[
                             const SizedBox(height: 16),
                             const Text(
@@ -286,29 +305,46 @@ class _AddArticlePageState extends State<AddArticlePage> {
                                   await FilePicker.platform.pickFiles(
                                 type: FileType.image,
                                 allowMultiple: false,
+                                withData: true,
                               );
 
-                              if (result != null) {
+                              if (result != null && result.files.isNotEmpty) {
                                 setState(() {
                                   _isUploading = true;
                                 });
 
                                 PlatformFile file = result.files.first;
+                                if (file.bytes == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Failed to read image')),
+                                  );
+                                  setState(() {
+                                    _isUploading = false;
+                                  });
+                                  return;
+                                }
+
                                 String fileName =
-                                    '${DateTime.now().millisecondsSinceEpoch}_${file.name}';
+                                    'image_${DateTime.now().millisecondsSinceEpoch}${file.extension}';
 
                                 try {
-                                  // Upload to Firebase Storage
                                   Reference ref = FirebaseStorage.instance
                                       .ref()
-                                      .child('article_images/$fileName');
+                                      .child('article_images')
+                                      .child(fileName);
+
+                                  final metadata = SettableMetadata(
+                                    contentType: 'image/${file.extension}',
+                                  );
+
                                   UploadTask uploadTask =
-                                      ref.putData(file.bytes!);
-                                  TaskSnapshot snapshot = await uploadTask;
-                                  String downloadUrl =
+                                      ref.putData(file.bytes!, metadata);
+
+                                  final snapshot = await uploadTask;
+                                  final downloadUrl =
                                       await snapshot.ref.getDownloadURL();
 
-                                  // Save the download URL to the article
                                   setState(() {
                                     image = downloadUrl;
                                     _isUploading = false;
@@ -316,8 +352,8 @@ class _AddArticlePageState extends State<AddArticlePage> {
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content: Text(
-                                            'Image uploaded successfully')),
+                                        content:
+                                            Text('Image uploaded successfully')),
                                   );
                                 } catch (e) {
                                   print('Error uploading image: $e');
@@ -325,9 +361,9 @@ class _AddArticlePageState extends State<AddArticlePage> {
                                     _isUploading = false;
                                   });
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
+                                    SnackBar(
                                         content:
-                                            Text('Failed to upload image')),
+                                            Text('Upload failed: ${e.toString()}')),
                                   );
                                 }
                               }
@@ -379,9 +415,7 @@ class _AddArticlePageState extends State<AddArticlePage> {
                             selectedIssueId != null) {
                           final article = ArticleModel(
                             id: '',
-                            journalId: selectedJournalId!,
-                            volumeId: selectedVolumeId!,
-                            issueId: selectedIssueId!,
+                            author: 'admin',
                             createdAt: DateTime.now(),
                             updatedAt: DateTime.now(),
                             status: ArticleStatus.pending.value,
@@ -404,7 +438,6 @@ class _AddArticlePageState extends State<AddArticlePage> {
                             ),
                           );
 
-                          // Use Get.back() with a result
                           Get.back(result: true);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(

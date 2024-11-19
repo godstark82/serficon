@@ -2243,6 +2243,7 @@ progress {
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
 }
 
+
 @media (prefers-reduced-motion: reduce) {
     .form-control {
         transition: none
@@ -2431,15 +2432,16 @@ textarea.form-control-lg {
     background-repeat: no-repeat;
     background-position: right .75rem center;
     background-size: 16px 12px;
-    border: 1px solid #C7DCFB;
+    border: 1px solid #fbc7c7;
     border-radius: 8px;
     appearance: none
 }
 
+
 .form-select:focus {
     border-color: #d12149;
     outline: 0;
-    box-shadow: 0 0 0 .25rem rgba(4, 99, 250, 0.25)
+    box-shadow: 0 0 0 .25rem rgba(250, 45, 4, 0.25)
 }
 
 .form-select[multiple],
@@ -3097,7 +3099,7 @@ fieldset:disabled .btn {
     color: #fff;
     background-color: #D12149;
     border-color: #D12149;
-    box-shadow: 0 0 0 .25rem rgba(42, 122, 251, 0.5)
+    box-shadow: 0 0 0 .25rem rgba(250, 45, 4, 0.25)
 }
 
 .btn-check:checked+.btn-primary,
@@ -3115,7 +3117,7 @@ fieldset:disabled .btn {
 .btn-primary:active:focus,
 .btn-primary.active:focus,
 .show>.btn-primary.dropdown-toggle:focus {
-    box-shadow: 0 0 0 .25rem rgba(42, 122, 251, 0.5)
+    box-shadow: 0 0 0 .25rem rgba(250, 45, 4, 0.25)
 }
 
 .btn-primary:disabled,
@@ -3160,7 +3162,7 @@ fieldset:disabled .btn {
 .btn-secondary:active:focus,
 .btn-secondary.active:focus,
 .show>.btn-secondary.dropdown-toggle:focus {
-    box-shadow: 0 0 0 .25rem rgba(130, 138, 145, 0.5)
+    box-shadow: 0 0 0 .25rem rgba(250, 45, 4, 0.25)
 }
 
 .btn-secondary:disabled,
@@ -3762,12 +3764,12 @@ fieldset:disabled .btn {
 
 .btn-link {
     font-weight: 400;
-    color: #0463FA;
+    color: #d12149;
     text-decoration: none
 }
 
 .btn-link:hover {
-    color: #034fc8
+    color: #d12149
 }
 
 .btn-link:disabled,
@@ -12532,3 +12534,4 @@ fieldset:disabled .btn {
         display: none !important
     }
 }
+

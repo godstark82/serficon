@@ -32,6 +32,7 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
 </head>
 
 <body>
@@ -133,56 +134,44 @@
     {% block body %} {% endblock %}
 
     <!-- Footer Start -->
-    <div class="container-fluid footer mt-5 pt-5 wow fadeIn" style="background-color: #000000; color: #fff;"
+    <div class="container-fluid footer mt-5 pt-5 wow fadeIn" style="background-color: #000000;"
         data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
-                    <h5 class=" mb-4" style="color: #9B9B9B;">Address</h5>
-                    <p class="mb-2" style="color: #9B9B9B;"><i class="fa fa-map-marker-alt me-3"
-                            style="color: #9B9B9B;"></i>{{ components.address }}</p>
-                    <p class="mb-2" style="color: #9B9B9B;"><i class="fa fa-phone-alt me-3"
-                            style="color: #9B9B9B;"></i>{{ components.phone }}</p>
-                    <p class="mb-2" style="color: #9B9B9B;"><i class="fa fa-envelope me-3"
-                            style="color: #9B9B9B;"></i>{{ components.email }}</p>
-                    <div class="d-flex pt-2" style="color: #9B9B9B;">
+                    <h5 class=" mb-4 text-secondary">Address</h5>
+                    <p class="mb-2 text-secondary"><i class="fa fa-map-marker-alt me-3"></i>{{ components.address }}</p>
+                    <p class="mb-2 text-secondary"><i class="fa fa-phone-alt me-3"></i>{{ components.phone }}</p>
+                    <p class="mb-2 text-secondary"><i class="fa fa-envelope me-3"
+                        ></i>{{ components.email }}</p>
+                    <div class="d-flex pt-2">
                         <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.twitter }}"
-                            target="_blank"><i class="fab fa-twitter" style="color: #9B9B9B;"></i></a>
+                            target="_blank"><i class="fab fa-twitter"></i></a>
                         <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.facebook }}"
-                            target="_blank"><i class="fab fa-facebook-f" style="color: #9B9B9B;"></i></a>
+                            target="_blank"><i class="fab fa-facebook-f"></i></a>
                         <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.youtube }}"
-                            target="_blank"><i class="fab fa-youtube" style="color: #9B9B9B;"></i></a>
+                            target="_blank"><i class="fab fa-youtube"></i></a>
                         <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.linkedin }}"
-                            target="_blank"><i class="fab fa-linkedin-in" style="color: #9B9B9B;"></i></a>
+                            target="_blank"><i class="fab fa-linkedin-in"></i></a>
                         <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.instagram }}"
-                            target="_blank"><i class="fab fa-instagram" style="color: #9B9B9B;"></i></a>
+                            target="_blank"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h5 class=" mb-4" style="color: #9B9B9B;">About</h5>
-                    <a class="btn btn-link" href="organizing-committee" style="color: #9B9B9B;">Organizing Committee</a>
-                    <a class="btn btn-link" href="scientific-committee" style="color: #9B9B9B;">Scientific Committee</a>
-                    <a class="btn btn-link" href="scientific-committe-lead" style="color: #9B9B9B;">Scientific Committee
+                    <h5 class=" mb-4 text-secondary">About</h5>
+                    <a class="btn btn-link text-secondary" href="organizing-committee">Organizing Committee</a>
+                    <a class="btn btn-link text-secondary" href="scientific-committee">Scientific Committee</a>
+                    <a class="btn btn-link text-secondary" href="scientific-committe-lead">Scientific Committee
                         Lead</a>
-                    <a class="btn btn-link" href="join-the-scientific-committee" style="color: #9B9B9B;">Join The
-                        Scientific Committee</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h5 class=" mb-4" style="color: #9B9B9B;">Quick Links</h5>
-                    <a class="btn btn-link" href="about-us" style="color: #9B9B9B;">About Us</a>
-                    <a class="btn btn-link" href="contact" style="color: #9B9B9B;">Contact Us</a>
-                    <a class="btn btn-link" href="our-services" style="color: #9B9B9B;">Our Services</a>
-                    <a class="btn btn-link" href="terms-and-conditions" style="color: #9B9B9B;">Terms & Condition</a>
-                    <a class="btn btn-link" href="support" style="color: #9B9B9B;">Support</a>
+                    <h5 class="mb-4 text-secondary">Quick Links</h5>
+                    <a class="btn btn-link text-secondary" href="">About Us</a>
+                    <a class="btn btn-link text-secondary" href="">Contact Us</a>
+                    <a class="btn btn-link text-secondary" href="">Our Services</a>
+                    <a class="btn btn-link text-secondary" href="">Terms & Condition</a>
+                    <a class="btn btn-link text-secondary" href="">Support</a>
                 </div>
-                <!-- <div class="col-lg-3 col-md-6">
-                <h5 class="text-light mb-4">Newsletter</h5>
-                <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                <div class="position-relative mx-auto" style="max-width: 400px;">
-                    <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                    <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                </div>
-            </div> -->
             </div>
         </div>
         <div class="container">

@@ -1,6 +1,6 @@
 /********** Template CSS **********/
 :root {
-    --primary: #0463FA;
+    --primary: #d12149;
     --light: #EFF5FF;
     --dark: #1B2C51;
 }
@@ -100,7 +100,7 @@
 
 .navbar .navbar-nav .nav-link:hover,
 .navbar .navbar-nav .nav-link.active {
-    color: var(--primary) !important;
+    color: #d12149 !important;
 }
 
 @media (max-width: 991.98px) {
@@ -517,3 +517,9 @@
 .footer .copyright a:hover {
     color: var(--primary);
 }
+
+/*** Dropdown Item Active State ***/
+.dropdown-item:active {
+    background-color: #d12149;
+    color: #FFFFFF; /* Optional: Change text color on active */
+}   

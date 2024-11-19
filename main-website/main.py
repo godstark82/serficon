@@ -36,7 +36,6 @@ def page_not_found(e):
 def WebComponents():
     home = home_service.get_home_data()
     components = components_service.get_all_components()
-    print(components)
     return render_template('index.html', home=home, domain=app.config['domain'], components=components)
 
 

@@ -5,7 +5,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
-    --bs-blue: #0d6efd;
+    --bs-blue: #d12149;
     --bs-indigo: #6610f2;
     --bs-purple: #6f42c1;
     --bs-pink: #d63384;
@@ -232,12 +232,12 @@ sup {
 }
 
 a {
-    color: #0463FA;
+    color: #d12149;
     text-decoration: none
 }
 
 a:hover {
-    color: #034fc8
+    color: #d12149
 }
 
 a:not([href]):not([class]),
@@ -2237,7 +2237,7 @@ progress {
     color: #8D8E92;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #C7DCFB;
+    border: 1px solid #fbc7c7;
     appearance: none;
     border-radius: 8px;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
@@ -2260,9 +2260,9 @@ progress {
 .form-control:focus {
     color: #8D8E92;
     background-color: #fff;
-    border-color: #82b1fd;
+    border-color: #d12149;
     outline: 0;
-    box-shadow: 0 0 0 .25rem rgba(4, 99, 250, 0.25)
+    box-shadow: 0 0 0 .25rem rgba(250, 45, 4, 0.25)
 }
 
 .form-control::-webkit-date-and-time-value {
@@ -2437,7 +2437,7 @@ textarea.form-control-lg {
 }
 
 .form-select:focus {
-    border-color: #82b1fd;
+    border-color: #d12149;
     outline: 0;
     box-shadow: 0 0 0 .25rem rgba(4, 99, 250, 0.25)
 }
@@ -2510,14 +2510,14 @@ textarea.form-control-lg {
 }
 
 .form-check-input:focus {
-    border-color: #82b1fd;
+    border-color: #d12149;
     outline: 0;
     box-shadow: 0 0 0 .25rem rgba(4, 99, 250, 0.25)
 }
 
 .form-check-input:checked {
-    background-color: #0463FA;
-    border-color: #0463FA
+    background-color: #d12149;
+    border-color: #d12149
 }
 
 .form-check-input:checked[type="checkbox"] {
@@ -2529,8 +2529,8 @@ textarea.form-control-lg {
 }
 
 .form-check-input[type="checkbox"]:indeterminate {
-    background-color: #0463FA;
-    border-color: #0463FA;
+    background-color: #d12149;
+    border-color: #d12149;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e")
 }
 
@@ -2619,7 +2619,7 @@ textarea.form-control-lg {
     width: 1rem;
     height: 1rem;
     margin-top: -.25rem;
-    background-color: #0463FA;
+    background-color: #d12149;
     border: 0;
     border-radius: 1rem;
     transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -2633,7 +2633,7 @@ textarea.form-control-lg {
 }
 
 .form-range::-webkit-slider-thumb:active {
-    background-color: #b4d0fe
+    background-color: #d12149
 }
 
 .form-range::-webkit-slider-runnable-track {
@@ -2649,7 +2649,7 @@ textarea.form-control-lg {
 .form-range::-moz-range-thumb {
     width: 1rem;
     height: 1rem;
-    background-color: #0463FA;
+    background-color: #d12149;
     border: 0;
     border-radius: 1rem;
     transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -2663,7 +2663,7 @@ textarea.form-control-lg {
 }
 
 .form-range::-moz-range-thumb:active {
-    background-color: #b4d0fe
+    background-color: #d12149
 }
 
 .form-range::-moz-range-track {

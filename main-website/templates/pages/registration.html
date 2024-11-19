@@ -37,6 +37,11 @@
                                 <option value="technicalNote">Technical Note</option>
                             </select>
                         </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
                         <div class="mb-3">
                             <label for="abstract" class="form-label">Abstract</label>
                             <textarea class="form-control" id="abstract" name="abstract" rows="3" required></textarea>
@@ -57,11 +62,11 @@
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="pdfUpload" class="form-label">Upload PDF</label>
-                            <input type="file" class="form-control" id="pdfUpload" name="pdfUpload" required>
+                            <input type="file" class="form-control" id="pdfUpload" name="pdfUpload" required accept=".pdf">
                         </div>
                         <div class="mb-3">
                             <label for="imageUpload" class="form-label">Upload Image</label>
-                            <input type="file" class="form-control" id="imageUpload" name="imageUpload" required>
+                            <input type="file" class="form-control" id="imageUpload" name="imageUpload" required accept=".jpg, .jpeg, .png .svg">
                         </div>
                     </div>
                 </div>

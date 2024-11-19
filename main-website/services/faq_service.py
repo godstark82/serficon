@@ -1,5 +1,3 @@
-
-
 from typing import List
 from db_instance import db
 from models.card_model import CardModel

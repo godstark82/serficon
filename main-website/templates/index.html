@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-<title>{{ website_title }}</title>
+<title>{{ components.title }}</title>
 <!-- Header Start -->
 <div class="container-fluid header bg-primary p-0 mb-5">
     <div class="row g-0 align-items-center flex-column-reverse flex-lg-row">
@@ -37,8 +37,8 @@
     <div class="container">
         <div class="row g-5">
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                <div class="d-flex flex-column">
-                    <img class="img-fluid rounded w-100 align-self-end" src="{{ home.president_welcome.image }}" alt="">
+                <div class="d-flex flex-column align-items-center">
+                    <img class="img-fluid rounded w-75" src="{{ home.president_welcome.image }}" alt="" style="height: 350px; object-fit: cover;">
                 </div>
             </div>
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">

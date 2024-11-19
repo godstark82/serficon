@@ -9,6 +9,8 @@ from routes.guideforauthors import guide_for_authors_bp
 from routes.program import program_bp
 from routes.contact import contact_bp
 from models.article_model import ArticleModel, ArticleStatus
+from models.components_model import ComponentsModel
+from services.components_service import ComponentsService
 
 app = Flask(__name__)
 app.secret_key = 'conference_2024secretkey'
@@ -32,9 +34,11 @@ def page_not_found(e):
                            domain=app.config['domain']), 404
 
 @app.route("/")
-def Home():
+def WebComponents():
     home = home_service.get_home_data()
-    return render_template('index.html', home=home, website_title=app.config['website_title'], navbar_title=app.config['navbar_title'], domain=app.config['domain'])
+    components_service = ComponentsService()
+    components = components_service.get_all_components()
+    return render_template('index.html', home=home, website_title=app.config['website_title'], navbar_title=app.config['navbar_title'], domain=app.config['domain'], components=components)
 
 article = ArticleModel(
     id="1",
@@ -55,7 +59,6 @@ article = ArticleModel(
 )
 
 json_data = article.to_json()
-
 
 from services.article_service import publish_article
 

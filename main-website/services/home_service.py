@@ -10,8 +10,6 @@ from models import *
 from typing import Union
 
 
-
-
 def get_home_data() -> Union[str, HomeModel]:
    
     response = db.collection('home').get()

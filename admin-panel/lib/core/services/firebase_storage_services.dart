@@ -6,6 +6,36 @@ import 'package:image_picker_web/image_picker_web.dart';
 class FirebaseStorageServices {
   static final FirebaseStorage storage = FirebaseStorage.instance;
 
+  static Future<String> pickAndUploadSvg() async {
+    try {
+      final Uint8List? svgBytes = await ImagePickerWeb.getImageAsBytes();
+
+      if (svgBytes == null) {
+        throw Exception('No SVG file selected');
+      }
+
+      final String fileName = 'logo_${DateTime.now().millisecondsSinceEpoch}.svg';
+
+      final Reference storageRef = storage
+          .refFromURL('gs://conference-340f2.appspot.com')
+          .child(fileName);
+
+      final metadata = SettableMetadata(
+        contentType: 'image/svg+xml',
+      );
+
+      final TaskSnapshot taskSnapshot = 
+          await storageRef.putData(svgBytes, metadata);
+
+      final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+      return downloadUrl;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
   static Future<String> pickAndUploadImage() async {
     try {
       final Uint8List? image = await ImagePickerWeb.getImageAsBytes();

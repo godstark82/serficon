@@ -12,17 +12,21 @@ class ComponentsModel:
     title: str
     twitter: str
     youtube: str
+    email: str
 
-    def to_json(self) -> dict:
-        return {
-            'address': self.address,
-            'facebook': self.facebook,
-            'instagram': self.instagram,
-            'linkedin': self.linkedin,
-            'logo': self.logo,
-            'navtitle': self.navtitle,
-            'phone': self.phone,
-            'title': self.title,
-            'twitter': self.twitter,
-            'youtube': self.youtube
-        }
+    def from_dict(data: dict):
+        model = ComponentsModel(
+            email=data.get('email', 'Not Set'),
+            address=data.get('address', 'Not Set'),
+            facebook=data.get('facebook', 'Not Set'),
+            instagram=data.get('instagram', 'Not Set'),
+            linkedin=data.get('linkedin', 'Not Set'),
+            logo=data.get('logo', None),
+            navtitle=data.get('navtitle', 'Not Set'),
+            phone=data.get('phone', 'Not Set'),
+            title=data.get('title', 'Not Set'),
+            twitter=data.get('twitter', 'Not Set'),
+            youtube=data.get('youtube', 'Not Set')
+        )
+       
+        return model

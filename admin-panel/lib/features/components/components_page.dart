@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conference_admin/core/services/firebase_storage_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ComponentsPage extends StatefulWidget {
   const ComponentsPage({super.key});
@@ -13,8 +14,8 @@ class _ComponentsPageState extends State<ComponentsPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
   bool _isEditing = false;
-  final bool _isUploading = false;
-  final double _uploadProgress = 0.0;
+  bool _isUploading = false;
+  double _uploadProgress = 0.0;
   late Map<String, TextEditingController> _controllers;
 
   @override
@@ -40,10 +41,10 @@ class _ComponentsPageState extends State<ComponentsPage> {
     super.dispose();
   }
 
-
   Future<Map<String, dynamic>> _loadComponentData() async {
     try {
-      final docSnapshot = await _firestore.collection('components').doc('settings').get();
+      final docSnapshot =
+          await _firestore.collection('components').doc('settings').get();
       if (docSnapshot.exists) {
         return docSnapshot.data() ?? {};
       }
@@ -63,9 +64,9 @@ class _ComponentsPageState extends State<ComponentsPage> {
         });
 
         await _firestore.collection('components').doc('settings').set(
-          updatedData,
-          SetOptions(merge: true),
-        );
+              updatedData,
+              SetOptions(merge: true),
+            );
 
         setState(() {
           _isEditing = false;
@@ -79,6 +80,37 @@ class _ComponentsPageState extends State<ComponentsPage> {
           SnackBar(content: Text('Error saving settings: $e')),
         );
       }
+    }
+  }
+
+  Future<void> _uploadSvg() async {
+    try {
+      setState(() {
+        _isUploading = true;
+      });
+      
+      print('Uploading SVG');
+      String url = await FirebaseStorageServices.pickAndUploadSvg();
+      print('SVG uploaded: $url');
+      
+      setState(() {
+        _controllers['logo']!.text = url;
+        _isUploading = false;
+      });
+
+      // Save the updated logo URL to Firestore
+      await _firestore.collection('components').doc('settings').set(
+        {'logo': url},
+        SetOptions(merge: true),
+      );
+
+    } catch (e) {
+      setState(() {
+        _isUploading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error uploading SVG: $e')),
+      );
     }
   }
 
@@ -115,7 +147,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
           }
 
           final data = snapshot.data ?? {};
-          
+
           if (!_isEditing) {
             _controllers.forEach((key, controller) {
               controller.text = data[key] ?? '';
@@ -136,7 +168,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Logo',
+                            'Logo (SVG)',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -144,20 +176,23 @@ class _ComponentsPageState extends State<ComponentsPage> {
                           ),
                           const SizedBox(height: 16),
                           if (_controllers['logo']!.text.isNotEmpty)
-                            Image.network(
+                            SvgPicture.network(
                               _controllers['logo']!.text,
                               height: 100,
                             ),
                           const SizedBox(height: 8),
                           if (_isEditing) ...[
                             ElevatedButton(
-                              onPressed: _isUploading ? null : FirebaseStorageServices.pickAndUploadImage,
-                              child: Text(_isUploading ? 'Uploading...' : 'Upload Logo'),
+                              onPressed: _isUploading ? null : _uploadSvg,
+                              child: Text(_isUploading
+                                  ? 'Uploading...'
+                                  : 'Upload SVG Logo'),
                             ),
                             if (_isUploading) ...[
                               const SizedBox(height: 8),
                               LinearProgressIndicator(value: _uploadProgress),
-                              Text('${(_uploadProgress * 100).toStringAsFixed(1)}%'),
+                              Text(
+                                  '${(_uploadProgress * 100).toStringAsFixed(1)}%'),
                             ],
                           ],
                         ],
@@ -179,11 +214,16 @@ class _ComponentsPageState extends State<ComponentsPage> {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          _buildEditableField('Facebook', _controllers['facebook']!),
-                          _buildEditableField('Instagram', _controllers['instagram']!),
-                          _buildEditableField('LinkedIn', _controllers['linkedin']!),
-                          _buildEditableField('Twitter', _controllers['twitter']!),
-                          _buildEditableField('YouTube', _controllers['youtube']!),
+                          _buildEditableField(
+                              'Facebook', _controllers['facebook']!),
+                          _buildEditableField(
+                              'Instagram', _controllers['instagram']!),
+                          _buildEditableField(
+                              'LinkedIn', _controllers['linkedin']!),
+                          _buildEditableField(
+                              'Twitter', _controllers['twitter']!),
+                          _buildEditableField(
+                              'YouTube', _controllers['youtube']!),
                         ],
                       ),
                     ),
@@ -204,7 +244,8 @@ class _ComponentsPageState extends State<ComponentsPage> {
                           ),
                           const SizedBox(height: 16),
                           _buildEditableField('Phone', _controllers['phone']!),
-                          _buildEditableField('Address', _controllers['address']!),
+                          _buildEditableField(
+                              'Address', _controllers['address']!),
                         ],
                       ),
                     ),
@@ -224,7 +265,8 @@ class _ComponentsPageState extends State<ComponentsPage> {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          _buildEditableField('Navigation Title', _controllers['navtitle']!),
+                          _buildEditableField(
+                              'Navigation Title', _controllers['navtitle']!),
                           _buildEditableField('Title', _controllers['title']!),
                         ],
                       ),
@@ -275,6 +317,3 @@ class _ComponentsPageState extends State<ComponentsPage> {
     );
   }
 }
-
-
-

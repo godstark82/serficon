@@ -159,9 +159,12 @@ class StreamsList extends StatelessWidget {
           itemCount: streams.length,
           itemBuilder: (context, index) {
             final stream = streams[index];
+            if (stream.descriptions == null) {
+              return const SizedBox.shrink();
+            }
             return ExpansionTile(
-              title: Text(stream.title),
-              children: stream.descriptions.map((desc) {
+              title: Text(stream.title ?? 'No Title'),
+              children: stream.descriptions!.map((desc) {
                 return ListTile(
                   leading: const Icon(Icons.arrow_right),
                   title: Text(desc),
@@ -324,24 +327,19 @@ class StreamsEditor extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Streams',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        const Text('Streams',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: streams.length,
           itemBuilder: (context, index) {
-            StreamCardModel stream = streams[index];
+            final stream = streams[index];
             return ListTile(
               leading: const Icon(Icons.article),
-              title: TextField(
-                controller: TextEditingController(text: stream.title),
+              title: TextFormField(
+                initialValue: stream.title,
                 maxLines: null,
                 decoration: const InputDecoration(
                   labelText: 'Title',
@@ -349,46 +347,52 @@ class StreamsEditor extends StatelessWidget {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    stream = stream.copyWith(title: value);
+                    streams[index] = stream.copyWith(title: value);
                   });
                 },
               ),
-              subtitle: Column(
-                children: [
-                  ...stream.descriptions.map((desc) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: TextField(
-                        controller: TextEditingController(text: desc),
-                        maxLines: null,
-                        decoration: const InputDecoration(
-                          labelText: 'Description',
-                          border: OutlineInputBorder(),
+              subtitle: stream.descriptions == null
+                  ? const SizedBox.shrink()
+                  : Column(
+                      children: [
+                        ...List.generate(stream.descriptions!.length,
+                            (descIndex) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            child: TextFormField(
+                              initialValue: stream.descriptions![descIndex],
+                              maxLines: null,
+                              decoration: const InputDecoration(
+                                labelText: 'Description',
+                                border: OutlineInputBorder(),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  final newDescriptions =
+                                      List<String>.from(stream.descriptions!);
+                                  newDescriptions[descIndex] = value;
+                                  streams[index] = stream.copyWith(
+                                      descriptions: newDescriptions);
+                                });
+                              },
+                            ),
+                          );
+                        }),
+                        const SizedBox(height: 8),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              final newDescriptions =
+                                  List<String>.from(stream.descriptions!);
+                              newDescriptions.add('');
+                              streams[index] = stream.copyWith(
+                                  descriptions: newDescriptions);
+                            });
+                          },
+                          child: const Text('Add Description'),
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            final index = stream.descriptions.indexOf(desc);
-                            stream = stream.copyWith(descriptions: [
-                              ...stream.descriptions.sublist(0, index),
-                              value,
-                              ...stream.descriptions.sublist(index + 1)
-                            ]);
-                          });
-                        },
-                      ),
-                    );
-                  }),
-                  const SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        stream.descriptions.add('');
-                      });
-                    },
-                    child: const Text('Add Description'),
-                  ),
-                ],
-              ),
+                      ],
+                    ),
               trailing: IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () {

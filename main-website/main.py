@@ -35,6 +35,7 @@ def page_not_found(e):
 @app.route("/")
 def WebComponents():
     home = home_service.get_home_data()
+    print(home.congress_stream.cards)
     components = components_service.get_all_components()
     return render_template('index.html', home=home, domain=app.config['domain'], components=components)
 

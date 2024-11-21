@@ -15,7 +15,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
   final _formKey = GlobalKey<FormState>();
   bool _isEditing = false;
   bool _isUploading = false;
-  double _uploadProgress = 0.0;
+  final double _uploadProgress = 0.0;
   late Map<String, TextEditingController> _controllers;
 
   @override

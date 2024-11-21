@@ -143,20 +143,20 @@ class HomeCongressStreamModel {
 }
 
 class StreamCardModel {
-  final String title;
-  final List<String> descriptions;
+  String? title;
+  List<String>? descriptions;
 
-  StreamCardModel({required this.title, required this.descriptions});
+  StreamCardModel({this.title, this.descriptions});
 
   factory StreamCardModel.fromJson(Map<String, dynamic> json) =>
       StreamCardModel(
-        title: json['title'] ?? 'No Title',
+        title: json['title'],
         descriptions: List<String>.from(json['descriptions'] ?? []),
       );
 
   Map<String, dynamic> toJson() => {
         'title': title,
-        'descriptions': descriptions.map((x) => x.toString()).toList(),
+        'descriptions': descriptions?.map((x) => x.toString()).toList(),
       };
 
   StreamCardModel copyWith({

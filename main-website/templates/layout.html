@@ -86,7 +86,8 @@
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
         <a href="/" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
             {% if components.logo %}
-            <h1 class="m-0 text"><img src="{{ components.logo }}" alt="{{ components.navtitle }}">{{ components.navtitle
+            <h1 class="m-0 text"><img src="{{ components.logo }}"
+                    style="object-fit: cover;height: 7.5vh; width: 7.5vh;"> {{ components.navtitle
                 }}</h1>
             {% else %}
             <h1 class="m-0 text">{{ components.navtitle }}</h1>
@@ -134,16 +135,14 @@
     {% block body %} {% endblock %}
 
     <!-- Footer Start -->
-    <div class="container-fluid footer mt-5 pt-5 wow fadeIn" style="background-color: #000000;"
-        data-wow-delay="0.1s">
+    <div class="container-fluid footer mt-5 pt-5 wow fadeIn" style="background-color: #000000;" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h5 class=" mb-4 text-secondary">Address</h5>
                     <p class="mb-2 text-secondary"><i class="fa fa-map-marker-alt me-3"></i>{{ components.address }}</p>
                     <p class="mb-2 text-secondary"><i class="fa fa-phone-alt me-3"></i>{{ components.phone }}</p>
-                    <p class="mb-2 text-secondary"><i class="fa fa-envelope me-3"
-                        ></i>{{ components.email }}</p>
+                    <p class="mb-2 text-secondary"><i class="fa fa-envelope me-3"></i>{{ components.email }}</p>
                     <div class="d-flex pt-2">
                         <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.twitter }}"
                             target="_blank"><i class="fab fa-twitter"></i></a>

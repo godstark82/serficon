@@ -1,14 +1,12 @@
-import datetime
 import os
 from flask import Flask, render_template
 from db_instance import get_db
-from services import home_service, components_service
 from routes.about import about_bp
 from routes.registration import registration_bp
 from routes.guideforauthors import guide_for_authors_bp
 from routes.program import program_bp
 from routes.contact import contact_bp
-from models.article_model import ArticleModel, ArticleStatus
+from routes.webcomponents import webcomponents_bp
 
 
 app = Flask(__name__)
@@ -24,6 +22,7 @@ app.register_blueprint(registration_bp)
 app.register_blueprint(guide_for_authors_bp)
 app.register_blueprint(program_bp)
 app.register_blueprint(contact_bp)
+app.register_blueprint(webcomponents_bp)
 
 
 @app.errorhandler(404)
@@ -32,12 +31,6 @@ def page_not_found(e):
                            navbar_title=app.config['navbar_title'], 
                            domain=app.config['domain']), 404
 
-@app.route("/")
-def WebComponents():
-    home = home_service.get_home_data()
-    print(home.congress_stream.cards)
-    components = components_service.get_all_components()
-    return render_template('index.html', home=home, domain=app.config['domain'], components=components)
 
 
 if __name__ == '__main__':

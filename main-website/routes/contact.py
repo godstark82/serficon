@@ -13,11 +13,11 @@ def Contact():
 
         if not all([name, email, subject, message]):
             flash("Please fill in all fields", "error")
-            return redirect(url_for('contact.contact'))
+            return redirect(url_for('contact.Contact'))
 
         mail_service.send_email(name, email, subject, message)
         flash("Message sent successfully", "success")
-        return redirect(url_for('contact.contact')) 
+        return redirect(url_for('contact.Contact'))
 
     components = components_service.get_all_components()
     return render_template('pages/contact.html', website_title=current_app.config['website_title'], navbar_title=current_app.config['navbar_title'], domain=current_app.config['domain'], components=components)

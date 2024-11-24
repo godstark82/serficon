@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from db_instance import get_db
 from routes.about import about_bp
 from routes.registration import registration_bp
-from routes.guideforauthors import guide_for_authors_bp
+from routes.acceptanceofpaper import acceptance_of_paper
 from routes.program import program_bp
 from routes.contact import contact_bp
 from routes.webcomponents import webcomponents_bp
@@ -19,7 +19,7 @@ app.config['domain'] = os.getenv('domain', 'http://localhost')
 
 app.register_blueprint(about_bp)
 app.register_blueprint(registration_bp)
-app.register_blueprint(guide_for_authors_bp)
+app.register_blueprint(acceptance_of_paper)
 app.register_blueprint(program_bp)
 app.register_blueprint(contact_bp)
 app.register_blueprint(webcomponents_bp)

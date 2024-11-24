@@ -50,10 +50,10 @@
     <div class="container-fluid bg-light p-0 wow fadeIn" data-wow-delay="0.1s">
         <div class="row gx-0 d-none d-lg-flex">
             <div class="col-lg-7 px-5 text-start">
-                <div class="h-100 d-inline-flex align-items-center py-3 me-4">
+                <!-- <div class="h-100 d-inline-flex align-items-center py-3 me-4">
                     <small class="fa fa-map-marker-alt text-primary me-2"></small>
                     <small>{{ components.address }}</small>
-                </div>
+                </div> -->
                 <div class="h-100 d-inline-flex align-items-center py-3">
                     <small class="far fa-clock text-primary me-2"></small>
                     <small id="current-time">Loading...</small>
@@ -86,9 +86,10 @@
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
         <a href="/" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
             {% if components.logo %}
-            <h1 class="m-0 text"><img src="{{ components.logo }}"
-                    style="object-fit: cover;height: 7.5vh; width: 7.5vh;"> {{ components.navtitle
+            <div sty>
+                <h1><img src="{{ components.logo }}" style="max-height: 70px;">{{ components.navtitle
                 }}</h1>
+            </div>
             {% else %}
             <h1 class="m-0 text">{{ components.navtitle }}</h1>
             {% endif %}
@@ -102,14 +103,14 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">About</a>
                     <div class="dropdown-menu rounded-0 rounded-bottom m-0">
+                        <a href="conference-chair" class="dropdown-item">conference Chair</a>
                         <a href="organizing-committee" class="dropdown-item">Organizing Committee</a>
-                        <a href="scientific-committee" class="dropdown-item">Scientific Committee</a>
-                        <a href="scientific-committe-lead" class="dropdown-item">Scientific Committee Lead</a>
+                        <a href="technical-committee" class="dropdown-item">Technical Committee</a>
                     </div>
                 </div>
                 <a href="registration" class="nav-item nav-link">Registration</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Guide For Authors</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Acceptance of Papers</a>
                     <div class="dropdown-menu rounded-0 rounded-bottom m-0">
                         <a href="important-dates" class="dropdown-item">Important Dates</a>
                         <a href="review-process" class="dropdown-item">Review Process</a>

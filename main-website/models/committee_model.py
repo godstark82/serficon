@@ -3,7 +3,7 @@ from typing import Dict, Any
 from enum import Enum
 
 class CommitteeRole(Enum):
-    ORGANISING_COMMITTEE = 'Organising Committee'
+    ORGANIZING_COMMITTEE = 'Organizing Committee'
     SCIENTIFIC_LEAD = 'Scientific Lead'
     SCIENTIFIC_COMMITTEE_MEMBER = 'Scientific Committee Member'
 
@@ -12,7 +12,7 @@ class CommitteeRole(Enum):
         for role in CommitteeRole:
             if role.value == json:
                 return role
-        return CommitteeRole.ORGANISING_COMMITTEE  # Default value
+        return CommitteeRole.ORGANIZING_COMMITTEE  # Default value
 
 
 @dataclass

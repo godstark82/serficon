@@ -8,7 +8,7 @@
         {% if home.hero.show_image == True %}
         <div class="col-lg-6 p-5 wow fadeIn" style="color: white;" data-wow-delay="0.1s">
             {{ home.hero.html_content | safe }}
-        </div>  
+        </div>
         <div class="col-lg-6 wow fadeIn d-none d-lg-block" data-wow-delay="0.5s">
             <div class="owl-carousel header-carousel">
                 <div class="owl-carousel-item position-relative">
@@ -68,6 +68,70 @@
 </div>
 </div> -->
 <!-- Publication of Congress Papers End -->
+
+<!-- keynote speakers start -->
+
+
+<!-- Team Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h1>Keynote Speakers</h1>
+            <p class="text-center">The distinguished experts sharing their insights on groundbreaking topics</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="team-item position-relative rounded overflow-hidden">
+                    <div class="overflow-hidden">
+                        <img class="img-fluid" src="{{ url_for('static', filename='img/img1.jpg') }}" alt="">
+                    </div>
+                    <div class="team-text bg-light text-center p-4">
+                        <h5>Prof (Dr) Anna Dunay</h5>
+                        <p class="text-primary">John Von Neumann University, Hungary</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="team-item position-relative rounded overflow-hidden">
+                    <div class="overflow-hidden">
+                        <img class="img-fluid" src="{{ url_for('static', filename='img/img2.jpg') }}" alt="">
+                    </div>
+                    <div class="team-text bg-light text-center p-4">
+                        <h5>Prof. (Dr) Magdalena Rzemieniak</h5>
+                        <p class="text-primary">Lublin University of Technology, Poland</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="team-item position-relative rounded overflow-hidden">
+                    <div class="overflow-hidden">
+                        <img class="img-fluid" src="{{ url_for('static', filename='img/img3.jpg') }}" alt="">
+                    </div>
+                    <div class="team-text bg-light text-center p-4">
+                        <h5>Prof (Dr) Mamta Chahar</h5>
+                        <p class="text-primary">NIMS University, Jaipur, India</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                <div class="team-item position-relative rounded overflow-hidden">
+                    <div class="overflow-hidden">
+                        <img class="img-fluid" src="{{ url_for('static', filename='img/img4.jpg') }}" alt="">
+                    </div>
+                    <div class="team-text bg-light text-center p-4">
+                        <h5>Prof (Dr) Dorota Jelonek</h5>
+                        <p class="text-primary">Czestochowa University of Technology, Poland</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<!-- Team End -->
+
+<!-- keynote speakers end -->
 
 <!-- Conference Scope Start -->
 <div class="container-xxl py-5">
@@ -155,22 +219,5 @@
     </div>
 </div>
 <!-- Why Choose Us End -->
-
-<!-- Gallery Start -->
-<div class="container-xxl py-5">
-    <div class="container">
-        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-            <h2>Gallery</h2>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-3 col-md-4 col-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="gallery-item">
-                    <img class="img-fluid" src="" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Gallery End -->
 
 {% endblock %}

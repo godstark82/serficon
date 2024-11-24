@@ -1,6 +1,7 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, current_app
 from db_instance import get_db
+from services import home_service, components_service
 from routes.about import about_bp
 from routes.registration import registration_bp
 from routes.acceptanceofpaper import acceptance_of_paper
@@ -27,9 +28,8 @@ app.register_blueprint(webcomponents_bp)
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('pages/404.html', website_title=app.config['website_title'], 
-                           navbar_title=app.config['navbar_title'], 
-                           domain=app.config['domain']), 404
+    components = components_service.get_all_components()
+    return render_template('pages/404.html', website_title=current_app.config['website_title'], navbar_title=current_app.config['navbar_title'], domain=current_app.config['domain'], components=components)
 
 
 

@@ -24,10 +24,24 @@
                 <div class="row g-4">
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="title" name="title" required>
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <select class="form-select" id="title" name="title" required>
+                                <option value="">Select Title</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Dr">Dr</option>
+                                <option value="Prof">Prof</option>
+                            </select>
+                        </div>
+                        <!-- <div class="mb-3">
                             <label for="documentType" class="form-label">Document Type</label>
                             <select class="form-select" id="documentType" name="documentType" required>
                                 <option value="">Select Document Type</option>
@@ -36,30 +50,31 @@
                                 <option value="caseStudy">Case Study</option>
                                 <option value="technicalNote">Technical Note</option>
                             </select>
-                        </div>
+                        </div> -->
                         
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
                         <div class="mb-3">
                             <label for="abstract" class="form-label">Abstract</label>
                             <textarea class="form-control" id="abstract" name="abstract" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="mainSubject" class="form-label">Main Subject</label>
-                            <input type="text" class="form-control" id="mainSubject" name="mainSubject" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="keyword" class="form-label">Keyword</label>
+                            <label for="keyword" class="form-label">Keywords</label>
                             <input type="text" class="form-control" id="keyword" name="keyword" required>
                         </div>
                         <div class="mb-3">
-                            <label for="references" class="form-label">References</label>
-                            <textarea class="form-control" id="references" name="references" rows="3" required></textarea>
+                            <label for="topicType" class="form-label">Topic</label>
+                            <select class="form-select" id="topicType" name="topicType" required>
+                                <option value="">Select Topics</option>  
+                                <option value="researchPaper">Research Paper</option>
+                                <option value="reviewArticle">Review Article</option>
+                                <option value="caseStudy">Case Study</option>
+                                <option value="technicalNote">Technical Note</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="authorName" class="form-label">Author's Name</label>
+                        </div>
                         <div class="mb-3">
                             <label for="pdfUpload" class="form-label">Upload PDF</label>
                             <input type="file" class="form-control" id="pdfUpload" name="pdfUpload" required accept=".pdf">

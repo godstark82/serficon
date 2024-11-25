@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, current_app
 from db_instance import get_db
 from services import components_service
-from routes.about import about_bp
+from routes.about import about_bp 
 from routes.registration import registration_bp
 from routes.acceptanceofpaper import acceptance_of_paper
 from routes.program import program_bp

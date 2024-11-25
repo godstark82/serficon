@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, current_app
 from db_instance import get_db
-from services import home_service, components_service
+from services import components_service
 from routes.about import about_bp
 from routes.registration import registration_bp
 from routes.acceptanceofpaper import acceptance_of_paper
@@ -31,7 +31,7 @@ def page_not_found(e):
     components = components_service.get_all_components()
     return render_template('pages/404.html', website_title=current_app.config['website_title'], navbar_title=current_app.config['navbar_title'], domain=current_app.config['domain'], components=components)
 
-
+    
 
 if __name__ == '__main__':
     

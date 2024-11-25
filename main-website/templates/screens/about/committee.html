@@ -13,13 +13,24 @@
 </div>
 <!-- Page Header End -->
 
-
 <!-- Team Start -->
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
             <p class="d-inline-block border rounded-pill py-1 px-4">{{ title }}</p>
             <!-- <h1>Our Experience Committee</h1> -->
+        </div>
+        <div class="row">
+            {% for member in committee_members %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="team-member">
+                    <img src="{{ member.image }}" alt="{{ member.name }}" class="img-fluid">
+                    <h5>{{ member.name }}</h5>
+                    <p>{{ member.designation }}</p>
+                    <p>{{ member.role.value }}</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

@@ -1,16 +1,18 @@
 from flask import Blueprint, render_template, current_app
-from services import page_service, components_service
+from services import page_service, components_service, committee_service
 
 about_bp = Blueprint("conferences", __name__)
 
 def render_committee_page(page_key, title):
     page = page_service.get_page_content(page_key)
     components = components_service.get_all_components()
+    committee_members = committee_service.CommitteeMemberModel()
     return render_template('screens/about/committee.html', title=title, page=page, 
                            website_title=current_app.config['website_title'], 
                            navbar_title=current_app.config['navbar_title'], 
                            domain=current_app.config['domain'], 
-                           components=components)
+                           components=components,
+                           committee_members=committee_members)
 
 @about_bp.route("/conference-chair")
 def ConferenceChair():

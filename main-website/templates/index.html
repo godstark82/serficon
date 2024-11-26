@@ -8,7 +8,9 @@
 <div class="text-center mx-auto wow fadeInUp" style="margin-bottom: 20px; margin-top: 40px;" data-wow-delay="0.1s">
     <h2>{{ section.title }}</h2>
     {% if section.description %}
-    <p>{{ section.description }}</p>
+    <div style="max-width: 80%; margin: auto;">
+        {{ section.description }}
+    </div>
     {% endif %}
 </div>
 <div class="wow fadeInUp"
@@ -24,7 +26,9 @@
         {% endif %}
         <div class="container-xxl py-5 overflow-hidden">
             <div class="container">
-                {{ section.html_content | safe }}
+                <div class="customimg">
+                    {{ section.html_content | safe }}
+                </div>
             </div>
         </div>
     </div>
@@ -55,6 +59,11 @@
     </div>
 </div>
 <!-- Team End -->
+ <style>
+    .customimg img {
+        border-radius: 10px;
+    }
+ </style>
 {% endif %}
 
 

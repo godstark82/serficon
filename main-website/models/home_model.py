@@ -1,151 +1,77 @@
 from dataclasses import dataclass, field
-from typing import List, Optional, Dict, Any
-
-from models.card_model import CardModel
-
-@dataclass
-class HomeHeroModel:
-    image: Optional[str] = field(default='No Image')
-    html_content: str = field(default='No Content')
-    show_image: bool = field(default=False)
-
-    @staticmethod
-    def from_json(json: Dict[str, Any]) -> 'HomeHeroModel':
-        return HomeHeroModel(
-            image=json.get('image', 'No Image'),
-            html_content=json.get('html_content', 'No Content'),
-            show_image=json.get('show_image', False)
-        )
-
-
+from typing import List, Optional
+from enum import Enum
 
 @dataclass
-class HomePresidentWelcomeModel:
-    title: str
-    image: Optional[str] = field(default='No Image')
-    html_content: str = field(default='No Content')
-    show_image: bool = field(default=False)
+class CardModel:
+    title: Optional[str] = None
+    description: Optional[str] = None
+    image: Optional[str] = None
 
-    @staticmethod
-    def from_json(json: Dict[str, Any]) -> 'HomePresidentWelcomeModel':
-        return HomePresidentWelcomeModel(
-            title=json.get('title', 'No Title'),
-            image=json.get('image', 'No Image'),
-            html_content=json.get('html_content', 'No Content'),
-            show_image=json.get('show_image', False)
+    @classmethod
+    def from_json(cls, json_data: dict) -> 'CardModel':
+        return cls(
+            title=json_data.get('title'),
+            description=json_data.get('description'),
+            image=json_data.get('image')
         )
 
-
-
-@dataclass
-class HomePublicationModel:
-    image: Optional[str] = field(default='No Image')
-    html_content: str = field(default='No Content')
-    show_image: bool = field(default=False)
-    @staticmethod
-    def from_json(json: Dict[str, Any]) -> 'HomePublicationModel':
-        return HomePublicationModel(
-            image=json.get('image', 'No Image'),
-            html_content=json.get('html_content', 'No Content'),
-            show_image=json.get('show_image', False)
-        )
-
-
-
-@dataclass
-class HomeCongressScopeModel:
-    description: str
-    title: str
-    cards: List['CardModel']
-
-    @staticmethod
-    def from_json(json: Dict[str, Any]) -> 'HomeCongressScopeModel':
-        return HomeCongressScopeModel(
-            description=json.get('description', 'No Description'),
-            title=json.get('title', 'No Title'),
-            cards=[CardModel.from_json(card) for card in json.get('cards', [])]
-        )
-
-
-
-@dataclass
-class HomeWhyChooseUsModel:
-    title: str
-    description: str
-    cards: List['CardModel']
-
-    @staticmethod
-    def from_json(json: Dict[str, Any]) -> 'HomeWhyChooseUsModel':
-        return HomeWhyChooseUsModel(
-            title=json.get('title', 'No Title'),
-            description=json.get('description', 'No Description'),
-            cards=[CardModel.from_json(card) for card in json.get('cards', [])]
-        )
-
-
-
-@dataclass
-class HomeCongressStreamModel:
-    title: str
-    description: str
-    cards: List['StreamCardModel']
-
-    @staticmethod
-    def from_json(json: Dict[str, Any]) -> 'HomeCongressStreamModel':
-        return HomeCongressStreamModel(
-            title=json.get('title', 'No Title'),
-            description=json.get('description', 'No Description'),
-            cards=[StreamCardModel.from_json(card) for card in json.get('cards', [])]
-        )
-
-    def to_json(self) -> Dict[str, Any]:
-        return {
-            'title': self.title,
-            'description': self.description,
-            'cards': [card.to_json() for card in self.cards]
-        }
 
 @dataclass
 class StreamCardModel:
-    title: str
-    descriptions: List[str]
+    title: Optional[str] = None
+    descriptions: Optional[List[str]] = field(default_factory=list)
 
-    @staticmethod
-    def from_json(json: Dict[str, Any]) -> 'StreamCardModel':
-        return StreamCardModel(
-            title=json.get('title', 'No Title'),
-            descriptions=json.get('descriptions', [])
+    @classmethod
+    def from_json(cls, json_data: dict) -> 'StreamCardModel':
+        return cls(
+            title=json_data.get('title'),
+            descriptions=json_data.get('descriptions', [])
         )
 
-    def to_json(self) -> Dict[str, Any]:
-        return {
-            'title': self.title,
-            'descriptions': self.descriptions
-        }
 
-    def copy_with(self, title: Optional[str] = None, descriptions: Optional[List[str]] = None) -> 'StreamCardModel':
-        return StreamCardModel(
-            title=title if title is not None else self.title,
-            descriptions=descriptions if descriptions is not None else self.descriptions
-        )
-    
+
+class HomeComponentType(Enum):
+    WITH_CARDS = "with_cards"
+    WITH_STREAM = "with_stream"
+
+    @classmethod
+    def from_json(cls, value: str) -> 'HomeComponentType':
+        return cls(value)
 
 @dataclass
-class HomeModel:
-    hero: 'HomeHeroModel'
-    president_welcome: 'HomePresidentWelcomeModel'
-    congress_scope: 'HomeCongressScopeModel'
-    congress_stream: 'HomeCongressStreamModel'
-    why_choose_us: 'HomeWhyChooseUsModel'
-    publication: 'HomePublicationModel'
+class HomeComponentModel:
+    id: str
+    title: str
+    html_content: str
+    display: bool
+    type: HomeComponentType
+    order: int
+    description: Optional[str] = None
+    bg_color: str = 'transparent'
+    cards: List[CardModel] = field(default_factory=list)
+    stream_cards: List[StreamCardModel] = field(default_factory=list)
 
-    @staticmethod
-    def from_json(json: Dict[str, Any]) -> 'HomeModel':
-        return HomeModel(
-            hero=HomeHeroModel.from_json(json['hero']),
-            president_welcome=HomePresidentWelcomeModel.from_json(json['presidentWelcome']),
-            congress_scope=HomeCongressScopeModel.from_json(json['congressScope']),
-            congress_stream=HomeCongressStreamModel.from_json(json['congressStream']),
-            why_choose_us=HomeWhyChooseUsModel.from_json(json['whyChooseUs']),
-            publication=HomePublicationModel.from_json(json['publication']),
+    @classmethod
+    def from_json(cls, json_data: dict) -> 'HomeComponentModel':
+        color = 'transparent'
+        colorDict = json_data.get('bgColor')
+        if colorDict:
+            color = colorDict
+        return cls(
+            description=json_data.get('description'),
+            bg_color=color,
+            order=json_data.get('order', 0),
+            type=HomeComponentType.from_json(json_data['type']),
+            cards=[CardModel.from_json(x) for x in json_data.get('cards', [])],
+            stream_cards=[StreamCardModel.from_json(x) for x in json_data.get('streamCards', [])],
+            id=json_data['id'],
+            title=json_data['title'],
+            html_content=json_data['htmlContent'],
+            display=json_data['display']
         )
+
+    def __str__(self) -> str:
+        return (f'HomeComponentModel(title: {self.title}, '
+                f'type: {self.type}, description: {self.description}, '
+                f'bg_color: {self.bg_color})')

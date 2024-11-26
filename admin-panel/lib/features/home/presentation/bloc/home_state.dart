@@ -9,16 +9,27 @@ abstract class HomeState extends Equatable {
 
 class HomeInitial extends HomeState {}
 
-class HomeLoading extends HomeState {}
 
-class HomeError extends HomeState {
+
+class HomeComponentLoaded extends HomeState {
+  final List<HomeComponentModel> componentModel;
+
+  const HomeComponentLoaded(this.componentModel);
+}
+
+
+class HomeComponentError extends HomeState {
   final String message;
 
-  const HomeError(this.message);
+  const HomeComponentError(this.message);
 }
 
-class HomeLoaded extends HomeState {
-  final HomeModel homeModel;
+class HomeComponentsLoading extends HomeState {}
 
-  const HomeLoaded(this.homeModel);
-}
+class HomeComponentsUpdated extends HomeState {}
+
+class HomeDisplayUpdated extends HomeState {}
+
+class HomeComponentCreated extends HomeState {}
+
+class HomeComponentDeleted extends HomeState {}

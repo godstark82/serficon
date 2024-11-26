@@ -1,335 +1,135 @@
+import 'package:conference_admin/features/home/presentation/pages/add_component_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:get/get.dart';
 import '../bloc/home_bloc.dart';
-import '../../data/models/home_models_others.dart';
-import '../widgets/edit_dialoges.dart';
-import '../widgets/sections.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<HomeBloc>().add(GetHomeEvent());
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Home Management'),
-        centerTitle: true,
-        backgroundColor: Colors.blue[800],
-        foregroundColor: Colors.white,
+        title: const Text('Admin Panel'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddComponentPage()));
+              },
+              icon: const Icon(Icons.add),
+            ),
+          ),
+        ],
       ),
-      body: BlocConsumer<HomeBloc, HomeState>(
-        listener: (context, state) {
-          if (state is HomeError) {
-            Get.snackbar('Error', state.message);
-          }
-          if (state is HomeLoaded) {
-            setState(() {});
-          }
-        },
+      body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          if (state is HomeLoading) {
+          if (state is HomeInitial) {
+            context.read<HomeBloc>().add(GetHomeComponentEvent());
             return const Center(child: CircularProgressIndicator());
           }
-          if (state is HomeError) {
+
+          if (state is HomeComponentsLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (state is HomeComponentError) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.error_outline, size: 60, color: Colors.red),
-                  const SizedBox(height: 16),
-                  Text(
-                    state.message,
-                    style: const TextStyle(fontSize: 18),
-                    textAlign: TextAlign.center,
+                  Text(state.message),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<HomeBloc>().add(GetHomeComponentEvent());
+                    },
+                    child: const Text('Retry'),
                   ),
                 ],
               ),
             );
           }
 
-          if (state is HomeLoaded) {
+          if (state is HomeComponentLoaded) {
+            final sortedComponents = [...state.componentModel]
+              ..sort((a, b) => a.order.compareTo(b.order));
+
             return SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1200),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Hero Section
-                      SectionWidget(
-                          title: 'Hero Section',
-                          children: [
-                            const InfoRow(label: 'Content', value: ''),
-                            HtmlWidget(state.homeModel.hero.htmlContent),
-                            InfoRow(
-                                label: 'Image URL',
-                                value:
-                                    state.homeModel.hero.image ?? 'No image'),
-                            if (state.homeModel.hero.image != null)
-                              InfoRow(
-                                  label: 'Show Image',
-                                  value: state.homeModel.hero.showImage
-                                      .toString()),
-                          ],
-                          onEdit: () => showDialog(
-                                context: context,
-                                builder: (context) => EditDialog(
-                                  title: 'Hero Section',
-                                  fields: {
-                                    'Content': state.homeModel.hero.htmlContent,
-                                    'Image URL':
-                                        state.homeModel.hero.image ?? '',
-                                    'Show Image':
-                                        state.homeModel.hero.showImage,
-                                  },
-                                  onSave: (values) {
-                                    final hero = HomeHeroModel(
-                                      htmlContent: values['Content']!,
-                                      image: values['Image URL'],
-                                      showImage: values['Show Image'] == true,
-                                    );
-                                    context
-                                        .read<HomeBloc>()
-                                        .add(UpdateHeroEvent(hero));
-                                  },
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: sortedComponents
+                    .map((model) => Card(
+                          elevation: 2,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Order: ${model.order}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.delete,
+                                          color: Colors.red),
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text(
+                                                  'Delete "${model.title}"?'),
+                                              content: const Text(
+                                                  'Are you sure you want to delete this section? This action cannot be undone.'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: const Text('Cancel'),
+                                                ),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors.red,
+                                                    foregroundColor:
+                                                        Colors.white,
+                                                  ),
+                                                  onPressed: () {
+                                                    context.read<HomeBloc>().add(
+                                                        DeleteComponentEvent(
+                                                            model.id));
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Delete'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
-                              )),
-
-                      const SizedBox(height: 24),
-
-                      // President Welcome
-                      SectionWidget(
-                        title: 'President Welcome',
-                        children: [
-                          InfoRow(
-                              label: 'Title',
-                              value: state.homeModel.presidentWelcome.title),
-                          const InfoRow(label: 'Content', value: ''),
-                          HtmlWidget(state.homeModel.presidentWelcome.htmlContent),
-                          InfoRow(
-                              label: 'Image URL',
-                              value: state.homeModel.presidentWelcome.image ??
-                                  'No image'),
-                          if (state.homeModel.presidentWelcome.image != null)
-                            InfoRow(
-                                label: 'Show Image',
-                                value: state
-                                    .homeModel.presidentWelcome.showImage
-                                    .toString()),
-                        ],
-                        onEdit: () => showDialog(
-                          context: context,
-                          builder: (context) => EditDialog(
-                            title: 'President Welcome',
-                            fields: {
-                              'Title': state.homeModel.presidentWelcome.title,
-                              'Content':
-                                  state.homeModel.presidentWelcome.htmlContent,
-                              'Image URL':
-                                  state.homeModel.presidentWelcome.image ?? '',
-                              'Show Image':
-                                  state.homeModel.presidentWelcome.showImage,
-                            },
-                            onSave: (values) {
-                              final welcome = HomePresidentWelcomeModel(
-                                title: values['Title']!,
-                                htmlContent: values['Content']!,
-                                image: values['Image URL'],
-                                showImage: values['Show Image'] == true,
-                              );
-                              context
-                                  .read<HomeBloc>()
-                                  .add(UpdateWelcomeEvent(welcome));
-                            },
+                                model.toWidget(context),
+                              ],
+                            ),
                           ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Congress Scope
-                      SectionWidget(
-                        title: 'Congress Scope',
-                        children: [
-                          InfoRow(
-                              label: 'Title',
-                              value: state.homeModel.congressScope.title),
-                          const InfoRow(label: 'Description', value: ''),
-                          HtmlWidget(state.homeModel.congressScope.description),
-                          // Text(stripHtml(state.homeModel.congressScope.description)),
-                          const Divider(height: 24),
-                          CardsList(
-                              title: 'Scope Cards',
-                              cards: state.homeModel.congressScope.cards),
-                        ],
-                        onEdit: () => showDialog(
-                          context: context,
-                          builder: (context) => EditDialogWithCards(
-                            cards: state.homeModel.congressScope.cards,
-                            title: 'Congress Scope',
-                            fields: {
-                              'Title': state.homeModel.congressScope.title,
-                              'Description':
-                                  state.homeModel.congressScope.description,
-                            },
-                            onSave: (values, cards) {
-                              final scope = HomeCongressScopeModel(
-                                title: values['Title']!,
-                                description: values['Description']!,
-                                cards: cards,
-                              );
-                              context
-                                  .read<HomeBloc>()
-                                  .add(UpdateScopeEvent(scope));
-                            },
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Congress Streams
-                      SectionWidget(
-                        title: 'Congress Streams',
-                        children: [
-                          InfoRow(
-                              label: 'Title',
-                              value: state.homeModel.congressStream.title),
-                          const InfoRow(label: 'Description', value: ''),
-                          HtmlWidget(state.homeModel.congressStream.description),
-                          // Text(stripHtml(state.homeModel.congressStream.description)),
-                          const Divider(height: 24),
-                          StreamsList(
-                              title: 'Streams',
-                              streams: state.homeModel.congressStream.cards),
-                        ],
-                        onEdit: () => showDialog(
-                          context: context,
-                          builder: (context) => EditDialogWithStreams(
-                            streams: state.homeModel.congressStream.cards,
-                            title: 'Congress Streams',
-                            fields: {
-                              'Title': state.homeModel.congressStream.title,
-                              'Description':
-                                  state.homeModel.congressStream.description,
-                            },
-                            onSave: (values, streams) {
-                              final stream = HomeCongressStreamModel(
-                                title: values['Title']!,
-                                description: values['Description']!,
-                                cards: streams,
-                              );
-                              context
-                                  .read<HomeBloc>()
-                                  .add(UpdateStreamEvent(stream));
-                            },
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Publications
-                      SectionWidget(
-                        title: 'Publications',
-                        children: [
-                          const InfoRow(label: 'Content', value: ''),
-                          HtmlWidget(state.homeModel.publication.htmlContent),
-                          //  Text(stripHtml(state.homeModel.publication.htmlContent)),
-                          InfoRow(
-                              label: 'Image URL',
-                              value: state.homeModel.publication.image ??
-                                  'No image'),
-                          if (state.homeModel.publication.image != null)
-                            InfoRow(
-                                label: 'Show Image',
-                                value: state.homeModel.publication.showImage
-                                    .toString()),
-                        ],
-                        onEdit: () => showDialog(
-                          context: context,
-                          builder: (context) => EditDialog(
-                            title: 'Publications',
-                            fields: {
-                              'Content':
-                                  state.homeModel.publication.htmlContent,
-                              'Image URL':
-                                  state.homeModel.publication.image ?? '',
-                              'Show Image':
-                                  state.homeModel.publication.showImage,
-                            },
-                            onSave: (values) {
-                              final publication = HomePublicationModel(
-                                htmlContent: values['Content']!,
-                                image: values['Image URL'],
-                                showImage: values['Show Image'] == true,
-                              );
-                              context
-                                  .read<HomeBloc>()
-                                  .add(UpdatePublicationEvent(publication));
-                            },
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Why Choose Us
-                      SectionWidget(
-                        title: 'Why Choose Us',
-                        children: [
-                          InfoRow(
-                              label: 'Title',
-                              value: state.homeModel.whyChooseUs.title),
-                          const InfoRow(label: 'Description', value: ''),
-                          HtmlWidget(state.homeModel.whyChooseUs.description),
-                          //  Text(stripHtml(state.homeModel.whyChooseUs.description)),
-                          const Divider(height: 24),
-                          CardsList(
-                              title: 'Reasons',
-                              cards: state.homeModel.whyChooseUs.cards),
-                        ],
-                        onEdit: () => showDialog(
-                          context: context,
-                          builder: (context) => EditDialogWithCards(
-                            title: 'Why Choose Us',
-                            fields: {
-                              'Title': state.homeModel.whyChooseUs.title,
-                              'Description':
-                                  state.homeModel.whyChooseUs.description,
-                            },
-                            cards: state.homeModel.whyChooseUs.cards,
-                            onSave: (values, cards) {
-                              final whyChooseUs = HomeWhyChooseUsModel(
-                                title: values['Title']!,
-                                description: values['Description']!,
-                                cards: cards,
-                              );
-                              context
-                                  .read<HomeBloc>()
-                                  .add(UpdateWcuEvent(whyChooseUs));
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                        ))
+                    .toList(),
               ),
             );
           }

@@ -120,7 +120,7 @@ class _RewardsPageState extends State<RewardsPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    reward.title,
+                                    reward.title ?? 'No Title',
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -130,7 +130,7 @@ class _RewardsPageState extends State<RewardsPage> {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    reward.description,
+                                    reward.description ?? 'No Description',
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey,

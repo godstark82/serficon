@@ -1,7 +1,7 @@
 import 'package:conference_admin/core/models/card_model.dart';
-import 'package:conference_admin/core/services/firebase_storage_services.dart';
-import 'package:conference_admin/features/home/data/models/home_models_others.dart';
+import 'package:conference_admin/core/models/stream_card_model.dart';
 import 'package:flutter/material.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 
 class SectionWidget extends StatelessWidget {
   final String title;
@@ -120,8 +120,8 @@ class CardsList extends StatelessWidget {
             final card = cards[index];
             return ListTile(
               leading: const Icon(Icons.article),
-              title: Text(card.title),
-              subtitle: Text(card.description),
+              title: Text(card.title ?? 'No Title'),
+              subtitle: Text(card.description ?? 'No Description'),
             );
           },
         ),
@@ -190,7 +190,7 @@ class CardsEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isUploading = false;
+    final htmlController = HtmlEditorController();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -210,8 +210,8 @@ class CardsEditor extends StatelessWidget {
             CardModel card = cards[index];
             return ListTile(
               leading: const Icon(Icons.article),
-              title: TextField(
-                controller: TextEditingController(text: card.title),
+              title: TextFormField(
+                initialValue: card.title,
                 maxLines: null,
                 decoration: const InputDecoration(
                   labelText: 'Title',
@@ -219,14 +219,14 @@ class CardsEditor extends StatelessWidget {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    card = card.copyWith(title: value);
+                    card.title = value;
                   });
                 },
               ),
               subtitle: Column(
                 children: [
-                  TextField(
-                    controller: TextEditingController(text: card.description),
+                  TextFormField(
+                    initialValue: card.description,
                     maxLines: null,
                     decoration: const InputDecoration(
                       labelText: 'Description',
@@ -234,55 +234,43 @@ class CardsEditor extends StatelessWidget {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        card = card.copyWith(description: value);
+                        card.description = value;
                       });
                     },
                   ),
                   const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: TextEditingController(text: card.image),
-                          maxLines: null,
-                          decoration: const InputDecoration(
-                            labelText: 'Image URL',
-                            border: OutlineInputBorder(),
+                  TextFormField(
+                    initialValue: card.image,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      labelText: 'Image',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        card.image = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () async {
+                      // Save the current card
+                      await htmlController.getText().then((v) {
+                        card.image = v;
+                        setState(() {
+                          cards[index] = card;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Card saved successfully'),
+                            backgroundColor: Colors.green,
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              card = card.copyWith(image: value);
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      ElevatedButton(
-                        onPressed: () async {
-                          setState(() {
-                            isUploading = true;
-                          });
-                          final downloadUrl = await FirebaseStorageServices
-                              .pickAndUploadImage();
-                          setState(() {
-                            card = card.copyWith(image: downloadUrl);
-                          });
-                          setState(() {
-                            isUploading = false;
-                          });
-                        },
-                        child: isUploading
-                            ? const SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : const Text('Upload Image'),
-                      ),
-                    ],
+                        );
+                      });
+                    },
+                    child: const Text('Save Card'),
                   ),
                 ],
               ),
@@ -301,8 +289,7 @@ class CardsEditor extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             setState(() {
-              cards.add(
-                  CardModel(title: 'New Card', description: '', image: ''));
+              cards.add(CardModel(title: '', description: '', image: ''));
             });
           },
           child: const Text('Add Card'),

@@ -1,14 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:conference_admin/core/const/no_params.dart';
 import 'package:conference_admin/core/datastate/data_state.dart';
-import 'package:conference_admin/features/home/data/models/home_model.dart';
-import 'package:conference_admin/features/home/data/models/home_models_others.dart';
-import 'package:conference_admin/features/home/domain/usecases/get_home_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_hero_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_publication_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_scope_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_stream_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_wcu_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_welcome_uc.dart';
+import 'package:conference_admin/features/home/data/models/home_component_model.dart';
+import 'package:conference_admin/features/home/domain/usecases/create_component_uc.dart';
+import 'package:conference_admin/features/home/domain/usecases/delete_component_uc.dart';
+import 'package:conference_admin/features/home/domain/usecases/get_home.dart';
+import 'package:conference_admin/features/home/domain/usecases/update_component_uc.dart';
+import 'package:conference_admin/features/home/domain/usecases/update_display_uc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -16,96 +14,77 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final GetHomeUseCase getHomeUseCase;
-  final UpdateHeroUseCase updateHeroUseCase;
-  final UpdateWelcomeUseCase updateWelcomeUseCase;
-  final UpdateScopeUseCase updateScopeUseCase;
-  final UpdateStreamUseCase updateStreamUseCase;
-  final UpdatePublicationUseCase updatePublicationUseCase;
-  final UpdateWcuUseCase updateWcuUseCase;
+  final UpdateComponentUsecase updateComponentUseCase;
+  final CreateComponentUsecase createComponentUseCase;
+  final DeleteComponentUsecase deleteComponentUseCase;
+  final UpdateDisplayUsecase updateDisplayUseCase;
+  final GetHomeComponentsUsecase getHomeComponentUseCase;
 
   HomeBloc(
-      this.getHomeUseCase,
-      this.updateHeroUseCase,
-      this.updateWelcomeUseCase,
-      this.updateScopeUseCase,
-      this.updateStreamUseCase,
-      this.updatePublicationUseCase,
-      this.updateWcuUseCase)
-      : super(HomeInitial()) {
+    this.updateComponentUseCase,
+    this.createComponentUseCase,
+    this.deleteComponentUseCase,
+    this.updateDisplayUseCase,
+    this.getHomeComponentUseCase,
+  ) : super(HomeInitial()) {
     //
-    on<GetHomeEvent>(_onGetHome);
-    on<UpdateHeroEvent>(_onUpdateHero);
-    on<UpdateWelcomeEvent>(_onUpdateWelcome);
-    on<UpdateScopeEvent>(_onUpdateScope);
-    on<UpdateStreamEvent>(_onUpdateStream);
-    on<UpdatePublicationEvent>(_onUpdatePublication);
-    on<UpdateWcuEvent>(_onUpdateWcu);
+    on<UpdateComponentEvent>(_onUpdateComponent);
+    on<CreateComponentEvent>(_onCreateComponent);
+    on<DeleteComponentEvent>(_onDeleteComponent);
+    on<UpdateDisplayEvent>(_onUpdateDisplay);
+    on<GetHomeComponentEvent>(_onGetHomeComponent);
   }
 
-  Future<void> _onGetHome(GetHomeEvent event, Emitter<HomeState> emit) async {
-    emit(HomeLoading());
-    final result = await getHomeUseCase.call(null);
+  //! Home
+  Future<void> _onUpdateComponent(
+      UpdateComponentEvent event, Emitter<HomeState> emit) async {
+    final result = await updateComponentUseCase.call(event.componentModel);
+    if (result is DataFailed && result.message != null) {
+      debugPrint(result.message!);
+      return;
+    }
+    add(GetHomeComponentEvent());
+  }
+
+  Future<void> _onCreateComponent(
+      CreateComponentEvent event, Emitter<HomeState> emit) async {
+    final result = await createComponentUseCase.call(event.componentModel);
+    if (result is DataFailed && result.message != null) {
+      debugPrint(result.message!);
+      return;
+    }
+    add(GetHomeComponentEvent());
+  }
+
+  Future<void> _onDeleteComponent(
+      DeleteComponentEvent event, Emitter<HomeState> emit) async {
+    final result = await deleteComponentUseCase.call(event.id);
+    if (result is DataFailed && result.message != null) {
+      debugPrint(result.message!);
+      return;
+    }
+    add(GetHomeComponentEvent());
+  }
+
+  Future<void> _onUpdateDisplay(
+      UpdateDisplayEvent event, Emitter<HomeState> emit) async {
+    final result = await updateDisplayUseCase
+        .call({'id': event.id, 'display': event.display});
+    if (result is DataFailed && result.message != null) {
+      debugPrint(result.message!);
+      return;
+    }
+    add(GetHomeComponentEvent());
+  }
+
+  Future<void> _onGetHomeComponent(
+      GetHomeComponentEvent event, Emitter<HomeState> emit) async {
+    emit(HomeComponentsLoading());
+    final result = await getHomeComponentUseCase.call(NoParams());
     if (result is DataSuccess && result.data != null) {
-      emit(HomeLoaded(result.data!));
+      emit(HomeComponentLoaded(result.data!));
     } else if (result is DataFailed && result.message != null) {
-      emit(HomeError(result.message!));
+      emit(HomeComponentError(result.message!));
     }
-  }
-
-  Future<void> _onUpdateHero(
-      UpdateHeroEvent event, Emitter<HomeState> emit) async {
-    final result = await updateHeroUseCase.call(event.heroModel);
-    //
-    if (result is DataFailed && result.message != null) {
-      debugPrint(result.message!);
-    }
-    add(GetHomeEvent());
-  }
-
-  Future<void> _onUpdateWelcome(
-      UpdateWelcomeEvent event, Emitter<HomeState> emit) async {
-    //
-    final result = await updateWelcomeUseCase.call(event.welcomeModel);
-    if (result is DataFailed && result.message != null) {
-      debugPrint(result.message!);
-    }
-    add(GetHomeEvent());
-  }
-
-  Future<void> _onUpdateScope(
-      UpdateScopeEvent event, Emitter<HomeState> emit) async {
-    final result = await updateScopeUseCase.call(event.scopeModel);
-    if (result is DataFailed && result.message != null) {
-      debugPrint(result.message!);
-    }
-    add(GetHomeEvent());
-  }
-
-  Future<void> _onUpdateStream(
-      UpdateStreamEvent event, Emitter<HomeState> emit) async {
-    final result = await updateStreamUseCase.call(event.streamModel);
-    if (result is DataFailed && result.message != null) {
-      debugPrint(result.message!);
-    }
-    add(GetHomeEvent());
-  }
-
-  Future<void> _onUpdatePublication(
-      UpdatePublicationEvent event, Emitter<HomeState> emit) async {
-    final result = await updatePublicationUseCase.call(event.publicationModel);
-    if (result is DataFailed && result.message != null) {
-      debugPrint(result.message!);
-    }
-    add(GetHomeEvent());
-  }
-
-  Future<void> _onUpdateWcu(
-      UpdateWcuEvent event, Emitter<HomeState> emit) async {
-    final result = await updateWcuUseCase.call(event.wcuModel);
-    if (result is DataFailed && result.message != null) {
-      debugPrint(result.message!);
-    }
-    add(GetHomeEvent());
   }
 }

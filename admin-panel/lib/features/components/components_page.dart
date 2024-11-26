@@ -28,6 +28,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
       'twitter': TextEditingController(),
       'youtube': TextEditingController(),
       'phone': TextEditingController(),
+      'email': TextEditingController(),
       'address': TextEditingController(),
       'navtitle': TextEditingController(),
       'title': TextEditingController(),
@@ -244,6 +245,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
                           ),
                           const SizedBox(height: 16),
                           _buildEditableField('Phone', _controllers['phone']!),
+                          _buildEditableField('Email', _controllers['email']!),
                           _buildEditableField(
                               'Address', _controllers['address']!),
                         ],

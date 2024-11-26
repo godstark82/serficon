@@ -4,6 +4,7 @@ from services import home_service, components_service
 webcomponents_bp = Blueprint("webcomponents", __name__)
 @webcomponents_bp.route("/")
 def WebComponents():
-    home = home_service.get_home_data()
+    sections = home_service.get_home_data()
     components = components_service.get_all_components()
-    return render_template('index.html', home=home, domain=current_app.config['domain'], components=components)
+    print(sections[0])
+    return render_template('index.html', sections=sections, domain=current_app.config['domain'], components=components)

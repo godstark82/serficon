@@ -1,6 +1,6 @@
 import 'package:conference_admin/core/models/card_model.dart';
+import 'package:conference_admin/core/models/stream_card_model.dart';
 import 'package:conference_admin/core/services/firebase_storage_services.dart';
-import 'package:conference_admin/features/home/data/models/home_models_others.dart';
 import 'package:conference_admin/features/home/presentation/widgets/sections.dart';
 import 'package:flutter/material.dart';
 import 'package:html_editor_enhanced/html_editor.dart';

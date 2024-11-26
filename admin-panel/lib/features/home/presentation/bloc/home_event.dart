@@ -7,40 +7,32 @@ abstract class HomeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetHomeEvent extends HomeEvent {}
 
-class UpdateHeroEvent extends HomeEvent {
-  final HomeHeroModel heroModel;
 
-  const UpdateHeroEvent(this.heroModel);
+//! Home Component
+class UpdateComponentEvent extends HomeEvent {
+  final HomeComponentModel componentModel;
+
+  const UpdateComponentEvent(this.componentModel);
 }
 
-class UpdateWelcomeEvent extends HomeEvent {
-  final HomePresidentWelcomeModel welcomeModel;
+class CreateComponentEvent extends HomeEvent {
+  final HomeComponentModel componentModel;
 
-  const UpdateWelcomeEvent(this.welcomeModel);
+  const CreateComponentEvent(this.componentModel);
 }
 
-class UpdateScopeEvent extends HomeEvent {
-  final HomeCongressScopeModel scopeModel;
+class DeleteComponentEvent extends HomeEvent {
+  final String id;
 
-  const UpdateScopeEvent(this.scopeModel);
+  const DeleteComponentEvent(this.id);
+}
+//! Home Display
+class UpdateDisplayEvent extends HomeEvent {
+  final String id;
+  final bool display;
+
+  const UpdateDisplayEvent(this.id, this.display);
 }
 
-class UpdateStreamEvent extends HomeEvent {
-  final HomeCongressStreamModel streamModel;
-
-  const UpdateStreamEvent(this.streamModel);
-}
-
-class UpdatePublicationEvent extends HomeEvent {
-  final HomePublicationModel publicationModel;
-
-  const UpdatePublicationEvent(this.publicationModel);
-}
-
-class UpdateWcuEvent extends HomeEvent {
-  final HomeWhyChooseUsModel wcuModel;
-
-  const UpdateWcuEvent(this.wcuModel);
-}
+class GetHomeComponentEvent extends HomeEvent {}

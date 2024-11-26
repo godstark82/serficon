@@ -18,13 +18,11 @@ import 'package:conference_admin/features/detailed-schedule/domain/usecases/upda
 import 'package:conference_admin/features/detailed-schedule/presentation/bloc/detailed_schedule_bloc.dart';
 import 'package:conference_admin/features/home/data/repositories/home_repo_impl.dart';
 import 'package:conference_admin/features/home/domain/repositories/home_repo.dart';
-import 'package:conference_admin/features/home/domain/usecases/get_home_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_hero_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_publication_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_scope_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_stream_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_wcu_uc.dart';
-import 'package:conference_admin/features/home/domain/usecases/update_welcome_uc.dart';
+import 'package:conference_admin/features/home/domain/usecases/create_component_uc.dart';
+import 'package:conference_admin/features/home/domain/usecases/delete_component_uc.dart';
+import 'package:conference_admin/features/home/domain/usecases/get_home.dart';
+import 'package:conference_admin/features/home/domain/usecases/update_component_uc.dart';
+import 'package:conference_admin/features/home/domain/usecases/update_display_uc.dart';
 import 'package:conference_admin/features/home/presentation/bloc/home_bloc.dart';
 import 'package:conference_admin/features/imp-dates/data/repositories/date_repo_impl.dart';
 import 'package:conference_admin/features/imp-dates/domain/repositories/date_repo.dart';
@@ -78,20 +76,16 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<UpdatePageUseCase>(UpdatePageUseCase(sl()));
 
   //? Home UseCases
-  sl.registerSingleton<GetHomeUseCase>(GetHomeUseCase(sl()));
-  sl.registerSingleton<UpdateHeroUseCase>(UpdateHeroUseCase(sl()));
-  sl.registerSingleton<UpdateWcuUseCase>(UpdateWcuUseCase(sl()));
-  sl.registerSingleton<UpdateScopeUseCase>(UpdateScopeUseCase(sl()));
-  sl.registerSingleton<UpdateStreamUseCase>(UpdateStreamUseCase(sl()));
-  sl.registerSingleton<UpdateWelcomeUseCase>(UpdateWelcomeUseCase(sl()));
-  sl.registerSingleton<UpdatePublicationUseCase>(
-      UpdatePublicationUseCase(sl()));
+  sl.registerSingleton<UpdateComponentUsecase>(UpdateComponentUsecase(sl()));
+  sl.registerSingleton<CreateComponentUsecase>(CreateComponentUsecase(sl()));
+  sl.registerSingleton<DeleteComponentUsecase>(DeleteComponentUsecase(sl()));
+  sl.registerSingleton<UpdateDisplayUsecase>(UpdateDisplayUsecase(sl()));
+  sl.registerSingleton<GetHomeComponentsUsecase>(
+      GetHomeComponentsUsecase(sl()));
 
   //? Important Dates UseCases
   sl.registerSingleton<GetDatesUseCase>(GetDatesUseCase(sl()));
   sl.registerSingleton<UpdateDatesUseCase>(UpdateDatesUseCase(sl()));
-
-
 
   //? Login Usecases
   sl.registerSingleton<LoginUsecase>(LoginUsecase(sl()));
@@ -117,8 +111,7 @@ Future<void> initializeDependencies() async {
   //! Blocs
   //! Blocs
   sl.registerFactory<PagesBloc>(() => PagesBloc(sl(), sl()));
-  sl.registerFactory<HomeBloc>(
-      () => HomeBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory<HomeBloc>(() => HomeBloc(sl(), sl(), sl(), sl(), sl()));
   sl.registerFactory<ImpDatesBloc>(() => ImpDatesBloc(sl(), sl()));
   sl.registerFactory<LoginBloc>(() => LoginBloc(sl(), sl(), sl()));
   sl.registerFactory<UsersBloc>(() => UsersBloc(sl(), sl()));

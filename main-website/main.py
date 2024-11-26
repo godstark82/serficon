@@ -7,7 +7,7 @@ from routes.registration import registration_bp
 from routes.acceptanceofpaper import acceptance_of_paper
 from routes.program import program_bp
 from routes.contact import contact_bp
-from routes.webcomponents import webcomponents_bp
+from routes.home import webcomponents_bp
 
 
 app = Flask(__name__)

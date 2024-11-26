@@ -1,14 +1,14 @@
 class CardModel {
-  final String? id;
-  final String? image;
-  final String title;
-  final String description;
+  String? id;
+  String? image;
+  String? title;
+  String? description;
 
   CardModel(
       {this.id,
-      required this.image,
-      required this.title,
-      required this.description});
+      this.image,
+      this.title,
+      this.description});
 
   factory CardModel.fromJson(Map<String, dynamic> json) => CardModel(
         id: json['id'] ?? 'No ID',

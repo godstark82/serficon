@@ -1,95 +1,68 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conference_admin/core/datastate/data_state.dart';
-import 'package:conference_admin/features/home/data/models/home_model.dart';
-import 'package:conference_admin/features/home/data/models/home_models_others.dart';
+import 'package:conference_admin/features/home/data/models/home_component_model.dart';
 import 'package:conference_admin/features/home/domain/repositories/home_repo.dart';
 
 class HomeRepoImpl extends HomeRepo {
   final FirebaseFirestore firestore;
   HomeRepoImpl({required this.firestore});
+  //! New Components
   @override
-  Future<DataState<HomeModel>> getHomeData() async {
-    final response = await firestore.collection('home').get();
-    if (response.docs.isEmpty) {
-      return DataFailed('No data found');
+  Future<DataState<void>> createHomeComponent(
+      HomeComponentModel component) async {
+    try {
+      final docRef = firestore.collection('home').doc();
+      component = component.copyWith(id: docRef.id);
+      await docRef.set(component.toJson());
+      return DataSuccess(null);
+    } catch (e) {
+      return DataFailed(e.toString());
     }
-    final heroData = response.docs.firstWhere((doc) => doc.id == 'hero');
-    final publicationData =
-        response.docs.firstWhere((doc) => doc.id == 'publication');
-    final presidentWelcomeData =
-        response.docs.firstWhere((doc) => doc.id == 'president-welcome');
-    final congressScopeData =
-        response.docs.firstWhere((doc) => doc.id == 'congress-scope');
-    final congressStreamData =
-        response.docs.firstWhere((doc) => doc.id == 'congress-stream');
-    final whyChooseUsData =
-        response.docs.firstWhere((doc) => doc.id == 'why-choose-us');
-
-    return DataSuccess(HomeModel(
-      hero: HomeHeroModel.fromJson(heroData.data()),
-      presidentWelcome:
-          HomePresidentWelcomeModel.fromJson(presidentWelcomeData.data()),
-      congressScope: HomeCongressScopeModel.fromJson(congressScopeData.data()),
-      congressStream:
-          HomeCongressStreamModel.fromJson(congressStreamData.data()),
-      publication: HomePublicationModel.fromJson(publicationData.data()),
-      whyChooseUs: HomeWhyChooseUsModel.fromJson(whyChooseUsData.data()),
-    ));
   }
 
   @override
-  Future<DataState<void>> updateCongressScope(
-      HomeCongressScopeModel congressScope) async {
-    await firestore
-        .collection('home')
-        .doc('congress-scope')
-        .update(congressScope.toJson());
-    return DataSuccess(null);
+  Future<DataState<void>> deleteHomeComponent(String id) async {
+    try {
+      await firestore.collection('home').doc(id).delete();
+      return DataSuccess(null);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
   }
 
   @override
-  Future<DataState<void>> updateCongressStream(
-      HomeCongressStreamModel congressStream) async {
-    await firestore
-        .collection('home')
-        .doc('congress-stream')
-        .update(congressStream.toJson());
-    return DataSuccess(null);
+  Future<DataState<void>> updateDisplay(String id, bool display) async {
+    try {
+      await firestore.collection('home').doc(id).update({'display': display});
+      return DataSuccess(null);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
   }
 
   @override
-  Future<DataState<void>> updateHero(HomeHeroModel hero) async {
-    await firestore.collection('home').doc('hero').update(hero.toJson());
-    return DataSuccess(null);
+  Future<DataState<void>> updateHomeComponent(
+      HomeComponentModel component) async {
+    try {
+      await firestore
+          .collection('home')
+          .doc(component.id)
+          .update(component.toJson());
+      return DataSuccess(null);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
   }
 
   @override
-  Future<DataState<void>> updatePresidentWelcome(
-      HomePresidentWelcomeModel presidentWelcome) async {
-    await firestore
-        .collection('home')
-        .doc('president-welcome')
-        .update(presidentWelcome.toJson());
-    return DataSuccess(null);
-  }
-
-  @override
-  Future<DataState<void>> updateWhyChooseUs(
-      HomeWhyChooseUsModel whyChooseUs) async {
-    await firestore
-        .collection('home')
-        .doc('why-choose-us')
-        .update(whyChooseUs.toJson());
-    return DataSuccess(null);
-  }
-
-  @override
-  Future<DataState<void>> updatePublication(
-      HomePublicationModel publication) async {
-    await firestore
-        .collection('home')
-        .doc('publication')
-        .update(publication.toJson());
-    return DataSuccess(null);
+  Future<DataState<List<HomeComponentModel>>> getHomeComponents() async {
+    try {
+      final response = await firestore.collection('home').get();
+      return DataSuccess(response.docs
+          .map((doc) => HomeComponentModel.fromJson(doc.data()))
+          .toList());
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
   }
 }

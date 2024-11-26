@@ -59,6 +59,8 @@ dependencies:
   # flutter_widget_from_html: ^0.15.3
   flutter_widget_from_html_core: ^0.15.2
   flutter_svg: ^2.0.14
+  flutter_colorpicker: ^1.1.0
+  hybrid_hex_color_converter: ^0.0.2
   # flutter_html: ^2.1.2
   # flutter_dotenv: ^5.2.1
   # dotenv: ^4.2.0

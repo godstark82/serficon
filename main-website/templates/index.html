@@ -2,60 +2,57 @@
 {% block body %}
 
 <title>{{ components.title }}</title>
-<!-- Header Start -->
-
-
-
 
 {% for section in sections %}
-<!-- President's Welcome Start -->
- {% if not section.title == "Hero" %}
+{% if not section.title == "Hero" %}
 <div class="text-center mx-auto wow fadeInUp" style="margin-bottom: 20px; margin-top: 40px;" data-wow-delay="0.1s">
     <h2>{{ section.title }}</h2>
     {% if section.description %}
     <p>{{ section.description }}</p>
     {% endif %}
 </div>
-<div style="margin-bottom: 20px; border-bottom: 5px solid red; width: 10%; border-radius: 5px; margin-left: auto; margin-right: auto;"></div>
- {% endif %}
- {% if section.html_content != "" %}
- {% if section.bg_color %}
-<div style="background-color: rgba({{ section.bg_color['r'] }}, {{ section.bg_color['g'] }}, {{ section.bg_color['b'] }}, {{ section.bg_color['a'] }});">
+<div class="wow fadeInUp"
+    style="margin-bottom: 20px; border-bottom: 5px solid red; width: 10%; border-radius: 5px; margin-left: auto; margin-right: auto;">
+</div>
+{% endif %}
+{% if section.html_content != "" %}
+{% if section.bg_color %}
+<div
+    style="background-color: rgba({{ section.bg_color['r'] }}, {{ section.bg_color['g'] }}, {{ section.bg_color['b'] }}, {{ section.bg_color['a'] }});">
     {% else %}
-<div>
+    <div>
+        {% endif %}
+        <div class="container-xxl py-5 overflow-hidden">
+            <div class="container">
+                {{ section.html_content | safe }}
+            </div>
+        </div>
+    </div>
+
     {% endif %}
+    {% if section.cards %}
+    <!-- Team Start -->
     <div class="container-xxl py-5">
         <div class="container">
-            {{ section.html_content | safe }}
-        </div>
-    </div>
-</div>
 
-{% endif %}
-{% if section.cards %}
-<!-- Team Start -->
-<div class="container-xxl py-5">
-    <div class="container">
-      
-        <div class="row g-4">
-            {% for card in section.cards %}
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="team-item position-relative rounded overflow-hidden">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="{{ card.image }}" alt="">
-                    </div>
-                    <div class="team-text bg-light text-center p-4">
-                        <h5>{{ card.title }}</h5>
-                        <p class="text-primary">{{ card.description }}</p>
+            <div class="row g-4">
+                {% for card in section.cards %}
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item position-relative rounded overflow-hidden">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ card.image }}" alt="">
+                        </div>
+                        <div class="team-text bg-light text-center p-4">
+                            <h5>{{ card.title }}</h5>
+                            <p class="text-primary">{{ card.description }}</p>
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
+
             </div>
-            {% endfor %}
-            
         </div>
     </div>
-</div>
-</div>
 </div>
 <!-- Team End -->
 {% endif %}

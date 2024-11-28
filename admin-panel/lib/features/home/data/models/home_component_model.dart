@@ -3,7 +3,6 @@ import 'package:conference_admin/core/models/stream_card_model.dart';
 import 'package:conference_admin/features/home/domain/entities/home_component_entity.dart';
 import 'package:conference_admin/features/home/presentation/widgets/component_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:hybrid_hex_color_converter/hybrid_hex_color_converter.dart';
 
 class HomeComponentModel extends HomeComponentEntity {
   const HomeComponentModel({

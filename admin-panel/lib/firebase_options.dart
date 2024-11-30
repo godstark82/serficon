@@ -5,8 +5,6 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-
-
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
 /// Example:
@@ -56,13 +54,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: String.fromEnvironment('FIREBASE_OPTIONS_API_KEY'),
-    appId: String.fromEnvironment('FIREBASE_OPTIONS_APP_ID'),
-    messagingSenderId: String.fromEnvironment('FIREBASE_OPTIONS_MESSAGING_SENDER_ID'),
-    projectId: String.fromEnvironment('FIREBASE_OPTIONS_PROJECT_ID'),
-    authDomain: String.fromEnvironment('FIREBASE_OPTIONS_AUTH_DOMAIN'),
-    storageBucket: String.fromEnvironment('FIREBASE_OPTIONS_STORAGE_BUCKET'),
-    measurementId: String.fromEnvironment('FIREBASE_OPTIONS_MEASUREMENT_ID'),
+    apiKey: 'AIzaSyBYNn-LpF_leVBAFYdJ8zyVAcRodMo9mB4',
+    appId: '1:999635805434:web:b22d3dff73785207a79543',
+    messagingSenderId: '999635805434',
+    projectId: 'conference-340f2',
+    authDomain: 'conference-340f2.firebaseapp.com',
+    storageBucket: 'conference-340f2.appspot.com',
+    measurementId: 'G-JSYFNCG80F',
   );
 
 }

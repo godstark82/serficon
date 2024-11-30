@@ -1,3 +1,5 @@
+import 'package:conference_admin/features/about/presentation/pages/add_page.dart';
+import 'package:conference_admin/features/about/presentation/pages/edit_page.dart';
 import 'package:conference_admin/features/article/presentation/pages/add_article_page.dart';
 import 'package:conference_admin/features/article/presentation/pages/edit_article_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/add_schedule_page.dart';
@@ -51,6 +53,10 @@ class Routes {
   // Home
   static const String addComponent = '/add-component';
   static const String updateComponent = '/update-component';
+
+  // About
+  static const String addAboutPage = '/add-about-page';
+  static const String updateAboutPage = '/update-about-page';
 }
 
 List<GetPage> routes = [
@@ -93,7 +99,6 @@ List<GetPage> routes = [
       page: () => const UpdateSchedulePage(),
       middlewares: [AuthGuard()]),
 
-
   // Important Dates
   GetPage(
       name: Routes.dashboard + Routes.impDates,
@@ -113,5 +118,17 @@ List<GetPage> routes = [
     name: Routes.dashboard + Routes.editArticle,
     page: () => const EditArticlePage(),
     middlewares: [AuthGuard()],
-  )
+  ),
+
+  // About
+  GetPage(
+    name: Routes.dashboard + Routes.addAboutPage,
+    page: () => const AddAboutPage(),
+    middlewares: [AuthGuard()],
+  ),
+  GetPage(
+    name: Routes.dashboard + Routes.updateAboutPage,
+    page: () => const EditAboutPage(),
+    middlewares: [AuthGuard()],
+  ),
 ];

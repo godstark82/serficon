@@ -1,3 +1,4 @@
+import 'package:conference_admin/features/about/presentation/bloc/about_bloc.dart';
 import 'package:conference_admin/features/article/presentation/bloc/article_bloc.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/bloc/detailed_schedule_bloc.dart';
 import 'package:conference_admin/features/home/presentation/bloc/home_bloc.dart';
@@ -33,6 +34,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
+          BlocProvider<AboutBloc>(create: (context) => sl<AboutBloc>()),
           BlocProvider<PagesBloc>(create: (context) => sl<PagesBloc>()),
           BlocProvider<HomeBloc>(create: (context) => sl<HomeBloc>()),
           BlocProvider<ImpDatesBloc>(create: (context) => sl<ImpDatesBloc>()),

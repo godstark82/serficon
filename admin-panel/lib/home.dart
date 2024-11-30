@@ -1,9 +1,10 @@
+import 'package:conference_admin/features/about/presentation/pages/about_page.dart';
 import 'package:conference_admin/features/article/presentation/pages/articles_page.dart';
 import 'package:conference_admin/features/components/components_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/schedule_page.dart';
 import 'package:conference_admin/features/home/presentation/pages/home_page.dart';
 import 'package:conference_admin/features/imp-dates/presentation/pages/imp_dates_page.dart';
-import 'package:conference_admin/features/pages/presentation/pages/committee_member_page.dart';
+import 'package:conference_admin/features/navbar/navbar.dart';
 import 'package:conference_admin/features/pages/presentation/pages/review_process_page.dart';
 import 'package:conference_admin/features/pages/presentation/pages/submission_gl_page.dart';
 import 'package:conference_admin/features/rewards/presentation/rewards_page.dart';
@@ -36,7 +37,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final List<Widget> screens = [
       const HomePage(),
-      const CommitteeMemberPage(),
+      const NavbarPage(),
+      const AboutPage(),
       const SchedulePage(),
       const ReviewProcessPage(),
       const SubmissionGlPage(),
@@ -54,8 +56,13 @@ class _HomeState extends State<Home> {
         selectedIcon: Icon(Icons.home, color: Colors.blue[800]),
       ),
       NavigationRailDestination(
+        icon: const Icon(Icons.link),
+        label: const Text('Navigation'),
+        selectedIcon: Icon(Icons.link, color: Colors.blue[800]),
+      ),
+      NavigationRailDestination(
         icon: const Icon(Icons.people),
-        label: const Text('Committee Members'),
+        label: const Text('About Page'),
         selectedIcon: Icon(Icons.people, color: Colors.blue[800]),
       ),
       NavigationRailDestination(

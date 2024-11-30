@@ -1,5 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conference_admin/core/services/article_service.dart';
+import 'package:conference_admin/features/about/data/repositories/about_repo_impl.dart';
+import 'package:conference_admin/features/about/domain/repositories/about_repo.dart';
+import 'package:conference_admin/features/about/domain/usecases/create_component_uc.dart';
+import 'package:conference_admin/features/about/domain/usecases/delete_component_uc.dart';
+import 'package:conference_admin/features/about/domain/usecases/get_page_by_id_uc.dart';
+import 'package:conference_admin/features/about/domain/usecases/get_pages_uc.dart';
+import 'package:conference_admin/features/about/domain/usecases/update_component_uc.dart';
+import 'package:conference_admin/features/about/presentation/bloc/about_bloc.dart';
 import 'package:conference_admin/features/article/data/repositories/article_repo_impl.dart';
 import 'package:conference_admin/features/article/domain/repositories/article_repo.dart';
 import 'package:conference_admin/features/article/domain/usecases/add_article_uc.dart';
@@ -64,14 +72,21 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<DateRepo>(DateRepoImpl(firestore: sl()));
   sl.registerSingleton<HomeRepo>(HomeRepoImpl(firestore: sl()));
   sl.registerSingleton<LoginRepo>(LoginRepoImpl(sl()));
+  sl.registerSingleton<AboutRepo>(AboutRepoImpl(firestore: sl()));
   sl.registerSingleton<UsersRepo>(UsersRepoImpl(sl()));
   sl.registerSingleton<ScheduleRepo>(ScheduleRepoImpl());
   sl.registerSingleton<ArticleRepository>(ArticleRepoImpl(sl()));
   sl.registerSingleton<PageRepo>(PageRepoImpl());
 
   //! Usecases
+  //? About UseCases
+  sl.registerSingleton<GetAboutPageByIdUsecase>(GetAboutPageByIdUsecase(sl()));
+  sl.registerSingleton<GetAboutPagesUsecase>(GetAboutPagesUsecase(sl()));
+  sl.registerSingleton<UpdateAboutPageUsecase>(UpdateAboutPageUsecase(sl()));
+  sl.registerSingleton<DeleteAboutPageUsecase>(DeleteAboutPageUsecase(sl()));
+  sl.registerSingleton<CreateAboutPageUsecase>(CreateAboutPageUsecase(sl()));
 
-  //? Pages UseCases
+  //? Pages
   sl.registerSingleton<GetPageUseCase>(GetPageUseCase(sl()));
   sl.registerSingleton<UpdatePageUseCase>(UpdatePageUseCase(sl()));
 
@@ -109,7 +124,8 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetArticleByIdUC>(GetArticleByIdUC(sl()));
 
   //! Blocs
-  //! Blocs
+  //! About Blocs
+  sl.registerFactory<AboutBloc>(() => AboutBloc(sl(), sl(), sl(), sl(), sl()));
   sl.registerFactory<PagesBloc>(() => PagesBloc(sl(), sl()));
   sl.registerFactory<HomeBloc>(() => HomeBloc(sl(), sl(), sl(), sl(), sl()));
   sl.registerFactory<ImpDatesBloc>(() => ImpDatesBloc(sl(), sl()));

@@ -33,6 +33,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
       'navtitle': TextEditingController(),
       'title': TextEditingController(),
       'logo': TextEditingController(),
+      'domain': TextEditingController(),
     };
   }
 
@@ -270,6 +271,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
                           _buildEditableField(
                               'Navigation Title', _controllers['navtitle']!),
                           _buildEditableField('Title', _controllers['title']!),
+                          _buildEditableField('Domain', _controllers['domain']!),
                         ],
                       ),
                     ),

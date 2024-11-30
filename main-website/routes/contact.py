@@ -20,4 +20,5 @@ def Contact():
         return redirect(url_for('contact.Contact'))
 
     components = components_service.get_all_components()
-    return render_template('pages/contact.html', website_title=current_app.config['website_title'], navbar_title=current_app.config['navbar_title'], domain=current_app.config['domain'], components=components)
+    navItems = components_service.get_navbar_items()
+    return render_template('pages/contact.html', website_title=current_app.config['website_title'], navbar_title=current_app.config['navbar_title'], domain=current_app.config['domain'], components=components, navItems=navItems  )

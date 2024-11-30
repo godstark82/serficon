@@ -97,35 +97,33 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="/" class="nav-item nav-link active">Home</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">About</a>
-                    <div class="dropdown-menu rounded-0 rounded-bottom m-0">
-                        <a href="conference-chair" class="dropdown-item">Conference Chair</a>
-                        <a href="organizing-committee" class="dropdown-item">Organizing Committee</a>
-                        <a href="technical-committee" class="dropdown-item">Technical Committee</a>
-                    </div>
-                </div>
-                <a href="registration" class="nav-item nav-link">Registration</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Acceptance of Papers</a>
-                    <div class="dropdown-menu rounded-0 rounded-bottom m-0">
-                        <a href="important-dates" class="dropdown-item">Important Dates</a>
-                        <a href="review-process" class="dropdown-item">Review Process</a>
-                        <a href="submission-guidelines" class="dropdown-item">Submission Guidelines</a>
-                        <a href="paper-status" class="dropdown-item">Paper Status</a>
-                    </div>
-                </div>
+                {% for item in navItems %}
 
+                {% if item.children|length > 0 %}
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Program</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ item.title }}</a>
                     <div class="dropdown-menu rounded-0 rounded-bottom m-0">
-                        <a href="detailed-schedule" class="dropdown-item">Detailed Schedule</a>
-                        <a href="awards-grants" class="dropdown-item">Awards & Grants</a>
+                        {% for child in item.children %}
+                        {% if child.page_id %}
+                        
+
+                        <a href="{{ url_for('page_route', path=item.path, subpath=child.path, id=child.page_id) }}" class="dropdown-item">{{ child.title }}</a>
+                        {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
+                {% else %}
+             
+                <a href=" {{ item.path }} " class="nav-item nav-link {% if item.id == 'home' %}active{% endif %}">{{ item.title }}</a>
+                {% endif %}
+                
+                {% endfor %}
+                
 
-                <a href="contact" class="nav-item nav-link">Contact</a>
+              
+                
+
+          
             </div>
             <!-- <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Appointment<i class="fa fa-arrow-right ms-3"></i></a> -->
         </div>
@@ -174,7 +172,7 @@
             <div class="copyright">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="{{ domain }}">{{ domain }}</a>, All Right Reserved.
+                        &copy; <a class="border-bottom" href="{{ components.domain }}">{{ components.domain }}</a>, All Right Reserved.
                     </div>
                 </div>
             </div>

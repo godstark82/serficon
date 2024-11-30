@@ -86,7 +86,7 @@
             {% if components.logo %}
             <div sty>
                 <h1><img src="{{ components.logo }}" style="max-height: 70px;">{{ components.navtitle
-                }}</h1>
+                    }}</h1>
             </div>
             {% else %}
             <h1 class="m-0 text">{{ components.navtitle }}</h1>
@@ -105,30 +105,27 @@
                     <div class="dropdown-menu rounded-0 rounded-bottom m-0">
                         {% for child in item.children %}
                         {% if child.page_id %}
-                        
-
-                        <a href="{{ url_for('page_route', path=item.path, subpath=child.path, id=child.page_id) }}" class="dropdown-item">{{ child.title }}</a>
+                        <a href="{{ url_for('page_route', path=item.path, subpath=child.path, id=child.page_id) }}"
+                            class="dropdown-item">{{ child.title }}</a>
                         {% endif %}
                         {% endfor %}
                     </div>
                 </div>
                 {% else %}
-             
-                <a href=" {{ item.path }} " class="nav-item nav-link {% if item.id == 'home' %}active{% endif %}">{{ item.title }}</a>
+
+                <a href=" {{ item.path }} " class="nav-item nav-link {% if item.id == 'home' %}active{% endif %}">{{
+                    item.title }}</a>
                 {% endif %}
-                
+
                 {% endfor %}
-                
 
-              
-                
 
-          
             </div>
             <!-- <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Appointment<i class="fa fa-arrow-right ms-3"></i></a> -->
         </div>
     </nav>
     <!-- Navbar End -->
+
     {% block body %} {% endblock %}
 
     <!-- Footer Start -->
@@ -139,13 +136,18 @@
                     <h5 class="mb-4 text-secondary">Address</h5>
                     <p class="mb-2 text-secondary"><i class="fa fa-map-marker-alt me-3"></i>{{ components.address }}</p>
                     <p class="mb-2 text-secondary"><i class="fa fa-phone-alt me-3"></i>{{ components.phone }}</p>
-                    <p class="mb-2 text-secondary"><i class="fa fa-envelope me-3"></i>{{ components.email }}</p>
+                    <p class="mb-2 text-secondary"><i class="fa fa-envelope me-3"></i><a href="mailto:{{ components.email }}" style="color: inherit;">{{ components.email }}</a></p>
                     <div class="d-flex pt-2">
-                        <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.twitter }}"
+                            target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.facebook }}"
+                            target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.youtube }}"
+                            target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.linkedin }}"
+                            target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-outline-light btn-social rounded-circle" href="{{ components.instagram }}"
+                            target="_blank"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -164,7 +166,9 @@
                 </div>
                 <div class="col-lg-3 wow fadeIn col-md-6">
                     <h5 class="mb-4 text-secondary">Location</h5>
-                    <iframe class="rounded" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.397980957572!2d50.516604875198055!3d26.183728977089295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49afd12fdcfc07%3A0x7dc8a621795a72f3!2sUniversity%20of%20Technology%20Bahrain%20-%20UTB!5e0!3m2!1sen!2sin!4v1732445123791!5m2!1sen!2sin" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    <iframe class="rounded"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.397980957572!2d50.516604875198055!3d26.183728977089295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49afd12fdcfc07%3A0x7dc8a621795a72f3!2sUniversity%20of%20Technology%20Bahrain%20-%20UTB!5e0!3m2!1sen!2sin!4v1732445123791!5m2!1sen!2sin"
+                        width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
         </div>
@@ -172,7 +176,8 @@
             <div class="copyright">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="{{ components.domain }}">{{ components.domain }}</a>, All Right Reserved.
+                        &copy; <a class="border-bottom" href="{{ components.domain }}">{{ components.domain }}</a>, All
+                        Right Reserved.
                     </div>
                 </div>
             </div>

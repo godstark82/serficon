@@ -6,4 +6,5 @@ registration_bp = Blueprint("registration", __name__)
 def Registration():
     navItems = components_service.get_navbar_items()
     components = components_service.get_all_components()
-    return render_template('pages/registration.html', website_title=current_app.config['website_title'], navbar_title=current_app.config['navbar_title'], domain=current_app.config['domain'], components=components, navItems=navItems)
+    
+    return render_template('pages/registration.html', components=components, navItems=navItems)

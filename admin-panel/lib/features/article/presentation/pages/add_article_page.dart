@@ -1,6 +1,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -208,7 +209,9 @@ class _AddArticlePageState extends State<AddArticlePage> {
                                           snapshot.totalBytes;
                                     });
                                   }, onError: (error) {
-                                    print('Upload error: $error');
+                                    if (kDebugMode) {
+                                      print('Upload error: $error');
+                                    }
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content:
@@ -231,7 +234,9 @@ class _AddArticlePageState extends State<AddArticlePage> {
                                             Text('PDF uploaded successfully')),
                                   );
                                 } catch (e) {
-                                  print('Error uploading PDF: $e');
+                                  if (kDebugMode) {
+                                    print('Error uploading PDF: $e');
+                                  }
                                   setState(() {
                                     _isPdfUploading = false;
                                   });
@@ -356,7 +361,9 @@ class _AddArticlePageState extends State<AddArticlePage> {
                                             Text('Image uploaded successfully')),
                                   );
                                 } catch (e) {
-                                  print('Error uploading image: $e');
+                                  if (kDebugMode) {
+                                    print('Error uploading image: $e');
+                                  }
                                   setState(() {
                                     _isUploading = false;
                                   });

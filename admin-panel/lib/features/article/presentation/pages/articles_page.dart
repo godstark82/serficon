@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:conference_admin/features/article/data/models/article_model.dart';
 import 'package:conference_admin/features/article/presentation/bloc/article_bloc.dart';
 import 'package:conference_admin/routes.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -379,7 +380,9 @@ class _ArticlesPageState extends State<ArticlesPage> {
                       if (await canLaunchUrl(Uri.parse(article.pdf))) {
                         await launchUrl(Uri.parse(article.pdf));
                       } else {
-                        print('Could not launch ${article.pdf}');
+                        if (kDebugMode) {
+                          print('Could not launch ${article.pdf}');
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(

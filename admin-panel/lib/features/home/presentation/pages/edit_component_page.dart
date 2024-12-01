@@ -4,6 +4,7 @@ import 'package:conference_admin/features/home/data/models/home_component_model.
 import 'package:conference_admin/features/home/domain/entities/home_component_entity.dart';
 import 'package:conference_admin/features/home/presentation/bloc/home_bloc.dart';
 import 'package:conference_admin/features/home/presentation/widgets/sections.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -53,7 +54,9 @@ class _EditComponentPageState extends State<EditComponentPage> {
       setState(() {
         _selectedColor = _component!.bgColor;
       });
-      print(_selectedColor.value);
+      if (kDebugMode) {
+        print(_selectedColor.value);
+      }
       _isHtmlLoaded = true;
     }
   }

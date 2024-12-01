@@ -1,6 +1,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -74,7 +75,9 @@ class _EditArticlePageState extends State<EditArticlePage> {
           _isUploading = false;
         });
       } catch (e) {
-        print('Error uploading PDF: $e');
+        if (kDebugMode) {
+          print('Error uploading PDF: $e');
+        }
         setState(() {
           _isUploading = false;
         });

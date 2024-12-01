@@ -4,6 +4,7 @@ import 'package:conference_admin/features/pages/data/models/pages_model.dart';
 import 'package:conference_admin/features/pages/domain/usecases/get_page_uc.dart';
 import 'package:conference_admin/features/pages/domain/usecases/update_page_uc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 part 'pages_event.dart';
 part 'pages_state.dart';
@@ -31,7 +32,9 @@ class PagesBloc extends Bloc<PagesEvent, PagesState> {
   void _onUpdatePage(UpdatePageEvent event, Emitter<PagesState> emit) async {
     final status = await updatePageUseCase.call(event.id);
     if (status is DataFailed) {
-      print('Failed to update page');
+      if (kDebugMode) {
+        print('Failed to update page');
+      }
     }
     // add(GetPagesEvent());
   }

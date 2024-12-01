@@ -26,13 +26,13 @@ def page_route(path, subpath, id):
     page_content = page_service.get_page_content(id)
     components = components_service.get_all_components()
     navItems = components_service.get_navbar_items()
-    if path == "program" and subpath == "important-dates":
+    if path == "program" and ("important-dates" in subpath):
         dates = imp_dates_service.get_imp_dates()
         return render_template('pages/important-dates.html', page=page_content, components=components, navItems=navItems, dates=dates)
-    elif path == "program" and subpath == "detailed-schedule":
+    elif path == "program" and ("schedule" in subpath):
         schedules = schedule_service.get_schedule()
         return render_template('pages/detailed-schedule.html', page=page_content, components=components, navItems=navItems, schedules=schedules)
-    elif path == "program" and subpath == "awards-and-grants":
+    elif path == "program" and ("wards" in subpath):
         rewards = reward_service.get_rewards_grants()
         return render_template('pages/awards-and-grants.html', page=page_content, components=components, navItems=navItems, rewards=rewards)
     return render_template('page_template.html', page=page_content, components=components, navItems=navItems)

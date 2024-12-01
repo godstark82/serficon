@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conference_admin/core/services/firebase_storage_services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -52,7 +53,9 @@ class _ComponentsPageState extends State<ComponentsPage> {
       }
       return {};
     } catch (e) {
-      print('Error loading component data: $e');
+      if (kDebugMode) {
+        print('Error loading component data: $e');
+      }
       return {};
     }
   }
@@ -91,9 +94,13 @@ class _ComponentsPageState extends State<ComponentsPage> {
         _isUploading = true;
       });
       
-      print('Uploading SVG');
+      if (kDebugMode) {
+        print('Uploading SVG');
+      }
       String url = await FirebaseStorageServices.pickAndUploadSvg();
-      print('SVG uploaded: $url');
+      if (kDebugMode) {
+        print('SVG uploaded: $url');
+      }
       
       setState(() {
         _controllers['logo']!.text = url;

@@ -5,8 +5,6 @@ import 'package:conference_admin/features/detailed-schedule/presentation/pages/s
 import 'package:conference_admin/features/home/presentation/pages/home_page.dart';
 import 'package:conference_admin/features/imp-dates/presentation/pages/imp_dates_page.dart';
 import 'package:conference_admin/features/navbar/navbar.dart';
-import 'package:conference_admin/features/pages/presentation/pages/review_process_page.dart';
-import 'package:conference_admin/features/pages/presentation/pages/submission_gl_page.dart';
 import 'package:conference_admin/features/rewards/presentation/rewards_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,8 +38,6 @@ class _HomeState extends State<Home> {
       const NavbarPage(),
       const AboutPage(),
       const SchedulePage(),
-      const ReviewProcessPage(),
-      const SubmissionGlPage(),
       const ImpDatesPage(),
       const RewardsPage(),
       const ArticlesPage(),
@@ -69,16 +65,6 @@ class _HomeState extends State<Home> {
         icon: const Icon(Icons.calendar_month),
         label: const Text('Schedule'),
         selectedIcon: Icon(Icons.calendar_month, color: Colors.blue[800]),
-      ),
-      NavigationRailDestination(
-        icon: const Icon(Icons.question_answer),
-        label: const Text('Review Process'),
-        selectedIcon: Icon(Icons.question_answer, color: Colors.blue[800]),
-      ),
-      NavigationRailDestination(
-        icon: const Icon(Icons.question_answer),
-        label: const Text('Submission Guidelines'),
-        selectedIcon: Icon(Icons.question_answer, color: Colors.blue[800]),
       ),
       NavigationRailDestination(
         icon: const Icon(Icons.calendar_month),

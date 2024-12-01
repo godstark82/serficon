@@ -89,9 +89,10 @@ class _AboutPageState extends State<AboutPage> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Row(
-                                      children: [
-                                        IconButton(
+                                    if (model.id != 'lE53peGEwIsXvPWtaTBu')
+                                      Row(
+                                        children: [
+                                          IconButton(
                                           icon: const Icon(Icons.edit,
                                               color: Colors.blue),
                                           onPressed: () {

@@ -1,5 +1,6 @@
 import 'package:conference_admin/features/about/presentation/bloc/about_bloc.dart';
 import 'package:conference_admin/features/pages/data/models/pages_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
@@ -38,7 +39,9 @@ class _AddAboutPageState extends State<AddAboutPage> {
             .toList();
       });
     } catch (e) {
-      print('Error loading navigation items: $e');
+      if (kDebugMode) {
+        print('Error loading navigation items: $e');
+      }
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:conference_admin/core/models/nav_bar_model.dart';
 import 'package:conference_admin/features/about/presentation/bloc/about_bloc.dart';
 import 'package:conference_admin/features/navbar/functions.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +42,9 @@ class _NavbarPageState extends State<NavbarPage> {
         }
       });
     } catch (e) {
-      print('Error loading nav items: $e');
+      if (kDebugMode) {
+        print('Error loading nav items: $e');
+      }
     }
   }
 

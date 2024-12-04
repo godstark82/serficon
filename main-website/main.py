@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, render_template, request
-
-from services import components_service, page_service, imp_dates_service, schedule_service, reward_service
+from services import components_service, page_service, imp_dates_service, schedule_service, reward_service, home_service
 from routes.registration import registration_bp
 from routes.contact import contact_bp
 from routes.home import webcomponents_bp
@@ -18,23 +17,11 @@ app.register_blueprint(webcomponents_bp)
 
 @app.errorhandler(404)
 def page_not_found(e):
+    sections = home_service.get_home_data()
+    navItems = components_service.get_navbar_items()
     components = components_service.get_all_components()
-    return render_template('pages/404.html', components=components)
+    return render_template('pages/404.html', components=components, sections=sections, navItems=navItems)
 
-
-@app.route('/register', methods=['POST'])
-def register():
-    data = get_registration_data()
-    
-    # Save the file if needed
-    pdf_file = request.files.get('pdf_file')
-    if pdf_file:
-        # Add your file saving logic here
-        # For example:
-        # pdf_file.save('path/to/save/' + pdf_file.filename)
-        pass
-    
-    return jsonify({"message": "Registration received", "data": data})
 
 @app.route('/<path>/<subpath>/<id>')
 def page_route(path, subpath, id):

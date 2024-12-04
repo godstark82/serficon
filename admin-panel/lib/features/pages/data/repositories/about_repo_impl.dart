@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conference_admin/core/datastate/data_state.dart';
-import 'package:conference_admin/features/about/domain/repositories/about_repo.dart';
-import 'package:conference_admin/features/pages/data/models/pages_model.dart';
+import 'package:conference_admin/features/pages/data/models/page_model.dart';
+import 'package:conference_admin/features/pages/domain/repositories/about_repo.dart';
+
 
 class AboutRepoImpl extends AboutRepo {
   final FirebaseFirestore firestore;

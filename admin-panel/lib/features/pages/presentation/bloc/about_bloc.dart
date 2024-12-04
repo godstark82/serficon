@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:conference_admin/core/const/no_params.dart';
 import 'package:conference_admin/core/datastate/data_state.dart';
-import 'package:conference_admin/features/about/domain/usecases/create_component_uc.dart';
-import 'package:conference_admin/features/about/domain/usecases/delete_component_uc.dart';
-import 'package:conference_admin/features/about/domain/usecases/get_page_by_id_uc.dart';
-import 'package:conference_admin/features/about/domain/usecases/get_pages_uc.dart';
-import 'package:conference_admin/features/about/domain/usecases/update_component_uc.dart';
-import 'package:conference_admin/features/pages/data/models/pages_model.dart';
+import 'package:conference_admin/features/pages/domain/usecases/create_component_uc.dart';
+import 'package:conference_admin/features/pages/domain/usecases/delete_component_uc.dart';
+import 'package:conference_admin/features/pages/domain/usecases/get_page_by_id_uc.dart';
+import 'package:conference_admin/features/pages/domain/usecases/get_pages_uc.dart';
+import 'package:conference_admin/features/pages/domain/usecases/update_component_uc.dart';
+import 'package:conference_admin/features/pages/data/models/page_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 

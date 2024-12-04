@@ -59,7 +59,7 @@
     </div>
 </div>
 <!-- Team End -->
- <style>
+<style>
     .img-president img {
         height: 400px;
         width: 300px;
@@ -68,12 +68,89 @@
         position: relative;
         top: 0;
     }
- </style>
+</style>
 {% endif %}
 {% if section.stream_cards %}
 
 {% for stream in section.stream_cards %}
-<!-- TODO: Add stream cards -->
+<!-- Stream Cards Grid -->
+<div class="container-xxl py-4">
+    <div class="container">
+        <div class="stream-card bg-white rounded shadow-sm p-4 mb-4">
+            <h3 class="stream-heading mb-4">{{ stream.title }}</h3>
+            <div class="stream-subheadings-grid">
+                {% for subheading in stream.descriptions %}
+                <div class="subheading-item d-flex align-items-center">
+                    <i class="fas fa-angle-double-right text-primary me-2"></i>
+                    <p class="mb-0">{{ subheading }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .stream-card {
+        transition: all 0.3s ease;
+    }
+
+    .stream-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    }
+
+    .stream-heading {
+        color: #333;
+        font-weight: 600;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .stream-heading:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background: #0d6efd;
+    }
+
+    .stream-subheadings-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .subheading-item {
+        padding: 15px;
+        border-left: 3px solid #0d6efd;
+        background: #f8f9fa;
+        margin-left: 0;
+        transition: all 0.3s ease;
+    }
+
+    .subheading-item:hover {
+        transform: translateX(5px);
+        background: #e9ecef;
+    }
+
+    .subheading-item i {
+        font-size: 1.2rem;
+        min-width: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .stream-heading {
+            font-size: 1.5rem;
+        }
+        
+        .stream-subheadings-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 {% endfor %}
 {% endif %}
 

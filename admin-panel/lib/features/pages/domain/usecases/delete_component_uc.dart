@@ -1,6 +1,6 @@
 import 'package:conference_admin/core/datastate/data_state.dart';
 import 'package:conference_admin/core/usecase/usecase.dart';
-import 'package:conference_admin/features/about/domain/repositories/about_repo.dart';
+import 'package:conference_admin/features/pages/domain/repositories/about_repo.dart';
 
 class DeleteAboutPageUsecase extends UseCase<DataState<void>, String> {
   final AboutRepo aboutRepo;

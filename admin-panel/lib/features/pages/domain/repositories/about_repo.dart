@@ -1,5 +1,5 @@
 import 'package:conference_admin/core/datastate/data_state.dart';
-import 'package:conference_admin/features/pages/data/models/pages_model.dart';
+import 'package:conference_admin/features/pages/data/models/page_model.dart';
 
 abstract class AboutRepo {
   //! New Components

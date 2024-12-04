@@ -1,5 +1,5 @@
-import 'package:conference_admin/features/about/presentation/bloc/about_bloc.dart';
-import 'package:conference_admin/features/pages/data/models/pages_model.dart';
+import 'package:conference_admin/features/pages/presentation/bloc/about_bloc.dart';
+import 'package:conference_admin/features/pages/data/models/page_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

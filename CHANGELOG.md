@@ -11,4 +11,12 @@
 ## Main Website
 - Added Committee Page for Organizing Committee, Scientific Committee and Scientific Lead
 
+# 04-Dec-24
+
+## ADMIN
+- Fixed Save Card Problem with Image uploading
+
+## Main Website
+- Stream Cards Implementation
+- Registration Page Implementation
 

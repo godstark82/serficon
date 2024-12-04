@@ -1,4 +1,4 @@
-import 'package:conference_admin/features/about/presentation/pages/about_page.dart';
+import 'package:conference_admin/features/pages/presentation/pages/about_page.dart';
 import 'package:conference_admin/features/article/presentation/pages/articles_page.dart';
 import 'package:conference_admin/features/components/components_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/schedule_page.dart';

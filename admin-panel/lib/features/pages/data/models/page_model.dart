@@ -1,5 +1,5 @@
-import 'package:conference_admin/features/pages/domain/entities/pages_entity.dart';
-
+import 'package:conference_admin/features/pages/domain/entities/page_entity.dart';
+  
 class PagesModel extends PagesEntity {
   const PagesModel(
       {required super.id,

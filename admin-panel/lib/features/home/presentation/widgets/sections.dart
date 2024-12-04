@@ -1,5 +1,6 @@
 import 'package:conference_admin/core/models/card_model.dart';
 import 'package:conference_admin/core/models/stream_card_model.dart';
+import 'package:conference_admin/core/services/firebase_storage_services.dart';
 import 'package:flutter/material.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 
@@ -238,35 +239,135 @@ class CardsEditor extends StatelessWidget {
                       });
                     },
                   ),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    initialValue: card.image,
-                    maxLines: null,
-                    decoration: const InputDecoration(
-                      labelText: 'Image',
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        card.image = value;
-                      });
-                    },
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: card.image?.isNotEmpty == true
+                            ? Image.network(
+                                card.image!,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              )
+                            : Container(
+                                height: 100,
+                                color: Colors.grey[200],
+                                child: const Center(
+                                  child: Text('No image selected'),
+                                ),
+                              ),
+                      ),
+                      const SizedBox(width: 8),
+                      Column(
+                        children: [
+                          StatefulBuilder(
+                            builder: (context, setInnerState) {
+                              bool isUploading = false;
+                              double uploadProgress = 0.0;
+
+                              return Column(
+                                children: [
+                                  ElevatedButton.icon(
+                                    onPressed: isUploading
+                                        ? null
+                                        : () async {
+                                            try {
+                                              setInnerState(() {
+                                                isUploading = true;
+                                              });
+
+                                              final imageUrl =
+                                                  await FirebaseStorageServices
+                                                      .pickAndUploadImage();
+
+                                              if (imageUrl.isNotEmpty) {
+                                                setState(() {
+                                                  card.image = imageUrl;
+                                                  cards[index] = card;
+                                                });
+
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text(
+                                                        'Image uploaded successfully'),
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                  ),
+                                                );
+                                              }
+                                            } catch (e) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                      'Error uploading image: $e'),
+                                                  backgroundColor: Colors.red,
+                                                ),
+                                              );
+                                            } finally {
+                                              setInnerState(() {
+                                                isUploading = false;
+                                                uploadProgress = 0.0;
+                                              });
+                                            }
+                                          },
+                                    icon: isUploading
+                                        ? const SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      Colors.white),
+                                            ),
+                                          )
+                                        : const Icon(Icons.upload),
+                                    label: Text(isUploading
+                                        ? 'Uploading...'
+                                        : 'Upload Image'),
+                                  ),
+                                  if (isUploading) ...[
+                                    const SizedBox(height: 8),
+                                    LinearProgressIndicator(
+                                      value: uploadProgress,
+                                      backgroundColor: Colors.grey[300],
+                                      valueColor:
+                                          const AlwaysStoppedAnimation<Color>(
+                                              Colors.blue),
+                                    ),
+                                  ],
+                                ],
+                              );
+                            },
+                          ),
+                          if (card.image?.isNotEmpty == true)
+                            TextButton.icon(
+                              onPressed: () {
+                                setState(() {
+                                  card.image = '';
+                                  cards[index] = card;
+                                });
+                              },
+                              icon: const Icon(Icons.delete),
+                              label: const Text('Remove'),
+                            ),
+                        ],
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
                   const SizedBox(height: 8),
                   ElevatedButton(
                     onPressed: () async {
-                      // Save the current card
                       await htmlController.getText().then((v) {
-                        card.image = v;
                         setState(() {
                           cards[index] = card;
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Card saved successfully'),
-                            backgroundColor: Colors.green,
-                          ),
+                              content: Text('Card saved successfully'),
+                              backgroundColor: Colors.green),
                         );
                       });
                     },

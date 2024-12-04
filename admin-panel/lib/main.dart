@@ -1,9 +1,8 @@
-import 'package:conference_admin/features/about/presentation/bloc/about_bloc.dart';
+import 'package:conference_admin/features/pages/presentation/bloc/about_bloc.dart';
 import 'package:conference_admin/features/article/presentation/bloc/article_bloc.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/bloc/detailed_schedule_bloc.dart';
 import 'package:conference_admin/features/home/presentation/bloc/home_bloc.dart';
 import 'package:conference_admin/features/imp-dates/presentation/bloc/imp_dates_bloc.dart';
-import 'package:conference_admin/features/pages/presentation/bloc/pages_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +34,6 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider<AboutBloc>(create: (context) => sl<AboutBloc>()),
-          BlocProvider<PagesBloc>(create: (context) => sl<PagesBloc>()),
           BlocProvider<HomeBloc>(create: (context) => sl<HomeBloc>()),
           BlocProvider<ImpDatesBloc>(create: (context) => sl<ImpDatesBloc>()),
           BlocProvider<LoginBloc>(create: (context) => sl<LoginBloc>()),

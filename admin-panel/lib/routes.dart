@@ -1,5 +1,5 @@
-import 'package:conference_admin/features/about/presentation/pages/add_page.dart';
-import 'package:conference_admin/features/about/presentation/pages/edit_page.dart';
+import 'package:conference_admin/features/pages/presentation/pages/add_page.dart';
+import 'package:conference_admin/features/pages/presentation/pages/edit_page.dart';
 import 'package:conference_admin/features/article/presentation/pages/add_article_page.dart';
 import 'package:conference_admin/features/article/presentation/pages/edit_article_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/add_schedule_page.dart';

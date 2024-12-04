@@ -1,33 +1,39 @@
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
+from typing import List
+import mimetypes
+from flask import request
 
-
-def send_email():
-    password = "uawa sqfi fwlr wggp"  # Replace with your Gmail password or app-specific password
-    msg = MIMEMultipart()
-    msg['Subject'] = f"New Contact Form Submission: {subject}"
-
-    body = f"""
-    You have received a new message from the contact form.
-
-    Full Name: {name}
-    Email: {email}
-    Subject: {subject}
-
-    Message:
-    {message}
-    """
-
-    msg.attach(MIMEText(body, 'plain'))
-
-    # Send the email via Gmail's SMTP server
-    try:
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login(sender_email, password)
-        text = msg.as_string()
-        server.sendmail(sender_email, receiver_email, text)
-        server.quit()
-    except Exception as e:
-        print(f"Failed to send email. Error: {e}")
+def get_registration_data():
+    # Get form data from request
+    title = request.form.get('title')
+    name = request.form.get('name')
+    email = request.form.get('email')
+    article_title = request.form.get('article_title')
+    document_type = request.form.get('document_type')
+    affiliation = request.form.get('affiliation')
+    abstract = request.form.get('abstract')
+    keywords = request.form.get('keywords')
+    topic_type = request.form.get('topic_type')
+    
+    # Handle PDF file upload
+    pdf_file = request.files.get('pdf_file')
+    
+    # Handle authors data (assuming it's sent as JSON)
+    authors = request.form.getlist('authors[]')
+    
+    # TODO: Validate the data
+    
+    return {
+        "title": title,
+        "name": name,
+        "email": email,
+        "article_title": article_title,
+        "document_type": document_type,
+        "affiliation": affiliation,
+        "abstract": abstract,
+        "keywords": keywords,
+        "topic_type": topic_type,
+        "pdf_file": pdf_file,
+        "authors": authors
+    }
+    
 

@@ -1,9 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template, request
 
 from services import components_service, page_service, imp_dates_service, schedule_service, reward_service
 from routes.registration import registration_bp
 from routes.contact import contact_bp
 from routes.home import webcomponents_bp
+from services.registration_service import get_registration_data
 
 
 app = Flask(__name__)
@@ -20,6 +21,20 @@ def page_not_found(e):
     components = components_service.get_all_components()
     return render_template('pages/404.html', components=components)
 
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = get_registration_data()
+    
+    # Save the file if needed
+    pdf_file = request.files.get('pdf_file')
+    if pdf_file:
+        # Add your file saving logic here
+        # For example:
+        # pdf_file.save('path/to/save/' + pdf_file.filename)
+        pass
+    
+    return jsonify({"message": "Registration received", "data": data})
 
 @app.route('/<path>/<subpath>/<id>')
 def page_route(path, subpath, id):

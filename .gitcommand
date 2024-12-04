@@ -1,1 +1,1 @@
-[pushall] -> git push origin main; git push secondary main; git push third main; git push fourth main; git push fifth main
+git push origin main; git push secondary main; git push third main; git push fourth main; git push fifth main

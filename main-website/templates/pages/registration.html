@@ -20,12 +20,12 @@
             <h3>Submit Your Article</h3>
             <p>Fill out the form below to submit your article for review.</p>
         </div>
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="/register" method="POST" enctype="multipart/form-data" id="registrationForm">
             <div class="row g-4">
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label for="name-title" class="form-label">Name title</label>
-                        <select class="form-select" id="name-title" name="name-title" required>
+                        <select class="form-select" id="name-title" name="title" required>
                             <option value="">Select Name Title</option>
                             <option value="Mr">Mr</option>
                             <option value="Mrs">Mrs</option>
@@ -43,15 +43,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="affiliation" class="form-label">Affiliation</label>
-                        <input type="text" class="form-control" id="affiliation" name="affliation" required>
+                        <input type="text" class="form-control" id="affiliation" name="affiliation" required>
                     </div>
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" name=title" required>
+                        <input type="text" class="form-control" id="article_title" name="article_title" required>
                     </div>
                     <div class="mb-3">
                         <label for="documentType" class="form-label">Document Type</label>
-                        <select class="form-select" id="documentType" name="documentType" required>
+                        <select class="form-select" id="documentType" name="document_type" required>
                             <option value="">Select Document Type</option>
                             <option value="researchPaper">Research Paper</option>
                             <option value="reviewArticle">Review Article</option>
@@ -66,14 +66,14 @@
                     </div>
                     <div class="mb-3">
                         <label for="keyword" class="form-label">Keywords</label>
-                        <input type="text" class="form-control" id="keyword" name="keyword" required>
+                        <input type="text" class="form-control" id="keyword" name="keywords" required>
                     </div>
                     <div class="mb-3">
                         <label for="topicType" class="form-label">Topic</label>
-                        <select class="form-select" id="topicType" name="topicType" required>
+                        <select class="form-select" id="topicType" name="topic_type" required>
                             <option value="">Select Topics</option>
                             <option value="researchPaper">Research Paper</option>
-                            <option value="reviewArticle">Review Apload PDFrticle</option>
+                            <option value="reviewArticle">Review Article</option>
                             <option value="caseStudy">Case Study</option>
                             <option value="technicalNote">Technical Note</option>
                         </select>
@@ -87,22 +87,22 @@
                     <div id="newAuthorsContainer"></div>
                     <div class="mb-3">
                         <label for="pdfUpload" class="form-label">Upload PDF</label>
-                        <input type="file" class="form-control" id="pdfUpload" name="pdfUpload" required accept=".pdf">
+                        <input type="file" class="form-control" id="pdfUpload" name="pdf_file" accept=".pdf">
                     </div>
                     <div class="mb-3 row">
                         <div class="col-12">
                             <p>Paper Type</p>
                         </div>
                         <div class="col-4 form-check">
-                            <input class="form-check-input" type="checkbox" name="correspondingAuthor">
+                            <input class="form-check-input" type="checkbox" name="paper_type[]" value="abstract">
                             <label class="form-check-label">Abstract</label>
                         </div>
                         <div class="col-4 form-check">
-                            <input class="form-check-input" type="checkbox" name="full-paper">
+                            <input class="form-check-input" type="checkbox" name="paper_type[]" value="full_paper">
                             <label class="form-check-label">Full Paper</label>
                         </div>
                         <div class="col-4 form-check">
-                            <input class="form-check-input" type="checkbox" name="presentation">
+                            <input class="form-check-input" type="checkbox" name="paper_type[]" value="presentation">
                             <label class="form-check-label">Presentation</label>
                         </div>
                     </div>
@@ -124,19 +124,19 @@
         newAuthorDiv.innerHTML = `
             <div class="col-4">
                 <label for="authors-name" class="form-label">Authors Name</label>
-                <input type="text" class="form-control" name="Authors-name">
+                <input type="text" class="form-control" name="additional_authors[name][]">
             </div>
             <div class="col-4">
                 <label for="affiliation" class="form-label">Affiliation</label>
-                <input type="text" class="form-control" name="affiliation">
+                <input type="text" class="form-control" name="additional_authors[affiliation][]">
             </div>
             <div class="col-4">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email">
+                <input type="email" class="form-control" name="additional_authors[email][]">
             </div>
             <div class="mb-3">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="correspondingAuthor">
+                    <input class="form-check-input" type="checkbox" name="additional_authors[corresponding][]" value="1">
                     <label class="form-check-label">Corresponding Author</label>
                 </div>
             </div>

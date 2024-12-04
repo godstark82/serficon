@@ -12,6 +12,7 @@ analyzer:
     use_build_context_synchronously: ignore
     library_private_types_in_public_api: ignore
     void_checks: ignore
+    dead_code: ignore
 
 
 include: package:flutter_lints/flutter.yaml

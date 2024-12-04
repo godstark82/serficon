@@ -268,50 +268,47 @@ class CardsEditor extends StatelessWidget {
                               return Column(
                                 children: [
                                   ElevatedButton.icon(
-                                    onPressed: isUploading
-                                        ? null
-                                        : () async {
-                                            try {
-                                              setInnerState(() {
-                                                isUploading = true;
-                                              });
+                                    onPressed: () async {
+                                      try {
+                                        setInnerState(() {
+                                          isUploading = true;
+                                        });
 
-                                              final imageUrl =
-                                                  await FirebaseStorageServices
-                                                      .pickAndUploadImage();
+                                        final imageUrl =
+                                            await FirebaseStorageServices
+                                                .pickAndUploadImage();
 
-                                              if (imageUrl.isNotEmpty) {
-                                                setState(() {
-                                                  card.image = imageUrl;
-                                                  cards[index] = card;
-                                                });
+                                        if (imageUrl.isNotEmpty) {
+                                          setState(() {
+                                            card.image = imageUrl;
+                                            cards[index] = card;
+                                          });
 
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  const SnackBar(
-                                                    content: Text(
-                                                        'Image uploaded successfully'),
-                                                    backgroundColor:
-                                                        Colors.green,
-                                                  ),
-                                                );
-                                              }
-                                            } catch (e) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                      'Error uploading image: $e'),
-                                                  backgroundColor: Colors.red,
-                                                ),
-                                              );
-                                            } finally {
-                                              setInnerState(() {
-                                                isUploading = false;
-                                                uploadProgress = 0.0;
-                                              });
-                                            }
-                                          },
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                  'Image uploaded successfully'),
+                                              backgroundColor: Colors.green,
+                                            ),
+                                          );
+                                        }
+                                      } catch (e) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'Error uploading image: $e'),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                      } finally {
+                                        setInnerState(() {
+                                          isUploading = false;
+                                          uploadProgress = 0.0;
+                                        });
+                                      }
+                                    },
                                     icon: isUploading
                                         ? const SizedBox(
                                             width: 20,

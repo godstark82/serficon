@@ -3,94 +3,154 @@
 <title>
     Registration
 </title>
-    <!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">Registration</h1>
-            <nav aria-label="breadcrumb animated slideInDown">
-            </nav>
-        </div>
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Registration</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+        </nav>
     </div>
-    <!-- Page Header End -->
+</div>
+<!-- Page Header End -->
 
-    <!-- Article Submission Form Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center mx-auto mb-5" style="max-width: 1000px;">
-                <h3>Submit Your Article</h3>
-                <p>Fill out the form below to submit your article for review.</p>
-            </div>
-            <form action="" method="POST" enctype="multipart/form-data">
-                <div class="row g-4">
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <select class="form-select" id="title" name="title" required>
-                                <option value="">Select Title</option>
-                                <option value="Mr">Mr</option>
-                                <option value="Mrs">Mrs</option>
-                                <option value="Dr">Dr</option>
-                                <option value="Prof">Prof</option>
-                            </select>
-                        </div>
-                        <!-- <div class="mb-3">
-                            <label for="documentType" class="form-label">Document Type</label>
-                            <select class="form-select" id="documentType" name="documentType" required>
-                                <option value="">Select Document Type</option>
-                                <option value="researchPaper">Research Paper</option>
-                                <option value="reviewArticle">Review Article</option>
-                                <option value="caseStudy">Case Study</option>
-                                <option value="technicalNote">Technical Note</option>
-                            </select>
-                        </div> -->
-                        
-                        <div class="mb-3">
-                            <label for="abstract" class="form-label">Abstract</label>
-                            <textarea class="form-control" id="abstract" name="abstract" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="keyword" class="form-label">Keywords</label>
-                            <input type="text" class="form-control" id="keyword" name="keyword" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="topicType" class="form-label">Topic</label>
-                            <select class="form-select" id="topicType" name="topicType" required>
-                                <option value="">Select Topics</option>  
-                                <option value="researchPaper">Research Paper</option>
-                                <option value="reviewArticle">Review Article</option>
-                                <option value="caseStudy">Case Study</option>
-                                <option value="technicalNote">Technical Note</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="authorName" class="form-label">Author's Name</label>
-                        </div>
-                        <div class="mb-3">
-                            <label for="pdfUpload" class="form-label">Upload PDF</label>
-                            <input type="file" class="form-control" id="pdfUpload" name="pdfUpload" required accept=".pdf">
-                        </div>
-                        <div class="mb-3">
-                            <label for="imageUpload" class="form-label">Upload Image</label>
-                            <input type="file" class="form-control" id="imageUpload" name="imageUpload" required accept=".jpg, .jpeg, .png .svg">
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Submit Article</button>
-                </div>
-            </form>
+<!-- Article Submission Form Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5" style="max-width: 1000px;">
+            <h3>Submit Your Article</h3>
+            <p>Fill out the form below to submit your article for review.</p>
         </div>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label for="name-title" class="form-label">Name title</label>
+                        <select class="form-select" id="name-title" name="name-title" required>
+                            <option value="">Select Name Title</option>
+                            <option value="Mr">Mr</option>
+                            <option value="Mrs">Mrs</option>
+                            <option value="Dr">Dr</option>
+                            <option value="Prof">Prof</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="affiliation" class="form-label">Affiliation</label>
+                        <input type="text" class="form-control" id="affiliation" name="affliation" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name=title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="documentType" class="form-label">Document Type</label>
+                        <select class="form-select" id="documentType" name="documentType" required>
+                            <option value="">Select Document Type</option>
+                            <option value="researchPaper">Research Paper</option>
+                            <option value="reviewArticle">Review Article</option>
+                            <option value="caseStudy">Case Study</option>
+                            <option value="technicalNote">Technical Note</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="abstract" class="form-label">Abstract</label>
+                        <textarea class="form-control" id="abstract" name="abstract" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="keyword" class="form-label">Keywords</label>
+                        <input type="text" class="form-control" id="keyword" name="keyword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="topicType" class="form-label">Topic</label>
+                        <select class="form-select" id="topicType" name="topicType" required>
+                            <option value="">Select Topics</option>
+                            <option value="researchPaper">Research Paper</option>
+                            <option value="reviewArticle">Review Apload PDFrticle</option>
+                            <option value="caseStudy">Case Study</option>
+                            <option value="technicalNote">Technical Note</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-secondary mt-3" id="addNewAuthor">Add New Author</button>
+                    </div>
+                    <!-- New Author Fields Container -->
+                    <div id="newAuthorsContainer"></div>
+                    <div class="mb-3">
+                        <label for="pdfUpload" class="form-label">Upload PDF</label>
+                        <input type="file" class="form-control" id="pdfUpload" name="pdfUpload" required accept=".pdf">
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col-12">
+                            <p>Paper Type</p>
+                        </div>
+                        <div class="col-4 form-check">
+                            <input class="form-check-input" type="checkbox" name="correspondingAuthor">
+                            <label class="form-check-label">Abstract</label>
+                        </div>
+                        <div class="col-4 form-check">
+                            <input class="form-check-input" type="checkbox" name="full-paper">
+                            <label class="form-check-label">Full Paper</label>
+                        </div>
+                        <div class="col-4 form-check">
+                            <input class="form-check-input" type="checkbox" name="presentation">
+                            <label class="form-check-label">Presentation</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit Article</button>
+            </div>
+        </form>
     </div>
-    <!-- Article Submission Form End -->
-     
+</div>
+<!-- Article Submission Form End -->
+
+<script>
+    document.getElementById('addNewAuthor').addEventListener('click', function() {
+        const container = document.getElementById('newAuthorsContainer');
+        const newAuthorDiv = document.createElement('div');
+        newAuthorDiv.classList.add('mb-3', 'row');
+        newAuthorDiv.innerHTML = `
+            <div class="col-4">
+                <label for="authors-name" class="form-label">Authors Name</label>
+                <input type="text" class="form-control" name="Authors-name">
+            </div>
+            <div class="col-4">
+                <label for="affiliation" class="form-label">Affiliation</label>
+                <input type="text" class="form-control" name="affiliation">
+            </div>
+            <div class="col-4">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email">
+            </div>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="correspondingAuthor">
+                    <label class="form-check-label">Corresponding Author</label>
+                </div>
+            </div>
+            <button type="button" class="btn btn-danger btn-sm deleteAuthor">🗑️</button>
+        `;
+        container.appendChild(newAuthorDiv);
+    });
+
+    // Event delegation to handle delete button clicks
+    document.getElementById('newAuthorsContainer').addEventListener('click', function(e) {
+        if (e.target.classList.contains('deleteAuthor')) {
+            e.target.parentElement.remove(); // Remove the author entry
+        }
+    });
+</script>
+
 {% endblock %}

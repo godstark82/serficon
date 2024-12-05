@@ -1,4 +1,5 @@
 // ignore: depend_on_referenced_packages
+import 'package:conference_admin/features/article/domain/entities/article_entity.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -205,8 +206,9 @@ class _AddArticlePageState extends State<AddArticlePage> {
 
                                   uploadTask.snapshotEvents.listen((snapshot) {
                                     setState(() {
-                                      _uploadProgress = snapshot.bytesTransferred /
-                                          snapshot.totalBytes;
+                                      _uploadProgress =
+                                          snapshot.bytesTransferred /
+                                              snapshot.totalBytes;
                                     });
                                   }, onError: (error) {
                                     if (kDebugMode) {
@@ -214,8 +216,8 @@ class _AddArticlePageState extends State<AddArticlePage> {
                                     }
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                          content:
-                                              Text('Upload error: ${error.toString()}')),
+                                          content: Text(
+                                              'Upload error: ${error.toString()}')),
                                     );
                                   });
 
@@ -242,8 +244,8 @@ class _AddArticlePageState extends State<AddArticlePage> {
                                   });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                        content:
-                                            Text('Upload failed: ${e.toString()}')),
+                                        content: Text(
+                                            'Upload failed: ${e.toString()}')),
                                   );
                                 }
                               }
@@ -357,8 +359,8 @@ class _AddArticlePageState extends State<AddArticlePage> {
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content:
-                                            Text('Image uploaded successfully')),
+                                        content: Text(
+                                            'Image uploaded successfully')),
                                   );
                                 } catch (e) {
                                   if (kDebugMode) {
@@ -369,8 +371,8 @@ class _AddArticlePageState extends State<AddArticlePage> {
                                   });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                        content:
-                                            Text('Upload failed: ${e.toString()}')),
+                                        content: Text(
+                                            'Upload failed: ${e.toString()}')),
                                   );
                                 }
                               }
@@ -422,18 +424,23 @@ class _AddArticlePageState extends State<AddArticlePage> {
                             selectedIssueId != null) {
                           final article = ArticleModel(
                             id: '',
-                            author: 'admin',
+                            email: 'admin',
+                            articleTitle: title,
+                            title: '',
+                            affiliation: '',
+                            paperType: [],
                             createdAt: DateTime.now(),
-                            updatedAt: DateTime.now(),
-                            status: ArticleStatus.pending.value,
-                            title: title,
+                            status: ArticleStatus.pending,
                             documentType: documentType,
-                            abstractString: abstractString,
-                            mainSubjects: mainSubjects,
+                            abstract: abstractString,
                             keywords: keywords,
-                            references: references,
-                            pdf: pdf,
-                            image: image,
+                            pdfUrl: pdf,
+                            authors: [
+                              AuthorModel(
+                                  name: 'admin',
+                                  email: 'admin',
+                                  affiliation: 'admin'),
+                            ],
                           );
                           context
                               .read<ArticleBloc>()

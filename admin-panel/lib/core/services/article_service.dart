@@ -96,7 +96,6 @@ class ArticleService {
 
       article = article.copyWith(
         createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
         id: docRef.id,
       );
 
@@ -109,9 +108,6 @@ class ArticleService {
   //! Update Article
   Future<void> updateArticle(ArticleModel article) async {
     try {
-      article = article.copyWith(
-        updatedAt: DateTime.now(),
-      );
       await firestore
           .collection('articles')
           .doc(article.id)

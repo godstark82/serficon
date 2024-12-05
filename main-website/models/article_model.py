@@ -4,43 +4,58 @@ from typing import List
 from enum import Enum
 
 class ArticleStatus(Enum):
-    PENDING = "Pending"
-    ACCEPTED = "Accepted"
-    REJECTED = "Rejected"
+    PENDING = "pending"
+    ACCEPTED = "accepted"
+    REJECTED = "rejected"
+
+class AuthorModel:
+    name:str
+    email:str
+    affiliation:str
+
+    # fromDict
+    def from_dict(self, data:dict):
+        self.name = data.get('name')
+        self.email = data.get('email')
+        self.affiliation = data.get('affiliation')
+        
+
+    # toJson
+    def to_json(self) -> dict:
+        return {
+            'name': self.name,
+            'email': self.email,
+            'affiliation': self.affiliation
+        }
 
 @dataclass
 class ArticleModel:
     id: str
-    journal_id: str
-    abstract_string: str
-    issue_id: str
-    volume_id: str
-    document_type: str
-    image: str
-    keywords: List[str]
-    main_subjects: List[str]
-    created_at: datetime
-    updated_at: datetime
-    pdf: str
-    references: List[str]
-    status: str
     title: str
+    email:str
+    article_title:str
+    document_type:str
+    affiliation:str
+    status:ArticleStatus
+    abstract:str
+    keywords:List[str]
+    paper_type:List[str]
+    pdf_url:str
+    authors:List[AuthorModel]
+
+
 
     def to_json(self) -> dict:
         return {
-            'id': self.id,
-            'journalId': self.journal_id,
-            'abstractString': self.abstract_string,
-            'issueId': self.issue_id,
-            'volumeId': self.volume_id,
-            'documentType': self.document_type,
-            'image': self.image,
-            'keywords': self.keywords,
-            'mainSubjects': self.main_subjects,
-            'createdAt': self.created_at.isoformat(),
-            'updatedAt': self.updated_at.isoformat(),
-            'pdf': self.pdf,
-            'references': self.references,
             'title': self.title,
-            'status': self.status
+            'email': self.email,
+            'article_title': self.article_title,
+            'document_type': self.document_type,
+            'affiliation': self.affiliation,
+            'abstract': self.abstract,
+            'keywords': self.keywords,
+            'paper_type': self.paper_type,
+            'pdf_url': self.pdf_url,
+            'authors': [author.to_json() for author in self.authors],
+            'status': self.status.value
         }

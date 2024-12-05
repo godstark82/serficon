@@ -8,6 +8,7 @@ def Registration():
     if request.method == 'POST':
         # Process the form data
         form_data = registration_service.get_registration_data()
+        registration_service.upload_article_to_db(form_data)
         flash("Data has been sent") 
         return redirect(url_for('registration.Registration'))
 

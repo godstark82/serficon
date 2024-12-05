@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:conference_admin/features/article/data/models/article_model.dart';
+import 'package:conference_admin/features/article/domain/entities/article_entity.dart';
 import 'package:conference_admin/features/article/presentation/bloc/article_bloc.dart';
 import 'package:conference_admin/routes.dart';
 import 'package:flutter/foundation.dart';
@@ -129,17 +130,19 @@ class _ArticlesPageState extends State<ArticlesPage> {
               ...articles.map((article) => TableRow(
                     children: [
                       _buildTableCell(Text(article.title)),
-                      _buildTableCell(Text(article.author)),
+                      _buildTableCell(Text(article.authors
+                          .map((author) => author.name)
+                          .join(', '))),
                       _buildTableCell(
                         Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: _getStatusColor(article.status),
+                            color: _getStatusColor(article.status.value),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            article.status,
+                            article.status.value,
                             style: const TextStyle(color: Colors.white),
                           ),
                         ),
@@ -248,11 +251,11 @@ class _ArticlesPageState extends State<ArticlesPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: _getStatusColor(article.status),
+                        color: _getStatusColor(article.status.value),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        article.status,
+                        article.status.value,
                         style: const TextStyle(color: Colors.white),
                       ),
                     ),
@@ -268,7 +271,6 @@ class _ArticlesPageState extends State<ArticlesPage> {
                       viewArticleDetails(article);
                     },
                   ),
-
                   IconButton(
                     icon: const Icon(Icons.edit, color: Colors.blue),
                     onPressed: () async {
@@ -276,14 +278,12 @@ class _ArticlesPageState extends State<ArticlesPage> {
                       _loadData();
                     },
                   ),
-
                   IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
                     onPressed: () {
                       deleteArticle(article.id);
                     },
                   ),
-
                   IconButton(
                     icon: const Icon(Icons.update, color: Colors.orange),
                     onPressed: () {
@@ -361,15 +361,15 @@ class _ArticlesPageState extends State<ArticlesPage> {
                   _buildDetailRow(
                     Icons.flag,
                     'Status',
-                    article.status,
-                    color: _getStatusColor(article.status),
+                    article.status.value,
+                    color: _getStatusColor(article.status.value),
                   ),
                   const SizedBox(height: 20),
                   const Text(
                     'Abstract:',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  Text(article.abstractString),
+                  Text(article.abstract),
                   const SizedBox(height: 20),
                   const SizedBox(height: 20),
                   ElevatedButton.icon(
@@ -377,11 +377,11 @@ class _ArticlesPageState extends State<ArticlesPage> {
                     label: const Text('Download PDF',
                         style: TextStyle(color: Colors.white)),
                     onPressed: () async {
-                      if (await canLaunchUrl(Uri.parse(article.pdf))) {
-                        await launchUrl(Uri.parse(article.pdf));
+                      if (await canLaunchUrl(Uri.parse(article.pdfUrl))) {
+                        await launchUrl(Uri.parse(article.pdfUrl));
                       } else {
                         if (kDebugMode) {
-                          print('Could not launch ${article.pdf}');
+                          print('Could not launch ${article.pdfUrl}');
                         }
                       }
                     },
@@ -445,7 +445,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        String newStatus = article.status;
+        String newStatus = article.status.value;
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
@@ -457,7 +457,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Current Status: ${article.status}',
+                    'Current Status: ${article.status.value}',
                     style: const TextStyle(fontStyle: FontStyle.italic),
                   ),
                   const SizedBox(height: 20),
@@ -509,7 +509,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                   ),
                   onPressed: () async {
                     // Update the article status
-                    final newArticle = article.copyWith(status: newStatus);
+                    final newArticle = article.copyWith(status: ArticleStatus.values.byName(newStatus));
                     context
                         .read<ArticleBloc>()
                         .add(EditArticleEvent(article: newArticle));

@@ -1,9 +1,8 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, render_template
 from services import components_service, page_service, imp_dates_service, schedule_service, reward_service, home_service
 from routes.registration import registration_bp
 from routes.contact import contact_bp
 from routes.home import webcomponents_bp
-from services.registration_service import get_registration_data
 
 
 app = Flask(__name__)

@@ -99,13 +99,9 @@ class _EditArticlePageState extends State<EditArticlePage> {
             final article = state.article;
             title = article.title;
             documentType = article.documentType;
-            abstractString = article.abstractString;
-            mainSubjects = article.mainSubjects;
+            abstractString = article.abstract;
             keywords = article.keywords;
-            references = article.references;
-            pdf = article.pdf;
-            image = article.image;
-            author = article.author;
+            pdf = article.pdfUrl;
 
             return ResponsiveBuilder(
               builder: (context, sizingInformation) {
@@ -269,16 +265,11 @@ class _EditArticlePageState extends State<EditArticlePage> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 final updatedArticle = article.copyWith(
-                                  author: author,
                                   title: title,
                                   documentType: documentType,
-                                  abstractString: abstractString,
-                                  mainSubjects: mainSubjects,
+                                  abstract: abstractString,
                                   keywords: keywords,
-                                  references: references,
-                                  pdf: pdf,
-                                  image: image,
-                                  updatedAt: DateTime.now(),
+                                  pdfUrl: pdf,
                                 );
                                 context.read<ArticleBloc>().add(
                                     EditArticleEvent(article: updatedArticle));

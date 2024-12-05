@@ -1,6 +1,8 @@
-from flask import  jsonify, request
-from firebase_admin import credentials, storage
+from flask import request
+from firebase_admin import storage
 from datetime import datetime
+from db_instance import db
+from models.article_model import ArticleModel, ArticleStatus, AuthorModel
 
 
 
@@ -11,7 +13,7 @@ def upload_to_firebase(file):
         filename = f"papers/{timestamp}_{file.filename}"
         
         # Get bucket
-        bucket = storage.bucket()
+        bucket = storage.bucket(name="conference-340f2.appspot.com")
         
         # Create blob and upload the file
         blob = bucket.blob(filename)
@@ -42,6 +44,8 @@ def get_registration_data():
         "keywords": request.form.get('keywords'),
         "topic_type": request.form.get('topic_type'),
         "paper_type": request.form.getlist('paper_type[]'),
+        "status": ArticleStatus.PENDING.value,
+        "created_at": datetime.now()
     }
     
     # Handle PDF file
@@ -72,8 +76,10 @@ def get_registration_data():
     
     form_data["additional_authors"] = additional_authors
     
-    # Print the collected data
-    print("Form Data:", form_data)
+
     
     return form_data
     
+
+def upload_article_to_db(data:dict):
+    db.collection("articles").add(data)

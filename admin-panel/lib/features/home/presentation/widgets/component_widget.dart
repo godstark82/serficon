@@ -111,7 +111,7 @@ class HomeComponentWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.grey.withOpacity(0.2)),
               ),
-              child: HtmlWidget(component.htmlContent),
+              child: HtmlWidget(component.htmlContent ?? ''),
             ),
             const SizedBox(height: 16),
             if (component.type == HomeComponentType.withCards &&

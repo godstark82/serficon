@@ -21,7 +21,7 @@ enum HomeComponentType {
 class HomeComponentEntity extends Equatable {
   final String id;
   final String title;
-  final String htmlContent;
+  final String? htmlContent;
   final bool display;
   final String? description;
   final Color bgColor;

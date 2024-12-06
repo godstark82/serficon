@@ -19,11 +19,12 @@ class EditComponentPage extends StatefulWidget {
 }
 
 class _EditComponentPageState extends State<EditComponentPage> {
-  final String componentId = Get.parameters['id']!;
+  final String componentId = Get.parameters['id'] ?? '';
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
-  final HtmlEditorController _htmlController = HtmlEditorController();
+  final HtmlEditorController _htmlController =
+      HtmlEditorController(processNewLineAsBr: true);
   HomeComponentModel? _component;
   bool _isHtmlLoaded = false;
   bool _isEditorReady = false;
@@ -49,7 +50,9 @@ class _EditComponentPageState extends State<EditComponentPage> {
     if (!_isHtmlLoaded && _component != null && _isEditorReady) {
       _titleController.text = _component!.title;
       _descriptionController.text = _component!.description ?? '';
-      _htmlController.setText(_component!.htmlContent);
+      if (_component!.htmlContent != null) {
+        _htmlController.setText(_component!.htmlContent!);
+      }
       _selectedOrder = _component!.order;
       setState(() {
         _selectedColor = _component!.bgColor;
@@ -65,12 +68,11 @@ class _EditComponentPageState extends State<EditComponentPage> {
     if (_formKey.currentState!.validate() && _component != null) {
       final htmlContent = await _htmlController.getText();
       final updatedComponent = _component!.copyWith(
-        title: _titleController.text,
-        description: _descriptionController.text,
-        bgColor: _selectedColor,
-        htmlContent: htmlContent,
-        order: _selectedOrder
-      );
+          title: _titleController.text,
+          description: _descriptionController.text.isEmpty ? null : _descriptionController.text,
+          bgColor: _selectedColor,
+          htmlContent: htmlContent.isEmpty ? null : htmlContent,
+          order: _selectedOrder);
 
       context.read<HomeBloc>().add(UpdateComponentEvent(updatedComponent));
       Navigator.pop(context);
@@ -79,11 +81,11 @@ class _EditComponentPageState extends State<EditComponentPage> {
 
   void _editCard(CardModel card, int index) {
     final TextEditingController titleController =
-        TextEditingController(text: card.title);
+        TextEditingController(text: card.title ?? '');
     final TextEditingController descController =
-        TextEditingController(text: card.description);
+        TextEditingController(text: card.description ?? '');
     final TextEditingController imageController =
-        TextEditingController(text: card.image);
+        TextEditingController(text: card.image ?? '');
 
     showDialog(
       context: context,
@@ -138,9 +140,9 @@ class _EditComponentPageState extends State<EditComponentPage> {
               if (_component?.cards != null) {
                 setState(() {
                   _component!.cards![index] = CardModel(
-                    title: titleController.text,
-                    description: descController.text,
-                    image: imageController.text,
+                    title: titleController.text.isEmpty ? null : titleController.text,
+                    description: descController.text.isEmpty ? null : descController.text,
+                    image: imageController.text.isEmpty ? null : imageController.text,
                   );
                 });
               }
@@ -154,10 +156,9 @@ class _EditComponentPageState extends State<EditComponentPage> {
   }
 
   void _editStream(StreamCardModel stream, int index) {
-    final titleController = TextEditingController(text: stream.title);
-    final descriptionsController = TextEditingController(
-      text: stream.descriptions?.join('\n') ?? ''
-    );
+    final titleController = TextEditingController(text: stream.title ?? '');
+    final descriptionsController =
+        TextEditingController(text: stream.descriptions?.join('\n') ?? '');
 
     showDialog(
       context: context,
@@ -202,9 +203,13 @@ class _EditComponentPageState extends State<EditComponentPage> {
               if (_component?.streamCards != null) {
                 setState(() {
                   _component!.streamCards![index] = StreamCardModel(
-                    title: titleController.text,
-                    descriptions: descriptionsController.text.split('\n')
-                      .where((line) => line.trim().isNotEmpty).toList(),
+                    title: titleController.text.isEmpty ? null : titleController.text,
+                    descriptions: descriptionsController.text.isEmpty 
+                      ? null 
+                      : descriptionsController.text
+                          .split('\n')
+                          .where((line) => line.trim().isNotEmpty)
+                          .toList(),
                   );
                 });
               }
@@ -223,14 +228,15 @@ class _EditComponentPageState extends State<EditComponentPage> {
       _component?.cards?.add(CardModel(
         title: 'New Card',
         description: 'Description',
-        image: '',
+        image: null,
       ));
     });
   }
 
   void _addStream() {
     setState(() {
-      _component = _component?.copyWith(streamCards: _component?.streamCards ?? []);
+      _component =
+          _component?.copyWith(streamCards: _component?.streamCards ?? []);
       _component?.streamCards?.add(StreamCardModel(
         title: 'New Stream',
         descriptions: ['Description'],
@@ -307,9 +313,9 @@ class _EditComponentPageState extends State<EditComponentPage> {
                     const SizedBox(height: 16),
                     Row(
                       children: [
-                        const Text('Background Color:', 
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                        ),
+                        const Text('Background Color:',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
                         const SizedBox(width: 16),
                         GestureDetector(
                           onTap: () {
@@ -350,13 +356,14 @@ class _EditComponentPageState extends State<EditComponentPage> {
                     const SizedBox(height: 16),
                     Row(
                       children: [
-                        const Text('Order:', 
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                        ),
+                        const Text('Order:',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
                         const SizedBox(width: 16),
                         DropdownButton<int>(
                           value: _selectedOrder,
-                          items: List.generate(state.componentModel.length, (index) {
+                          items: List.generate(state.componentModel.length,
+                              (index) {
                             return DropdownMenuItem(
                               value: index,
                               child: Text(index.toString()),
@@ -374,7 +381,7 @@ class _EditComponentPageState extends State<EditComponentPage> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Component Type: ${_component?.type.value}',
+                      'Component Type: ${_component?.type.value ?? ""}',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -387,19 +394,16 @@ class _EditComponentPageState extends State<EditComponentPage> {
                       height: 400,
                       child: HtmlEditor(
                         otherOptions: OtherOptions(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(8),
-                          )
-                        ),
-                        callbacks: Callbacks(
-                          onInit: () {
-                            _isEditorReady = true;
-                            if (_component != null) {
-                              _loadHtmlContent();
-                            }
+                            decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
+                        )),
+                        callbacks: Callbacks(onInit: () {
+                          _isEditorReady = true;
+                          if (_component != null) {
+                            _loadHtmlContent();
                           }
-                        ),
+                        }),
                         controller: _htmlController,
                         htmlEditorOptions: const HtmlEditorOptions(
                           hint: 'Enter your content here...',
@@ -418,7 +422,7 @@ class _EditComponentPageState extends State<EditComponentPage> {
                                 return Card(
                                   child: ListTile(
                                     leading: card.image != null &&
-                                            card.image!.isNotEmpty && 
+                                            card.image!.isNotEmpty &&
                                             card.image!.startsWith('http')
                                         ? Image.network(
                                             card.image!,
@@ -458,21 +462,24 @@ class _EditComponentPageState extends State<EditComponentPage> {
                       SectionWidget(
                         title: 'Stream Cards',
                         children: [
-                          ..._component?.streamCards?.asMap().entries.map((entry) {
+                          ..._component?.streamCards
+                                  ?.asMap()
+                                  .entries
+                                  .map((entry) {
                                 final index = entry.key;
                                 final stream = entry.value;
                                 return Card(
                                   child: ListTile(
                                     title: Text(stream.title ?? ''),
                                     subtitle: Text(
-                                      stream.descriptions?.join(', ') ?? ''
-                                    ),
+                                        stream.descriptions?.join(', ') ?? ''),
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         IconButton(
                                           icon: const Icon(Icons.edit),
-                                          onPressed: () => _editStream(stream, index),
+                                          onPressed: () =>
+                                              _editStream(stream, index),
                                         ),
                                         IconButton(
                                           icon: const Icon(Icons.delete),

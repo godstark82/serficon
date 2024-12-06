@@ -22,7 +22,7 @@ class _AddComponentPageState extends State<AddComponentPage> {
   final _descriptionController = TextEditingController();
   final _htmlController = HtmlEditorController();
   HomeComponentType _selectedType = HomeComponentType.withCards;
-  String _htmlContent = '';
+  String? _htmlContent;
   List<CardModel> cards = [];
   List<StreamCardModel> streams = [];
   int _selectedOrder = 0;
@@ -191,7 +191,7 @@ class _AddComponentPageState extends State<AddComponentPage> {
                   ),
                   callbacks: Callbacks(
                     onChangeContent: (String? changed) {
-                      _htmlContent = changed ?? '';
+                      _htmlContent = changed;
                     },
                   ),
                 ),
@@ -225,7 +225,7 @@ class _AddComponentPageState extends State<AddComponentPage> {
   }
 
   void _saveComponent() {
-    if (_titleController.text.isEmpty || _htmlContent.isEmpty) {
+    if (_titleController.text.isEmpty) {
       Get.snackbar(
         'Error',
         'Please fill all fields',

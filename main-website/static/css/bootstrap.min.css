@@ -84,7 +84,7 @@ h6,
     font-family: "Roboto", sans-serif;
     font-weight: 700;
     line-height: 1.2;
-    color: #1B2C51
+    color: #000000
 }
 
 h1,
@@ -151,7 +151,8 @@ h6,
 
 p {
     margin-top: 0;
-    margin-bottom: 1rem
+    margin-bottom: 1rem;
+    color: #000000;
 }
 
 abbr[title],
@@ -176,7 +177,8 @@ ol,
 ul,
 dl {
     margin-top: 0;
-    margin-bottom: 1rem
+    margin-bottom: 1rem;
+    color: #000000
 }
 
 ol ol,
@@ -12535,5 +12537,9 @@ fieldset:disabled .btn {
     .d-print-none {
         display: none !important
     }
+}
+
+span {
+    color: #000000
 }
 

@@ -3,6 +3,10 @@
 .env
 .log
 env
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
 build/
 .dart_tool/
 __pycache__/

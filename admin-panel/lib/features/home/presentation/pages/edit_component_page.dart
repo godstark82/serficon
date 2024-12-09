@@ -1,6 +1,7 @@
 import 'package:conference_admin/core/const/toolbars.dart';
 import 'package:conference_admin/core/models/card_model.dart';
 import 'package:conference_admin/core/models/stream_card_model.dart';
+import 'package:conference_admin/core/services/firebase_storage_services.dart';
 import 'package:conference_admin/features/home/data/models/home_component_model.dart';
 import 'package:conference_admin/features/home/domain/entities/home_component_entity.dart';
 import 'package:conference_admin/features/home/presentation/bloc/home_bloc.dart';
@@ -156,14 +157,37 @@ class _EditComponentPageState extends State<EditComponentPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              Focus(
-                child: TextFormField(
-                  controller: imageController,
-                  decoration: const InputDecoration(
-                    labelText: 'Image URL',
-                    border: OutlineInputBorder(),
+              Row(
+                children: [
+                  Expanded(
+                    child: Focus(
+                      child: TextFormField(
+                        controller: imageController,
+                        decoration: const InputDecoration(
+                          labelText: 'Image URL',
+                          border: OutlineInputBorder(),
+                        ),
+                        enabled: false,
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        final imageUrl =
+                            await FirebaseStorageServices.pickAndUploadImage();
+
+                        imageController.text = imageUrl;
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Failed to upload image: $e')),
+                        );
+                      }
+                    },
+                    child: const Text('Upload Image'),
+                  ),
+                ],
               ),
             ],
           ),
@@ -491,10 +515,9 @@ class _EditComponentPageState extends State<EditComponentPage> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         IconButton(
-                                          icon: const Icon(Icons.edit),
-                                          onPressed: () =>
-                                              _editCard(card, index),
-                                        ),
+                                            icon: const Icon(Icons.edit),
+                                            onPressed: () =>
+                                                _editCard(card, index)),
                                         IconButton(
                                           icon: const Icon(Icons.delete),
                                           onPressed: () => _removeCard(index),

@@ -82,6 +82,41 @@ class _EditComponentPageState extends State<EditComponentPage> {
     }
   }
 
+  void _showYoutubeDialog() {
+    final TextEditingController iframeController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add Youtube Video'),
+          content: TextField(
+            controller: iframeController,
+            decoration: const InputDecoration(
+              labelText: 'Paste iframe code here',
+              border: OutlineInputBorder(),
+            ),
+            maxLines: 5,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                if (iframeController.text.isNotEmpty) {
+                  _htmlController.insertHtml(iframeController.text);
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _editCard(CardModel card, int index) {
     final TextEditingController titleController =
         TextEditingController(text: card.title ?? '');
@@ -273,6 +308,10 @@ class _EditComponentPageState extends State<EditComponentPage> {
       appBar: AppBar(
         title: const Text('Edit Component'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.video_library),
+            onPressed: _showYoutubeDialog,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ElevatedButton(

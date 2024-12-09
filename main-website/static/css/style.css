@@ -7,10 +7,13 @@
 }
 
 * {
-    font-family: "Space Grotesk", sans-serif;
+    font-family: "Space Grotesk", sans-serif !important;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+}
+p, span{
+    font-family: "Space Grotesk", sans-serif !important; 
 }
 
 .fw-medium {

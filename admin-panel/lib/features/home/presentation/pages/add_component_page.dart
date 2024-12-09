@@ -35,6 +35,41 @@ class _AddComponentPageState extends State<AddComponentPage> {
     context.read<HomeBloc>().add(GetHomeComponentEvent());
   }
 
+  void _showYoutubeDialog() {
+    final TextEditingController iframeController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add Youtube Video'),
+          content: TextField(
+            controller: iframeController,
+            decoration: const InputDecoration(
+              labelText: 'Paste iframe code here',
+              border: OutlineInputBorder(),
+            ),
+            maxLines: 5,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                if (iframeController.text.isNotEmpty) {
+                  _htmlController.insertHtml(iframeController.text);
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,9 +213,18 @@ class _AddComponentPageState extends State<AddComponentPage> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Text('HTML Content:',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('HTML Content:',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    ElevatedButton.icon(
+                      onPressed: _showYoutubeDialog,
+                      icon: const Icon(Icons.video_library),
+                      label: const Text('Embed Youtube'),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 8),
                 Container(
                   decoration: BoxDecoration(
@@ -193,8 +237,7 @@ class _AddComponentPageState extends State<AddComponentPage> {
                     htmlToolbarOptions: const HtmlToolbarOptions(
                       toolbarPosition: ToolbarPosition.belowEditor,
                       allowImagePicking: true,
-                     defaultToolbarButtons: customToolbarOptions
-                    
+                      defaultToolbarButtons: customToolbarOptions
                     ),
                     htmlEditorOptions: const HtmlEditorOptions(
                       hint: 'Enter your content here...',

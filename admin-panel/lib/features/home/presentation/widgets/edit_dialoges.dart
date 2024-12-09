@@ -1,3 +1,4 @@
+import 'package:conference_admin/core/const/toolbars.dart';
 import 'package:conference_admin/core/models/card_model.dart';
 import 'package:conference_admin/core/models/stream_card_model.dart';
 import 'package:conference_admin/core/services/firebase_storage_services.dart';
@@ -149,6 +150,10 @@ class EditDialog extends StatelessWidget {
                                 const TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 8),
                         HtmlEditor(
+                          htmlToolbarOptions: const HtmlToolbarOptions(
+                            toolbarPosition: ToolbarPosition.belowEditor,
+                            allowImagePicking: true,
+                            defaultToolbarButtons: customToolbarOptions),
                           controller: HtmlEditorController(),
                           htmlEditorOptions: HtmlEditorOptions(
                             initialText: entry.value.text,
@@ -320,6 +325,10 @@ class EditDialogWithCards extends StatelessWidget {
                                   const TextStyle(fontWeight: FontWeight.bold)),
                           const SizedBox(height: 8),
                           HtmlEditor(
+                            htmlToolbarOptions: const HtmlToolbarOptions(
+                                toolbarPosition: ToolbarPosition.belowEditor,
+                                allowImagePicking: true,
+                                defaultToolbarButtons: customToolbarOptions),
                             controller: HtmlEditorController(),
                             htmlEditorOptions: HtmlEditorOptions(
                               initialText: entry.value.text,
@@ -492,6 +501,10 @@ class EditDialogWithStreams extends StatelessWidget {
                                   const TextStyle(fontWeight: FontWeight.bold)),
                           const SizedBox(height: 8),
                           HtmlEditor(
+                            htmlToolbarOptions: const HtmlToolbarOptions(
+                                toolbarPosition: ToolbarPosition.belowEditor,
+                                allowImagePicking: true,
+                                defaultToolbarButtons: customToolbarOptions),
                             controller: HtmlEditorController(),
                             htmlEditorOptions: HtmlEditorOptions(
                               initialText: entry.value.text,

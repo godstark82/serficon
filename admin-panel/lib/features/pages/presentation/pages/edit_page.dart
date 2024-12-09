@@ -1,3 +1,4 @@
+import 'package:conference_admin/core/const/toolbars.dart';
 import 'package:conference_admin/features/pages/presentation/bloc/about_bloc.dart';
 import 'package:conference_admin/features/pages/data/models/page_model.dart';
 import 'package:flutter/material.dart';
@@ -38,9 +39,7 @@ class _EditAboutPageState extends State<EditAboutPage> {
       if (content.isEmpty) return;
 
       final page = PagesModel(
-          id: pageId,
-          title: _titleController.text,
-          htmlContent: content);
+          id: pageId, title: _titleController.text, htmlContent: content);
 
       context.read<AboutBloc>().add(UpdatePageEvent(page));
       Navigator.pop(context);
@@ -105,8 +104,14 @@ class _EditAboutPageState extends State<EditAboutPage> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  if (_initialContent != null) // Only show editor once we have content
+                  if (_initialContent !=
+                      null) // Only show editor once we have content
                     HtmlEditor(
+                      htmlToolbarOptions: const HtmlToolbarOptions(
+                        toolbarPosition: ToolbarPosition.belowEditor,
+                        allowImagePicking: true,
+                        defaultToolbarButtons: customToolbarOptions,
+                      ),
                       controller: _contentController,
                       htmlEditorOptions: HtmlEditorOptions(
                         hint: 'Write your content here...',

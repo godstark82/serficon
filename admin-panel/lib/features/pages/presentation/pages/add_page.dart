@@ -1,3 +1,4 @@
+import 'package:conference_admin/core/const/toolbars.dart';
 import 'package:conference_admin/features/pages/presentation/bloc/about_bloc.dart';
 import 'package:conference_admin/features/pages/data/models/page_model.dart';
 import 'package:flutter/foundation.dart';
@@ -126,6 +127,10 @@ class _AddAboutPageState extends State<AddAboutPage> {
               ),
               const SizedBox(height: 16),
               HtmlEditor(
+                htmlToolbarOptions: const HtmlToolbarOptions(
+                    toolbarPosition: ToolbarPosition.belowEditor,
+                    allowImagePicking: true,
+                    defaultToolbarButtons: customToolbarOptions),
                 controller: _contentController,
                 htmlEditorOptions: const HtmlEditorOptions(
                   hint: 'Write your content here...',

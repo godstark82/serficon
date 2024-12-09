@@ -191,7 +191,7 @@ class CardsEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final htmlController = HtmlEditorController();
+    final htmlController = HtmlEditorController(processNewLineAsBr: true);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

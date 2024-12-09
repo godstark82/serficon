@@ -1,3 +1,4 @@
+import 'package:conference_admin/core/const/toolbars.dart';
 import 'package:conference_admin/core/models/card_model.dart';
 import 'package:conference_admin/core/models/stream_card_model.dart';
 import 'package:conference_admin/features/home/data/models/home_component_model.dart';
@@ -69,7 +70,9 @@ class _EditComponentPageState extends State<EditComponentPage> {
       final htmlContent = await _htmlController.getText();
       final updatedComponent = _component!.copyWith(
           title: _titleController.text,
-          description: _descriptionController.text.isEmpty ? null : _descriptionController.text,
+          description: _descriptionController.text.isEmpty
+              ? null
+              : _descriptionController.text,
           bgColor: _selectedColor,
           htmlContent: htmlContent.isEmpty ? null : htmlContent,
           order: _selectedOrder);
@@ -140,9 +143,15 @@ class _EditComponentPageState extends State<EditComponentPage> {
               if (_component?.cards != null) {
                 setState(() {
                   _component!.cards![index] = CardModel(
-                    title: titleController.text.isEmpty ? null : titleController.text,
-                    description: descController.text.isEmpty ? null : descController.text,
-                    image: imageController.text.isEmpty ? null : imageController.text,
+                    title: titleController.text.isEmpty
+                        ? null
+                        : titleController.text,
+                    description: descController.text.isEmpty
+                        ? null
+                        : descController.text,
+                    image: imageController.text.isEmpty
+                        ? null
+                        : imageController.text,
                   );
                 });
               }
@@ -203,13 +212,15 @@ class _EditComponentPageState extends State<EditComponentPage> {
               if (_component?.streamCards != null) {
                 setState(() {
                   _component!.streamCards![index] = StreamCardModel(
-                    title: titleController.text.isEmpty ? null : titleController.text,
-                    descriptions: descriptionsController.text.isEmpty 
-                      ? null 
-                      : descriptionsController.text
-                          .split('\n')
-                          .where((line) => line.trim().isNotEmpty)
-                          .toList(),
+                    title: titleController.text.isEmpty
+                        ? null
+                        : titleController.text,
+                    descriptions: descriptionsController.text.isEmpty
+                        ? null
+                        : descriptionsController.text
+                            .split('\n')
+                            .where((line) => line.trim().isNotEmpty)
+                            .toList(),
                   );
                 });
               }
@@ -393,6 +404,10 @@ class _EditComponentPageState extends State<EditComponentPage> {
                     SizedBox(
                       height: 400,
                       child: HtmlEditor(
+                        htmlToolbarOptions: const HtmlToolbarOptions(
+                            toolbarPosition: ToolbarPosition.belowEditor,
+                            allowImagePicking: true,
+                            defaultToolbarButtons: customToolbarOptions),
                         otherOptions: OtherOptions(
                             decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),

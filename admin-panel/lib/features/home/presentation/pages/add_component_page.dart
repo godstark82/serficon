@@ -1,3 +1,4 @@
+import 'package:conference_admin/core/const/toolbars.dart';
 import 'package:conference_admin/core/models/card_model.dart';
 import 'package:conference_admin/core/models/stream_card_model.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class AddComponentPage extends StatefulWidget {
 class _AddComponentPageState extends State<AddComponentPage> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _htmlController = HtmlEditorController();
+  final _htmlController = HtmlEditorController(processNewLineAsBr: true);
   HomeComponentType _selectedType = HomeComponentType.withCards;
   String? _htmlContent;
   List<CardModel> cards = [];
@@ -181,18 +182,33 @@ class _AddComponentPageState extends State<AddComponentPage> {
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                HtmlEditor(
-                  controller: _htmlController,
-                  htmlEditorOptions: const HtmlEditorOptions(
-                    hint: 'Enter your content here...',
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(4),
+                    color: Colors.white,
                   ),
-                  otherOptions: const OtherOptions(
-                    height: 400,
-                  ),
-                  callbacks: Callbacks(
-                    onChangeContent: (String? changed) {
-                      _htmlContent = changed;
-                    },
+                  child: HtmlEditor(
+                    controller: _htmlController,
+                    htmlToolbarOptions: const HtmlToolbarOptions(
+                      toolbarPosition: ToolbarPosition.belowEditor,
+                      allowImagePicking: true,
+                     defaultToolbarButtons: customToolbarOptions
+                    
+                    ),
+                    htmlEditorOptions: const HtmlEditorOptions(
+                      hint: 'Enter your content here...',
+                      shouldEnsureVisible: true,
+                      autoAdjustHeight: true,
+                    ),
+                    otherOptions: const OtherOptions(
+                      height: 400,
+                    ),
+                    callbacks: Callbacks(
+                      onChangeContent: (String? changed) {
+                        _htmlContent = changed;
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),

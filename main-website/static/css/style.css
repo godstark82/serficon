@@ -16,6 +16,19 @@ p, span{
     font-family: "Space Grotesk", sans-serif !important; 
 }
 
+iframe {
+    border: none;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    iframe {
+        height: 300px; /* Smaller height on obile */
+    }
+}
+
 .fw-medium {
     font-weight: 500 !important;
 }

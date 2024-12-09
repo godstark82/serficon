@@ -17,7 +17,7 @@ app.register_blueprint(webcomponents_bp)
 @app.errorhandler(404)
 def page_not_found(e):
     sections = home_service.get_home_data()
-    navItems = components_service.get_navbar_items()
+    navItems = components_service.get_navbar_items()    
     components = components_service.get_all_components()
     return render_template('pages/404.html', components=components, sections=sections, navItems=navItems)
 

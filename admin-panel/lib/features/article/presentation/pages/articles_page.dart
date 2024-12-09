@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:conference_admin/features/article/data/models/article_model.dart';
-import 'package:conference_admin/features/article/domain/entities/article_entity.dart';
 import 'package:conference_admin/features/article/presentation/bloc/article_bloc.dart';
 import 'package:conference_admin/routes.dart';
 import 'package:flutter/foundation.dart';
@@ -43,16 +42,6 @@ class _ArticlesPageState extends State<ArticlesPage> {
               automaticallyImplyLeading: false,
               title: const Text('Articles'),
               backgroundColor: Colors.blue,
-              actions: [
-                ElevatedButton(
-                  onPressed: () async {
-                    await Get.toNamed(Routes.dashboard + Routes.addArticle);
-                    _loadData();
-                  },
-                  style: ElevatedButton.styleFrom(),
-                  child: const Text('Add Article'),
-                ),
-              ],
             ),
             body: ResponsiveBuilder(
               builder: (context, sizingInformation) {
@@ -109,11 +98,14 @@ class _ArticlesPageState extends State<ArticlesPage> {
         builder: (BuildContext context, BoxConstraints constraints) {
           return Table(
             columnWidths: const {
-              0: FlexColumnWidth(2.5), // Title
-              1: FlexColumnWidth(2), // Authors
-              2: FlexColumnWidth(1.5), // Status
-              3: FlexColumnWidth(1.5), // Publication Date
-              4: FlexColumnWidth(1), // Actions
+              0: FlexColumnWidth(2), // Title
+              1: FlexColumnWidth(1.5), // Authors
+              2: FlexColumnWidth(1.5), // Abstract
+              3: FlexColumnWidth(1), // Status
+              4: FlexColumnWidth(1), // Publication Date
+              5: FlexColumnWidth(1), // PDF URL
+              6: FlexColumnWidth(1), // Keywords
+              7: FlexColumnWidth(1), // Actions
             },
             border: TableBorder.all(color: Colors.grey[300]!),
             children: [
@@ -122,17 +114,21 @@ class _ArticlesPageState extends State<ArticlesPage> {
                 children: [
                   _buildTableHeader('Title'),
                   _buildTableHeader('Authors'),
+                  _buildTableHeader('Abstract'),
                   _buildTableHeader('Status'),
                   _buildTableHeader('Publication Date'),
+                  _buildTableHeader('PDF'),
+                  _buildTableHeader('Keywords'),
                   _buildTableHeader('Actions'),
                 ],
               ),
               ...articles.map((article) => TableRow(
                     children: [
-                      _buildTableCell(Text(article.title)),
-                      _buildTableCell(Text(article.authors
+                      _buildTableCell(Text(article.articleTitle)),
+                      _buildTableCell(Text(article.additionalAuthors
                           .map((author) => author.name)
                           .join(', '))),
+                      _buildTableCell(Text(article.abstractText)),
                       _buildTableCell(
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -150,14 +146,22 @@ class _ArticlesPageState extends State<ArticlesPage> {
                       _buildTableCell(Text(DateFormat('dd/MMMM/yyyy')
                           .format(article.createdAt))),
                       _buildTableCell(
+                        IconButton(
+                          icon: const Icon(Icons.picture_as_pdf),
+                          onPressed: () async {
+                            if (await canLaunchUrl(Uri.parse(article.pdfUrl))) {
+                              await launchUrl(Uri.parse(article.pdfUrl));
+                            }
+                          },
+                        ),
+                      ),
+                      _buildTableCell(Text(article.keywords)),
+                      _buildTableCell(
                         PopupMenuButton<String>(
                           onSelected: (String result) {
                             switch (result) {
                               case 'view':
                                 viewArticleDetails(article);
-                                break;
-                              case 'edit':
-                                editArticle(article.id);
                                 break;
                               case 'delete':
                                 deleteArticle(article.id);
@@ -177,13 +181,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                                 title: Text('View Details'),
                               ),
                             ),
-                            const PopupMenuItem<String>(
-                              value: 'edit',
-                              child: ListTile(
-                                leading: Icon(Icons.edit, color: Colors.green),
-                                title: Text('Edit'),
-                              ),
-                            ),
+                            
                             const PopupMenuItem<String>(
                               value: 'delete',
                               child: ListTile(
@@ -244,6 +242,20 @@ class _ArticlesPageState extends State<ArticlesPage> {
             title: Text(article.title),
             children: [
               ListTile(
+                title: const Text('Abstract:'),
+                subtitle: Text(article.abstractText),
+              ),
+              ListTile(
+                title: const Text('Authors:'),
+                subtitle: Text(article.additionalAuthors
+                    .map((author) => author.name)
+                    .join(', ')),
+              ),
+              ListTile(
+                title: const Text('Keywords:'),
+                subtitle: Text(article.keywords),
+              ),
+              ListTile(
                 title: Row(
                   children: [
                     const Text('Status: '),
@@ -261,6 +273,11 @@ class _ArticlesPageState extends State<ArticlesPage> {
                     ),
                   ],
                 ),
+              ),
+              ListTile(
+                title: const Text('Publication Date:'),
+                subtitle:
+                    Text(DateFormat('dd/MMMM/yyyy').format(article.createdAt)),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -288,6 +305,14 @@ class _ArticlesPageState extends State<ArticlesPage> {
                     icon: const Icon(Icons.update, color: Colors.orange),
                     onPressed: () {
                       updateStatus(article);
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.picture_as_pdf),
+                    onPressed: () async {
+                      if (await canLaunchUrl(Uri.parse(article.pdfUrl))) {
+                        await launchUrl(Uri.parse(article.pdfUrl));
+                      }
                     },
                   ),
                 ],
@@ -330,6 +355,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
           child: SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.all(20),
+              width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Colors.white,
@@ -347,7 +373,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    article.title,
+                    article.articleTitle,
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -356,55 +382,90 @@ class _ArticlesPageState extends State<ArticlesPage> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
-                  _buildDetailRow(Icons.calendar_today, 'Publication Date',
-                      DateFormat('dd/MMMM/yyyy').format(article.createdAt)),
+                  _buildDetailRow(Icons.person, 'Author Name', article.name),
+                  _buildDetailRow(Icons.email, 'Email', article.email),
+                  _buildDetailRow(Icons.title, 'Title', article.title),
+                  _buildDetailRow(Icons.description, 'Document Type', article.documentType),
+                  _buildDetailRow(Icons.business, 'Affiliation', article.affiliation),
+                  _buildDetailRow(Icons.topic, 'Topic Type', article.topicType),
+                  _buildDetailRow(Icons.article, 'Paper Types', article.paperType.join(", ")),
                   _buildDetailRow(
                     Icons.flag,
                     'Status',
                     article.status.value,
                     color: _getStatusColor(article.status.value),
                   ),
+                  _buildDetailRow(Icons.calendar_today, 'Created Date',
+                      DateFormat('dd/MMMM/yyyy').format(article.createdAt)),
+                  
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Additional Authors:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  ...article.additionalAuthors.map((author) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('• Name: ${author.name}'),
+                      Text('  Affiliation: ${author.affiliation}'),
+                      Text('  Email: ${author.email}'),
+                      Text('  Corresponding Author: ${author.isCorresponding ? 'Yes' : 'No'}'),
+                      const SizedBox(height: 10),
+                    ],
+                  )).toList(),
+                  
                   const SizedBox(height: 20),
                   const Text(
                     'Abstract:',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  Text(article.abstract),
+                  Text(article.abstractText),
+                  
                   const SizedBox(height: 20),
-                  const SizedBox(height: 20),
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.download, color: Colors.white),
-                    label: const Text('Download PDF',
-                        style: TextStyle(color: Colors.white)),
-                    onPressed: () async {
-                      if (await canLaunchUrl(Uri.parse(article.pdfUrl))) {
-                        await launchUrl(Uri.parse(article.pdfUrl));
-                      } else {
-                        if (kDebugMode) {
-                          print('Could not launch ${article.pdfUrl}');
-                        }
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
+                  const Text(
+                    'Keywords:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                  Text(article.keywords),
+                  
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.download, color: Colors.white),
+                        label: const Text('Download PDF',
+                            style: TextStyle(color: Colors.white)),
+                        onPressed: () async {
+                          if (await canLaunchUrl(Uri.parse(article.pdfUrl))) {
+                            await launchUrl(Uri.parse(article.pdfUrl));
+                          } else {
+                            if (kDebugMode) {
+                              print('Could not launch ${article.pdfUrl}');
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
                       ),
-                    ),
-                    child: const Text('Close',
-                        style: TextStyle(color: Colors.white)),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        child: const Text('Close',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -464,7 +525,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                   DropdownButton<String>(
                     value: newStatus,
                     isExpanded: true,
-                    items: <String>['Published', 'Pending', 'Rejected']
+                    items: <String>['published', 'pending', 'rejected']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -509,7 +570,8 @@ class _ArticlesPageState extends State<ArticlesPage> {
                   ),
                   onPressed: () async {
                     // Update the article status
-                    final newArticle = article.copyWith(status: ArticleStatus.values.byName(newStatus));
+                    final newArticle = article.copyWith(
+                        status: ArticleStatus.values.byName(newStatus));
                     context
                         .read<ArticleBloc>()
                         .add(EditArticleEvent(article: newArticle));

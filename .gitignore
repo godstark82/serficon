@@ -6,7 +6,7 @@ env
 .flutter-plugins
 .flutter-plugins-dependencies
 .metadata
-
+.dart_tool
 build/
 .dart_tool/
 __pycache__/

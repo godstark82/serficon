@@ -1,7 +1,5 @@
 import 'package:conference_admin/features/pages/presentation/pages/add_page.dart';
 import 'package:conference_admin/features/pages/presentation/pages/edit_page.dart';
-import 'package:conference_admin/features/article/presentation/pages/add_article_page.dart';
-import 'package:conference_admin/features/article/presentation/pages/edit_article_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/add_schedule_page.dart';
 import 'package:conference_admin/features/detailed-schedule/presentation/pages/update_schedule_page.dart';
 import 'package:conference_admin/features/home/presentation/pages/add_component_page.dart';
@@ -108,17 +106,6 @@ List<GetPage> routes = [
       name: Routes.dashboard + Routes.updateImpDates,
       page: () => const UpdateImpDatesPage(),
       middlewares: [AuthGuard()]),
-
-  GetPage(
-    name: Routes.dashboard + Routes.addArticle,
-    page: () => const AddArticlePage(),
-    middlewares: [AuthGuard()],
-  ),
-  GetPage(
-    name: Routes.dashboard + Routes.editArticle,
-    page: () => const EditArticlePage(),
-    middlewares: [AuthGuard()],
-  ),
 
   // About
   GetPage(

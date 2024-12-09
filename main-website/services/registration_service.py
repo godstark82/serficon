@@ -44,8 +44,8 @@ def get_registration_data():
         "keywords": request.form.get('keywords'),
         "topic_type": request.form.get('topic_type'),
         "paper_type": request.form.getlist('paper_type[]'),
-        "status": ArticleStatus.PENDING.value,
-        "created_at": datetime.now()
+        "status": "pending",
+        "created_at": datetime.now().isoformat()
     }
     
     # Handle PDF file
@@ -77,9 +77,12 @@ def get_registration_data():
     form_data["additional_authors"] = additional_authors
     
 
+
     
     return form_data
     
 
 def upload_article_to_db(data:dict):
-    db.collection("articles").add(data)
+    doc_ref = db.collection("articles").document()
+    data["id"] = doc_ref.id
+    doc_ref.set(data)

@@ -3,120 +3,137 @@
 <title>
     Contact Us
 </title>
-    <!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">Contact Us</h1>
-            <nav aria-label="breadcrumb animated slideInDown">
-            </nav>
-        </div>
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Contact Us</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+        </nav>
     </div>
-    <!-- Page Header End -->
+</div>
+<!-- Page Header End -->
 
-    <!-- Flash Messages Start -->
+<!-- Flash Messages Start -->
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+<!-- Flash Messages End -->
+
+<!-- Contact Start -->
+<div class="container-xxl py-5">
     <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="row g-4">
+            <!-- Contact Info Cards -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="h-100 bg-light rounded d-flex align-items-center p-4 p-sm-5">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white"
+                        style="width: 45px; height: 45px;">
+                        <svg class="text-primary" aria-hidden="true" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z" clip-rule="evenodd"/>
+                          </svg>
+                          
                     </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
-    <!-- Flash Messages End -->
+                    <div class="ms-3 ms-sm-4">
+                        <p class="mb-2">Address</p>
+                        <h5 class="mb-0 fs-6 fs-sm-5">{{ components.address }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="h-100 bg-light rounded d-flex align-items-center p-4 p-sm-5">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white"
+                        style="width: 45px; height: 45px;">
+                        <svg class="text-primary" aria-hidden="true" width="24" height="24" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M18.427 14.768 17.2 13.542a1.733 1.733 0 0 0-2.45 0l-.613.613a1.732 1.732 0 0 1-2.45 0l-1.838-1.84a1.735 1.735 0 0 1 0-2.452l.612-.613a1.735 1.735 0 0 0 0-2.452L9.237 5.572a1.6 1.6 0 0 0-2.45 0c-3.223 3.2-1.702 6.896 1.519 10.117 3.22 3.221 6.914 4.745 10.12 1.535a1.601 1.601 0 0 0 0-2.456Z" />
+                        </svg>
+                    </div>
+                    <div class="ms-3 ms-sm-4">
+                        <p class="mb-2">Call Us Now</p>
+                        <h5 class="mb-0 fs-6 fs-sm-5">{{ components.phone }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="h-100 bg-light rounded d-flex align-items-center p-4 p-sm-5">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white"
+                        style="width: 45px; height: 45px;">
+                        <svg class="text-primary" aria-hidden="true" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
+                          </svg>
+                          
+                    </div>
+                    <div class="ms-3 ms-sm-4">
+                        <p class="mb-2">Mail Us Now</p>
+                        <h5 class="mb-0 fs-6 fs-sm-5">{{ components.email }}</h5>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Contact Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-4">
-                <!-- Contact Info Cards -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="h-100 bg-light rounded d-flex align-items-center p-4 p-sm-5">
-                        <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white" style="width: 45px; height: 45px;">
-                            <i class="fa fa-map-marker-alt text-primary"></i>
-                        </div>
-                        <div class="ms-3 ms-sm-4">
-                            <p class="mb-2">Address</p>
-                            <h5 class="mb-0 fs-6 fs-sm-5">{{ components.address }}</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="h-100 bg-light rounded d-flex align-items-center p-4 p-sm-5">
-                        <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white" style="width: 45px; height: 45px;">
-                            <i class="fa fa-phone-alt text-primary"></i>
-                        </div>
-                        <div class="ms-3 ms-sm-4">
-                            <p class="mb-2">Call Us Now</p>
-                            <h5 class="mb-0 fs-6 fs-sm-5">{{ components.phone }}</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="h-100 bg-light rounded d-flex align-items-center p-4 p-sm-5">
-                        <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white" style="width: 45px; height: 45px;">
-                            <i class="fa fa-envelope-open text-primary"></i>
-                        </div>
-                        <div class="ms-3 ms-sm-4">
-                            <p class="mb-2">Mail Us Now</p>
-                            <h5 class="mb-0 fs-6 fs-sm-5">{{ components.email }}</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contact Form -->
-                <div class="col-12 col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="bg-light rounded p-4 p-sm-5">
-                        <p class="d-inline-block border rounded-pill py-1 px-4">Contact Us</p>
-                        <h1 class="mb-4 fs-3 fs-sm-2">Have Any Query? Please Contact Us!</h1>
-                        <form action="{{ url_for('contact.Contact') }}" method="post">
-                            <div class="row g-3">
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-floating">
-                                        <input type="text" name="name" required class="form-control" id="name" placeholder="Your Name">
-                                        <label for="name">Your Name</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-floating">
-                                        <input type="email" name="email" required class="form-control" id="email" placeholder="Your Email">
-                                        <label for="email">Your Email</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="text" name="subject" required class="form-control" id="subject" placeholder="Subject">
-                                        <label for="subject">Subject</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea name="message" required class="form-control" placeholder="Leave a message here" id="message" style="height: 150px"></textarea>
-                                        <label for="message">Message</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+            <!-- Contact Form -->
+            <div class="col-12 col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                <div class="bg-light rounded p-4 p-sm-5">
+                    <p class="d-inline-block border rounded-pill py-1 px-4">Contact Us</p>
+                    <h1 class="mb-4 fs-3 fs-sm-2">Have Any Query? Please Contact Us!</h1>
+                    <form action="{{ url_for('contact.Contact') }}" method="post">
+                        <div class="row g-3">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-floating">
+                                    <input type="text" name="name" required class="form-control" id="name"
+                                        placeholder="Your Name">
+                                    <label for="name">Your Name</label>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-floating">
+                                    <input type="email" name="email" required class="form-control" id="email"
+                                        placeholder="Your Email">
+                                    <label for="email">Your Email</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" name="subject" required class="form-control" id="subject"
+                                        placeholder="Subject">
+                                    <label for="subject">Subject</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea name="message" required class="form-control"
+                                        placeholder="Leave a message here" id="message"
+                                        style="height: 150px"></textarea>
+                                    <label for="message">Message</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+            </div>
 
-                <!-- Map -->
-                <div class="col-12 col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="h-100" style="min-height: 350px;">
-                        <iframe class="rounded w-100 h-100"
+            <!-- Map -->
+            <div class="col-12 col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <div class="h-100" style="min-height: 350px;">
+                    <iframe class="rounded w-100 h-100"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.397980957572!2d50.516604875198055!3d26.183728977089295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49afd12fdcfc07%3A0x7dc8a621795a72f3!2sUniversity%20of%20Technology%20Bahrain%20-%20UTB!5e0!3m2!1sen!2sin!4v1732445123791!5m2!1sen!2sin"
-                        style="border:0;" allowfullscreen="" loading="lazy" aria-hidden="false"
-                        tabindex="0"></iframe>
-                    </div>
+                        style="border:0;" allowfullscreen="" loading="lazy" aria-hidden="false" tabindex="0"></iframe>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Contact End -->
+</div>
+<!-- Contact End -->
 {% endblock %}

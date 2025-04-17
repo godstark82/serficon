@@ -83,7 +83,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
             ),
           );
         } else if (state is ArticleErrorState) {
-          return Center(child: Text('Error: ${state.message}'));
+          return Center(child: SelectableText('Error: ${state.message}'));
         } else {
           return const Center(child: Text('Unknown state'));
         }
@@ -181,7 +181,6 @@ class _ArticlesPageState extends State<ArticlesPage> {
                                 title: Text('View Details'),
                               ),
                             ),
-                            
                             const PopupMenuItem<String>(
                               value: 'delete',
                               child: ListTile(
@@ -385,10 +384,13 @@ class _ArticlesPageState extends State<ArticlesPage> {
                   _buildDetailRow(Icons.person, 'Author Name', article.name),
                   _buildDetailRow(Icons.email, 'Email', article.email),
                   _buildDetailRow(Icons.title, 'Title', article.title),
-                  _buildDetailRow(Icons.description, 'Document Type', article.documentType),
-                  _buildDetailRow(Icons.business, 'Affiliation', article.affiliation),
+                  _buildDetailRow(
+                      Icons.description, 'Document Type', article.documentType),
+                  _buildDetailRow(
+                      Icons.business, 'Affiliation', article.affiliation),
                   _buildDetailRow(Icons.topic, 'Topic Type', article.topicType),
-                  _buildDetailRow(Icons.article, 'Paper Types', article.paperType.join(", ")),
+                  _buildDetailRow(Icons.article, 'Paper Types',
+                      article.paperType.join(", ")),
                   _buildDetailRow(
                     Icons.flag,
                     'Status',
@@ -397,37 +399,36 @@ class _ArticlesPageState extends State<ArticlesPage> {
                   ),
                   _buildDetailRow(Icons.calendar_today, 'Created Date',
                       DateFormat('dd/MMMM/yyyy').format(article.createdAt)),
-                  
                   const SizedBox(height: 20),
                   const Text(
                     'Additional Authors:',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  ...article.additionalAuthors.map((author) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('• Name: ${author.name}'),
-                      Text('  Affiliation: ${author.affiliation}'),
-                      Text('  Email: ${author.email}'),
-                      Text('  Corresponding Author: ${author.isCorresponding ? 'Yes' : 'No'}'),
-                      const SizedBox(height: 10),
-                    ],
-                  )).toList(),
-                  
+                  ...article.additionalAuthors
+                      .map((author) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('• Name: ${author.name}'),
+                              Text('  Affiliation: ${author.affiliation}'),
+                              Text('  Email: ${author.email}'),
+                              Text(
+                                  '  Corresponding Author: ${author.isCorresponding ? 'Yes' : 'No'}'),
+                              const SizedBox(height: 10),
+                            ],
+                          ))
+                      .toList(),
                   const SizedBox(height: 20),
                   const Text(
                     'Abstract:',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(article.abstractText),
-                  
                   const SizedBox(height: 20),
                   const Text(
                     'Keywords:',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(article.keywords),
-                  
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -56,15 +56,20 @@ class ArticleModel {
       topicType: json['topic_type'] ?? 'N/A',
       paperType: List<String>.from(json['paper_type'] ?? []),
       status: json['status'] != null
-          ? ArticleStatus.values.byName(json['status'])
+          ? ArticleStatus.values.firstWhere((e) => e.value == json['status'],
+              orElse: () => ArticleStatus.pending)
           : ArticleStatus.pending,
       createdAt: json['created_at'] != null
           ? DateTime.parse((json['created_at']).toString())
           : DateTime.now(),
       pdfUrl: json['pdf_url'] ?? 'N/A',
-      additionalAuthors: (json['additional_authors'] as List)
-          .map((e) => AdditionalAuthor.fromJson(e))
-          .toList(),
+      additionalAuthors: json['additional_authors'] != null
+          ? List<AdditionalAuthor>.from(
+              (json['additional_authors'] as List).map(
+                (e) => AdditionalAuthor.fromJson(e as Map<String, dynamic>),
+              ),
+            )
+          : [],
     );
   }
 
@@ -141,10 +146,10 @@ class AdditionalAuthor {
 
   factory AdditionalAuthor.fromJson(Map<String, dynamic> json) {
     return AdditionalAuthor(
-      name: json['name'],
-      affiliation: json['affiliation'],
-      email: json['email'],
-      isCorresponding: json['is_corresponding'],
+      name: json['name'] ?? '',
+      affiliation: json['affiliation'] ?? '',
+      email: json['email'] ?? '',
+      isCorresponding: json['is_corresponding'] ?? false,
     );
   }
 

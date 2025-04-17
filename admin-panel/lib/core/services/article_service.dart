@@ -10,15 +10,15 @@ class ArticleService {
   //! Get all articles
   Future<DataState<List<ArticleModel>>> getAllArticles() async {
     try {
-      QuerySnapshot<Map<String, dynamic>> querySnapshot =
-          await firestore.collection('articles').get();
-      List<ArticleModel> articles = querySnapshot.docs
-          .map((doc) => ArticleModel.fromJson(doc.data()))
-          .toList();
+    QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await firestore.collection('articles').get();
+    List<ArticleModel> articles = querySnapshot.docs
+        .map((doc) => ArticleModel.fromJson(doc.data()))
+        .toList();
 
-      return DataSuccess(articles);
-    } catch (e) {
-      return DataFailed(e.toString());
+    return DataSuccess(articles);
+     } catch (e) {
+    return DataFailed(e.toString());
     }
   }
 

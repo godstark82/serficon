@@ -4,11 +4,17 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta content="conference" name="keywords">
+    <meta content="conference" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="{{ url_for('static', filename='favicon.ico') }}" rel="icon">
+    
+    <!-- robots.txt -->
+    <link href="{{ url_for('static', filename='robots.txt') }}" rel="robots">
+
+    <!-- sitemap.xml -->
+    <link href="{{ url_for('static', filename='sitemap.xml') }}" rel="sitemap">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -1,6 +1,7 @@
 from flask import request
 from flask import Blueprint, render_template, flash, redirect, url_for
 from services import components_service, registration_service
+
 registration_bp = Blueprint("registration", __name__)
 
 @registration_bp.route("/registration", methods=['GET','POST']) 

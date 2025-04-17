@@ -1,3 +1,4 @@
+import os
 from flask import request
 from firebase_admin import storage
 from datetime import datetime
@@ -13,7 +14,7 @@ def upload_to_firebase(file):
         filename = f"papers/{timestamp}_{file.filename}"
         
         # Get bucket
-        bucket = storage.bucket(name="conference-340f2.appspot.com")
+        bucket = storage.bucket(name=os.getenv("STORAGE_BUCKET"))
         
         # Create blob and upload the file
         blob = bucket.blob(filename)

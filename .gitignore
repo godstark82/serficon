@@ -2,7 +2,7 @@
 .idea
 .env
 .log
-env
+env.g.dart
 .flutter-plugins
 .flutter-plugins-dependencies
 .metadata

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, send_from_directory
 from services import components_service, page_service, imp_dates_service, schedule_service, reward_service, home_service
-from routes.registration import registration_bp
+from routes.paper_upload import paper_upload_bp
 from routes.contact import contact_bp
 from routes.home import webcomponents_bp
 from models.components_model import ComponentsModel
@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.secret_key = 'conference_2024secretkey'
 
 
-app.register_blueprint(registration_bp)
+app.register_blueprint(paper_upload_bp)
 app.register_blueprint(contact_bp)
 app.register_blueprint(webcomponents_bp)
 

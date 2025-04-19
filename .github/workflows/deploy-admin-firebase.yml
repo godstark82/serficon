@@ -63,5 +63,6 @@ jobs:
           channelId: live # or preview for preview channels
           projectId: simdte-conference
           target: default
+          entrypoint: ./admin-panel
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels

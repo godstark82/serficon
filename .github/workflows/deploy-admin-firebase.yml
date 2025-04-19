@@ -55,7 +55,6 @@ jobs:
         run: flutter build web --release
 
       - name: 🔥 Deploy to Firebase Hosting
-        working-directory: ./admin-panel
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"

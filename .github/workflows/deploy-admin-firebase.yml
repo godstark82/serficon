@@ -1,0 +1,67 @@
+name: Deploy Flutter Web to Firebase Hosting
+
+on:
+  push:
+    branches:
+      - main # or your deploy branch
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🧰 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "stable"
+          channel: "stable"
+
+      - name: 💾 Restore pub cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: ${{ runner.os }}-pub-
+
+      - name: 📦 Install dependencies
+        working-directory: ./admin-panel
+        run: flutter pub get
+
+      - name: Create .env file
+        working-directory: ./admin-panel
+        run: |
+          echo "FIREBASE_OPTIONS_API_KEY=${{ secrets.FIREBASE_OPTIONS_API_KEY }}" > .env
+          echo "FIREBASE_OPTIONS_APP_ID=${{ secrets.FIREBASE_OPTIONS_APP_ID }}" >> .env
+          echo "FIREBASE_OPTIONS_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_OPTIONS_MESSAGING_SENDER_ID }}" >> .env
+          echo "FIREBASE_OPTIONS_PROJECT_ID=${{ secrets.FIREBASE_OPTIONS_PROJECT_ID }}" >> .env
+          echo "FIREBASE_OPTIONS_AUTH_DOMAIN=${{ secrets.FIREBASE_OPTIONS_AUTH_DOMAIN }}" >> .env
+          echo "FIREBASE_OPTIONS_STORAGE_BUCKET=${{ secrets.FIREBASE_OPTIONS_STORAGE_BUCKET }}" >> .env
+          echo "FIREBASE_OPTIONS_MEASUREMENT_ID=${{ secrets.FIREBASE_OPTIONS_MEASUREMENT_ID }}" >> .env
+          echo "MAILGUN_DOMAIN=${{ secrets.MAILGUN_DOMAIN }}" >> .env
+          echo "MAILGUN_API_KEY=${{ secrets.MAILGUN_API_KEY }}" >> .env
+
+      - name: 🛠️ Generate Envied files
+        working-directory: ./admin-panel
+        run: dart run build_runner build -d
+
+      - name: 🌐 Build Flutter Web
+        working-directory: ./admin-panel
+        run: flutter build web --release
+
+      - name: 🔥 Deploy to Firebase Hosting
+        working-directory: ./admin-panel
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_TOKEN }}"
+          channelId: live # or preview for preview channels
+          projectId: simdte-conference
+          target: default
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels

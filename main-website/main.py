@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for, flash
 from services import components_service, page_service, imp_dates_service, schedule_service, reward_service, home_service
 from routes.paper_upload import paper_upload_bp
@@ -100,9 +101,37 @@ def registration():
     navItems = components_service.get_navbar_items()
     
     if request.method == 'POST':
-        # Here you can process the form data
-        # For now, we'll just flash a success message
-        flash('Registration submitted successfully!', 'success')
+        email = request.form.get('email')
+        
+        # Check if the email is already registered
+        from db_instance import db
+        
+        # Query the registrations collection for the email
+        registration_ref = db.collection('registrations').where('email', '==', email).limit(1)
+        registration_docs = registration_ref.stream()
+        
+        # Check if any documents match the query
+        if any(registration_docs):
+            flash('You are already registered with this email!', 'warning')
+        else:
+            # Create a new registration document
+            registration_data = {
+                'email': email,
+                'name': request.form.get('name'),
+                'affiliation': request.form.get('affiliation'),
+                'category': request.form.get('participant_category'),
+                'days': request.form.get('days_attending'),
+                'presenting_paper': request.form.get('are_you_presenting'),
+                'country': request.form.get('country'),
+                'phone': request.form.get('phone'),
+                'registration_date': datetime.datetime.now().isoformat()
+            }
+            
+            # Add the document to the registrations collection
+            db.collection('registrations').add(registration_data)
+            
+            flash('Registration submitted successfully!', 'success')
+        
         return redirect(url_for('registration'))
     
     return render_template('pages/registration.html', components=components, navItems=navItems)

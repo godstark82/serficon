@@ -11,3 +11,4 @@ build/
 .dart_tool/
 __pycache__/
 /__pycache__/*
+.qodo

@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<title>
+    Registration
+</title>
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Registration</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- flash message start  -->
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert alert-success alert-dismissible fade show">
+            {% for message in messages %}
+                {{ message }}<br>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+{% endwith %}
+<!-- flash message end  -->
+
+<!-- Article Submission Form Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="text-center mx-auto mb-5">
+                    <h3>Submit Your Registration</h3>
+                    <p>Fill out the form below to submit your registration.</p>
+                </div>
+                <form action="{{ url_for('registration') }}" method="POST" enctype="multipart/form-data" id="registrationForm" class="bg-light rounded p-5">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="phone" name="phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="affiliation" class="form-label">Affiliation</label>
+                                <input type="text" class="form-control" id="affiliation" name="affiliation" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="participantCategory" class="form-label">Participant Category</label>
+                                <select class="form-select" id="participantCategory" name="participant_category" required>
+                                    <option value="">Select Participant Category</option>
+                                    <option value="student">Student</option>
+                                    <option value="faculty">Faculty</option>
+                                    <option value="industryProfessional">Industry Professional</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="daysAttending" class="form-label">Days Attending</label>
+                                <select class="form-select" id="daysAttending" name="days_attending" required>
+                                    <option value="">Select Days Attending</option>
+                                    <option value="day1">Day 1</option>
+                                    <option value="day2">Day 2</option>
+                                    <option value="bothDays">Both Days</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="areYouPresenting" class="form-label">Are You Presenting a Paper?</label>
+                                <select class="form-select" id="areYouPresenting" name="are_you_presenting" required>
+                                    <option value="">Select</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary">Submit Registration</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Registration Form End -->
+
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request, redirect, url_for, flash
 from services import components_service, page_service, imp_dates_service, schedule_service, reward_service, home_service
 from routes.paper_upload import paper_upload_bp
 from routes.contact import contact_bp
@@ -92,6 +92,20 @@ def page_route(path, subpath, id):
         rewards = reward_service.get_rewards_grants()
         return render_template('pages/awards-and-grants.html', page=page_content, components=components, navItems=navItems, rewards=rewards)
     return render_template('page_template.html', page=page_content, components=components, navItems=navItems)
+
+
+@app.route('/registration', methods=['GET', 'POST'])
+def registration():
+    components = components_service.get_all_components()
+    navItems = components_service.get_navbar_items()
+    
+    if request.method == 'POST':
+        # Here you can process the form data
+        # For now, we'll just flash a success message
+        flash('Registration submitted successfully!', 'success')
+        return redirect(url_for('registration'))
+    
+    return render_template('pages/registration.html', components=components, navItems=navItems)
 
 
 if __name__ == '__main__':

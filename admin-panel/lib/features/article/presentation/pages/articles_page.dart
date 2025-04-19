@@ -416,7 +416,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                               const SizedBox(height: 10),
                             ],
                           ))
-                      .toList(),
+                      ,
                   const SizedBox(height: 20),
                   const Text(
                     'Abstract:',

@@ -5,6 +5,7 @@ import 'package:conference_admin/features/detailed-schedule/presentation/pages/s
 import 'package:conference_admin/features/home/presentation/pages/home_page.dart';
 import 'package:conference_admin/features/imp-dates/presentation/pages/imp_dates_page.dart';
 import 'package:conference_admin/features/navbar/navbar.dart';
+import 'package:conference_admin/features/registrations/presentation/pages/registrations_page.dart';
 import 'package:conference_admin/features/rewards/presentation/rewards_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,6 @@ import 'package:conference_admin/features/users/presentation/pages/users_page.da
 
 import 'package:conference_admin/routes.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -40,6 +40,7 @@ class _HomeState extends State<Home> {
       const SchedulePage(),
       const ImpDatesPage(),
       const RewardsPage(),
+      const RegistrationsPage(),
       const ArticlesPage(),
       const ComponentsPage(),
       const UsersPage(),
@@ -75,6 +76,11 @@ class _HomeState extends State<Home> {
         icon: const Icon(Icons.card_giftcard),
         label: const Text('Rewards'),
         selectedIcon: Icon(Icons.card_giftcard, color: Colors.blue[800]),
+      ),
+      NavigationRailDestination(
+        icon: const Icon(Icons.person),
+        label: const Text('Registrations'),
+        selectedIcon: Icon(Icons.person, color: Colors.blue[800]),
       ),
       NavigationRailDestination(
         icon: const Icon(Icons.article),

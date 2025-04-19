@@ -49,11 +49,11 @@ class HomeComponentModel extends HomeComponentEntity {
     return {
       'description': description,
       'bgColor': {
-        'r': bgColor.red,
-        'g': bgColor.green,
-        'b': bgColor.blue,
-        'a': bgColor.alpha,
-        'o': bgColor.opacity,
+        'r': bgColor.r,
+        'g': bgColor.g,
+        'b': bgColor.b,
+        'a': bgColor.a,
+        'o': bgColor.a,
       }, // Remove FF after # if exists
       'order': order,
       'type': type.value,

@@ -60,7 +60,7 @@ class _EditComponentPageState extends State<EditComponentPage> {
         _selectedColor = _component!.bgColor;
       });
       if (kDebugMode) {
-        print(_selectedColor.value);
+        print(_selectedColor.toARGB32());
       }
       _isHtmlLoaded = true;
     }

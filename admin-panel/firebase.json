@@ -1,25 +1,11 @@
 {
-  "flutter": {
-    "platforms": {
-      "dart": {
-        "lib/firebase_options.dart": {
-          "projectId": "conference-340f2",
-          "configurations": {
-            "web": "1:999635805434:web:b22d3dff73785207a79543"
-          }
-        }
-      }
-    }
-  },
   "hosting": {
-    "source": ".",
+    "public": "build/web",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
-    "frameworksBackend": {
-      "region": "us-central1"
-    }
+    "cleanUrls": true
   }
 }

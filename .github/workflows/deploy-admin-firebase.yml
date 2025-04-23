@@ -55,6 +55,11 @@ jobs:
         working-directory: ./admin-panel
         run: flutter build web --release
 
+      - name: Update value in .firebaserc
+        working-directory: ./admin-panel
+        run: |
+          sed -i 's/"default": "simdte-conference"/"default": "${{ secrets.FIREBASE_OPTIONS_PROJECT_ID }}"/' .firebaserc
+
       - name: 🔥 Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:

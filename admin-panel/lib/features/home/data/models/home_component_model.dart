@@ -22,11 +22,11 @@ class HomeComponentModel extends HomeComponentEntity {
       HomeComponentModel(
         description: json['description'],
         bgColor: json['bgColor'] != null
-            ? Color.fromARGB(
-                json['bgColor']['a'],
-                json['bgColor']['r'],
-                json['bgColor']['g'],
-                json['bgColor']['b'],
+            ? Color.fromRGBO(
+                _parseColorComponent(json['bgColor']['r']),
+                _parseColorComponent(json['bgColor']['g']),
+                _parseColorComponent(json['bgColor']['b']),
+                1.0,
               )
             : Colors.transparent,
         order: json['order'] ?? 0,
@@ -45,16 +45,23 @@ class HomeComponentModel extends HomeComponentEntity {
         display: json['display'],
       );
 
+  // Helper method to safely parse color component values
+  static int _parseColorComponent(dynamic value) {
+    if (value is int) return value;
+    if (value is double) return value.toInt();
+    if (value is String) return int.tryParse(value) ?? 0;
+    return 0;
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'description': description,
       'bgColor': {
-        'r': bgColor.r,
-        'g': bgColor.g,
-        'b': bgColor.b,
-        'a': bgColor.a,
-        'o': bgColor.a,
-      }, // Remove FF after # if exists
+        'r': bgColor.red,
+        'g': bgColor.green,
+        'b': bgColor.blue,
+        'a': bgColor.alpha,
+      },
       'order': order,
       'type': type.value,
       'id': id,

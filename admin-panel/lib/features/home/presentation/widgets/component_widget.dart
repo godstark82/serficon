@@ -53,7 +53,8 @@ class HomeComponentWidget extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () {
-                        Get.toNamed(Routes.dashboard + Routes.updateComponent, parameters: {'id': component.id});
+                        Get.toNamed(Routes.dashboard + Routes.updateComponent,
+                            parameters: {'id': component.id});
                       },
                       color: Colors.blue,
                     ),
@@ -107,7 +108,7 @@ class HomeComponentWidget extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 8),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: (component.bgColor != Colors.transparent) ? component.bgColor : Colors.white,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.grey.withOpacity(0.2)),
               ),
@@ -118,7 +119,6 @@ class HomeComponentWidget extends StatelessWidget {
                 component.cards != null)
               ElevatedButton.icon(
                 onPressed: () {
-              
                   showDialog(
                     context: context,
                     builder: (context) => Dialog(
@@ -148,7 +148,8 @@ class HomeComponentWidget extends StatelessWidget {
                             const Divider(),
                             ConstrainedBox(
                               constraints: BoxConstraints(
-                                maxHeight: MediaQuery.of(context).size.height * 0.6,
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * 0.6,
                               ),
                               child: ListView.builder(
                                 shrinkWrap: true,
@@ -156,10 +157,11 @@ class HomeComponentWidget extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   final card = component.cards![index];
                                   return Card(
-                                    margin: const EdgeInsets.symmetric(vertical: 4),
+                                    margin:
+                                        const EdgeInsets.symmetric(vertical: 4),
                                     child: ListTile(
-                                      leading: card.image != null && 
-                                              card.image!.isNotEmpty && 
+                                      leading: card.image != null &&
+                                              card.image!.isNotEmpty &&
                                               card.image!.startsWith('http')
                                           ? Image.network(
                                               card.image!,
@@ -217,7 +219,8 @@ class HomeComponentWidget extends StatelessWidget {
                             const Divider(),
                             ConstrainedBox(
                               constraints: BoxConstraints(
-                                maxHeight: MediaQuery.of(context).size.height * 0.6,
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * 0.6,
                               ),
                               child: ListView.builder(
                                 shrinkWrap: true,
@@ -225,12 +228,13 @@ class HomeComponentWidget extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   final stream = component.streamCards![index];
                                   return Card(
-                                    margin: const EdgeInsets.symmetric(vertical: 4),
+                                    margin:
+                                        const EdgeInsets.symmetric(vertical: 4),
                                     child: ListTile(
                                       title: Text(stream.title ?? ''),
                                       subtitle: Text(
-                                        stream.descriptions?.join(', ') ?? ''
-                                      ),
+                                          stream.descriptions?.join(', ') ??
+                                              ''),
                                     ),
                                   );
                                 },

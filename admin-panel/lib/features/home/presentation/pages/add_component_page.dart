@@ -44,6 +44,7 @@ class _AddComponentPageState extends State<AddComponentPage> {
           title: const Text('Add Youtube Video'),
           content: TextField(
             controller: iframeController,
+            autofocus: true,
             decoration: const InputDecoration(
               labelText: 'Paste iframe code here',
               border: OutlineInputBorder(),
@@ -133,6 +134,7 @@ class _AddComponentPageState extends State<AddComponentPage> {
                                   onColorChanged: (Color color) {
                                     setState(() => _selectedColor = color);
                                   },
+                                  enableAlpha: false,
                                 ),
                               ),
                               actions: <Widget>[
@@ -156,6 +158,19 @@ class _AddComponentPageState extends State<AddComponentPage> {
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectedColor = Colors.transparent;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red[100],
+                        foregroundColor: Colors.red[900],
+                      ),
+                      child: const Text('Reset'),
                     ),
                   ],
                 ),
@@ -217,7 +232,8 @@ class _AddComponentPageState extends State<AddComponentPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('HTML Content:',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
                     ElevatedButton.icon(
                       onPressed: _showYoutubeDialog,
                       icon: const Icon(Icons.video_library),
@@ -235,10 +251,9 @@ class _AddComponentPageState extends State<AddComponentPage> {
                   child: HtmlEditor(
                     controller: _htmlController,
                     htmlToolbarOptions: const HtmlToolbarOptions(
-                      toolbarPosition: ToolbarPosition.belowEditor,
-                      allowImagePicking: true,
-                      defaultToolbarButtons: customToolbarOptions
-                    ),
+                        toolbarPosition: ToolbarPosition.belowEditor,
+                        allowImagePicking: true,
+                        defaultToolbarButtons: customToolbarOptions),
                     htmlEditorOptions: const HtmlEditorOptions(
                       hint: 'Enter your content here...',
                       shouldEnsureVisible: true,
@@ -294,6 +309,11 @@ class _AddComponentPageState extends State<AddComponentPage> {
       return;
     }
 
+    // Ensure color values are converted to integers
+    final safeColor = Color(
+      _selectedColor.value & 0xFFFFFFFF,
+    );
+
     // Validate cards or streams based on selected type
 
     final component = HomeComponentModel(
@@ -301,7 +321,7 @@ class _AddComponentPageState extends State<AddComponentPage> {
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       title: _titleController.text,
       description: _descriptionController.text,
-      bgColor: _selectedColor,
+      bgColor: safeColor,
       htmlContent: _htmlContent,
       display: true,
       type: _selectedType,

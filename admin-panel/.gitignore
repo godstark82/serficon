@@ -9,6 +9,8 @@ firebase-debug.*.log*
 
 # Firebase cache
 .firebase/
+.env.icostem
+.env.iconaistem
 
 # Firebase config
 

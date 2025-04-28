@@ -69,12 +69,18 @@ class _EditComponentPageState extends State<EditComponentPage> {
   void _updateComponent() async {
     if (_formKey.currentState!.validate() && _component != null) {
       final htmlContent = await _htmlController.getText();
+
+      // Ensure color values are converted to integers
+      final safeColor = Color(
+        _selectedColor.value & 0xFFFFFFFF,
+      );
+
       final updatedComponent = _component!.copyWith(
           title: _titleController.text,
           description: _descriptionController.text.isEmpty
               ? null
               : _descriptionController.text,
-          bgColor: _selectedColor,
+          bgColor: safeColor,
           htmlContent: htmlContent.isEmpty ? null : htmlContent,
           order: _selectedOrder);
 
@@ -92,6 +98,7 @@ class _EditComponentPageState extends State<EditComponentPage> {
           title: const Text('Add Youtube Video'),
           content: TextField(
             controller: iframeController,
+            autofocus: true,
             decoration: const InputDecoration(
               labelText: 'Paste iframe code here',
               border: OutlineInputBorder(),
@@ -135,40 +142,34 @@ class _EditComponentPageState extends State<EditComponentPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Focus(
-                child: TextFormField(
-                  controller: titleController,
-                  autofocus: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Title',
-                    border: OutlineInputBorder(),
-                  ),
+              TextFormField(
+                controller: titleController,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 16),
-              Focus(
-                child: TextFormField(
-                  controller: descController,
-                  decoration: const InputDecoration(
-                    labelText: 'Description',
-                    border: OutlineInputBorder(),
-                  ),
-                  maxLines: 3,
+              TextFormField(
+                controller: descController,
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                  border: OutlineInputBorder(),
                 ),
+                maxLines: 3,
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
-                    child: Focus(
-                      child: TextFormField(
-                        controller: imageController,
-                        decoration: const InputDecoration(
-                          labelText: 'Image URL',
-                          border: OutlineInputBorder(),
-                        ),
-                        enabled: false,
+                    child: TextFormField(
+                      controller: imageController,
+                      decoration: const InputDecoration(
+                        labelText: 'Image URL',
+                        border: OutlineInputBorder(),
                       ),
+                      enabled: false,
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -237,26 +238,22 @@ class _EditComponentPageState extends State<EditComponentPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Focus(
-                child: TextFormField(
-                  controller: titleController,
-                  autofocus: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Title',
-                    border: OutlineInputBorder(),
-                  ),
+              TextFormField(
+                controller: titleController,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 16),
-              Focus(
-                child: TextFormField(
-                  controller: descriptionsController,
-                  decoration: const InputDecoration(
-                    labelText: 'Descriptions (one per line)',
-                    border: OutlineInputBorder(),
-                  ),
-                  maxLines: 5,
+              TextFormField(
+                controller: descriptionsController,
+                decoration: const InputDecoration(
+                  labelText: 'Descriptions (one per line)',
+                  border: OutlineInputBorder(),
                 ),
+                maxLines: 5,
               ),
             ],
           ),
@@ -395,17 +392,27 @@ class _EditComponentPageState extends State<EditComponentPage> {
                           onTap: () {
                             showDialog(
                               context: context,
+                              barrierDismissible: true,
+                              useRootNavigator: true,
                               builder: (context) => AlertDialog(
                                 title: const Text('Pick a color'),
-                                content: SingleChildScrollView(
-                                  child: ColorPicker(
-                                    pickerColor: _selectedColor,
-                                    onColorChanged: (Color color) {
-                                      setState(() => _selectedColor = color);
-                                    },
-                                    enableAlpha: true,
-                                  ),
-                                ),
+                                content: Builder(builder: (context) {
+                                  // Use a Builder to get the correct context for getting screen size
+                                  return Focus(
+                                    child: SingleChildScrollView(
+                                      child: ColorPicker(
+                                        pickerColor: _selectedColor,
+                                        onColorChanged: (Color color) {
+                                          setState(
+                                              () => _selectedColor = color);
+                                        },
+                                        enableAlpha: true,
+                                        displayThumbColor: true,
+                                        paletteType: PaletteType.hsv,
+                                      ),
+                                    ),
+                                  );
+                                }),
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
@@ -424,6 +431,19 @@ class _EditComponentPageState extends State<EditComponentPage> {
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
+                        ),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedColor = Colors.transparent;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red[100],
+                            foregroundColor: Colors.red[900],
+                          ),
+                          child: const Text('Reset'),
                         ),
                       ],
                     ),
@@ -476,16 +496,19 @@ class _EditComponentPageState extends State<EditComponentPage> {
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(8),
                         )),
-                        callbacks: Callbacks(onInit: () {
-                          _isEditorReady = true;
-                          if (_component != null) {
-                            _loadHtmlContent();
-                          }
-                        }),
+                        callbacks: Callbacks(
+                          onInit: () {
+                            _isEditorReady = true;
+                            if (_component != null) {
+                              _loadHtmlContent();
+                            }
+                          },
+                        ),
                         controller: _htmlController,
-                        htmlEditorOptions: const HtmlEditorOptions(
+                        htmlEditorOptions: HtmlEditorOptions(
                           hint: 'Enter your content here...',
                           shouldEnsureVisible: true,
+                          darkMode: _selectedColor == Colors.transparent,
                         ),
                       ),
                     ),

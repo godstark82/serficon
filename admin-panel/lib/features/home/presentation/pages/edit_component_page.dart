@@ -25,19 +25,22 @@ class _EditComponentPageState extends State<EditComponentPage> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
+  late TextEditingController _htmlSourceController;
   final HtmlEditorController _htmlController =
       HtmlEditorController(processNewLineAsBr: true);
   HomeComponentModel? _component;
   bool _isHtmlLoaded = false;
   bool _isEditorReady = false;
   int _selectedOrder = 0;
-  Color _selectedColor = Colors.transparent;
+  Color? _selectedColor;
+  bool _showHtmlSource = false;
 
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController();
     _descriptionController = TextEditingController();
+    _htmlSourceController = TextEditingController();
     context.read<HomeBloc>().add(GetHomeComponentEvent());
   }
 
@@ -45,6 +48,7 @@ class _EditComponentPageState extends State<EditComponentPage> {
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
+    _htmlSourceController.dispose();
     super.dispose();
   }
 
@@ -54,25 +58,29 @@ class _EditComponentPageState extends State<EditComponentPage> {
       _descriptionController.text = _component!.description ?? '';
       if (_component!.htmlContent != null) {
         _htmlController.setText(_component!.htmlContent!);
+        _htmlSourceController.text = _component!.htmlContent!;
       }
       _selectedOrder = _component!.order;
       setState(() {
         _selectedColor = _component!.bgColor;
       });
-      if (kDebugMode) {
-        print(_selectedColor.toARGB32());
-      }
       _isHtmlLoaded = true;
     }
   }
 
   void _updateComponent() async {
     if (_formKey.currentState!.validate() && _component != null) {
-      final htmlContent = await _htmlController.getText();
+      String htmlContent;
+
+      if (_showHtmlSource) {
+        htmlContent = _htmlSourceController.text;
+      } else {
+        htmlContent = await _htmlController.getText();
+      }
 
       // Ensure color values are converted to integers
       final safeColor = Color(
-        _selectedColor.value & 0xFFFFFFFF,
+        _selectedColor?.value ?? 0xFFFFFFFF,
       );
 
       final updatedComponent = _component!.copyWith(
@@ -113,7 +121,11 @@ class _EditComponentPageState extends State<EditComponentPage> {
             TextButton(
               onPressed: () {
                 if (iframeController.text.isNotEmpty) {
-                  _htmlController.insertHtml(iframeController.text);
+                  if (_showHtmlSource) {
+                    _htmlSourceController.text += iframeController.text;
+                  } else {
+                    _htmlController.insertHtml(iframeController.text);
+                  }
                   Navigator.pop(context);
                 }
               },
@@ -323,6 +335,17 @@ class _EditComponentPageState extends State<EditComponentPage> {
     });
   }
 
+  void _syncHtmlContent() async {
+    if (_showHtmlSource) {
+      // Update visual editor from source
+      _htmlController.setText(_htmlSourceController.text);
+    } else {
+      // Update source from visual editor
+      final html = await _htmlController.getText();
+      _htmlSourceController.text = html;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -401,7 +424,8 @@ class _EditComponentPageState extends State<EditComponentPage> {
                                   return Focus(
                                     child: SingleChildScrollView(
                                       child: ColorPicker(
-                                        pickerColor: _selectedColor,
+                                        pickerColor:
+                                            _selectedColor ?? Colors.white,
                                         onColorChanged: (Color color) {
                                           setState(
                                               () => _selectedColor = color);
@@ -482,36 +506,76 @@ class _EditComponentPageState extends State<EditComponentPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text('HTML Content:'),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      height: 400,
-                      child: HtmlEditor(
-                        htmlToolbarOptions: const HtmlToolbarOptions(
-                            toolbarPosition: ToolbarPosition.belowEditor,
-                            allowImagePicking: true,
-                            defaultToolbarButtons: customToolbarOptions),
-                        otherOptions: OtherOptions(
-                            decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(8),
-                        )),
-                        callbacks: Callbacks(
-                          onInit: () {
-                            _isEditorReady = true;
-                            if (_component != null) {
-                              _loadHtmlContent();
-                            }
-                          },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('HTML Content:',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        Row(
+                          children: [
+                            const Text('Edit Source:'),
+                            Switch(
+                              value: _showHtmlSource,
+                              onChanged: (value) {
+                                _syncHtmlContent();
+                                setState(() {
+                                  _showHtmlSource = value;
+                                });
+                              },
+                            ),
+                          ],
                         ),
-                        controller: _htmlController,
-                        htmlEditorOptions: HtmlEditorOptions(
-                          hint: 'Enter your content here...',
-                          shouldEnsureVisible: true,
-                          darkMode: _selectedColor == Colors.transparent,
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    if (_showHtmlSource)
+                      SizedBox(
+                        height: 400,
+                        child: TextFormField(
+                          controller: _htmlSourceController,
+                          maxLines: null,
+                          expands: true,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            hintText: 'Enter HTML source code here...',
+                          ),
+                          style: const TextStyle(
+                            fontFamily: 'monospace',
+                          ),
+                        ),
+                      )
+                    else
+                      SizedBox(
+                        height: 400,
+                        child: HtmlEditor(
+                          htmlToolbarOptions: const HtmlToolbarOptions(
+                              toolbarPosition: ToolbarPosition.belowEditor,
+                              allowImagePicking: true,
+                              defaultToolbarButtons: customToolbarOptions),
+                          otherOptions: OtherOptions(
+                              decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8),
+                          )),
+                          callbacks: Callbacks(
+                            onInit: () {
+                              _isEditorReady = true;
+                              if (_component != null) {
+                                _loadHtmlContent();
+                              }
+                            },
+                          ),
+                          controller: _htmlController,
+                          htmlEditorOptions: HtmlEditorOptions(
+                            hint: 'Enter your content here...',
+                            shouldEnsureVisible: true,
+                            darkMode: _selectedColor == Colors.transparent,
+                          ),
                         ),
                       ),
-                    ),
                     const SizedBox(height: 24),
                     if (_component?.type == HomeComponentType.withCards)
                       SectionWidget(

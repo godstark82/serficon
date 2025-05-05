@@ -16,87 +16,163 @@
 
 <!-- flash message start  -->
 {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <div class="alert alert-success alert-dismissible fade show">
-            {% for message in messages %}
-                {{ message }}<br>
-            {% endfor %}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endif %}
+{% if messages %}
+<div class="container">
+    <div class="alert alert-success alert-dismissible fade show">
+        {% for message in messages %}
+        {{ message }}<br>
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% endif %}
 {% endwith %}
 <!-- flash message end  -->
 
-<!-- Article Submission Form Start -->
+<!-- Payment and Registration Section Start -->
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="text-center mx-auto mb-5">
-                    <h3>Submit Your Registration</h3>
-                    <p>Fill out the form below to submit your registration.</p>
-                </div>
-                <form action="{{ url_for('registration') }}" method="POST" enctype="multipart/form-data" id="registrationForm" class="bg-light rounded p-5">
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="affiliation" class="form-label">Affiliation</label>
-                                <input type="text" class="form-control" id="affiliation" name="affiliation" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="country" class="form-label">Country</label>
-                                <input type="text" class="form-control" id="country" name="country" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="participantCategory" class="form-label">Participant Category</label>
-                                <select class="form-select" id="participantCategory" name="participant_category" required>
-                                    <option value="">Select Participant Category</option>
-                                    <option value="student">Student</option>
-                                    <option value="faculty">Faculty</option>
-                                    <option value="industryProfessional">Industry Professional</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="daysAttending" class="form-label">Days Attending</label>
-                                <select class="form-select" id="daysAttending" name="days_attending" required>
-                                    <option value="">Select Days Attending</option>
-                                    <option value="day1">Day 1</option>
-                                    <option value="day2">Day 2</option>
-                                    <option value="bothDays">Both Days</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="areYouPresenting" class="form-label">Are You Presenting a Paper?</label>
-                                <select class="form-select" id="areYouPresenting" name="are_you_presenting" required>
-                                    <option value="">Select</option>
-                                    <option value="yes">Yes</option>
-                                    <option value="no">No</option>
-                                </select>
-                            </div>
+        <div class="text-center mx-auto mb-5" style="max-width: 800px;">
+            <h2 class="display-5 mb-4">Conference Registration</h2>
+            <p class="fs-5">Complete your registration and payment process for the conference</p>
+        </div>
+
+        <div class="row g-5 align-items-stretch">
+            <!-- Payment Section -->
+            <div class="col-lg-6">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h3 class="card-title mb-0 text-center text-white">Payment Information</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="alert alert-info border-0 shadow-sm">
+
+                            <strong>Note:</strong> Payment is only required after your paper has been accepted. You will
+                            receive an email notification regarding the acceptance status of your submission.
+                        </div>
+
+                        <div class="mb-4 mt-4">
+                            <h5 class="border-bottom pb-2 mb-3">Registration Fees</h5>
+                            <ul class="list-group list-group-flush">
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center px-0 py-3 border-bottom">
+                                    <span>Offline Registration</span>
+                                    <span class="badge bg-primary rounded-pill fs-6 px-3 py-2">200 USD</span>
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center px-0 py-3 border-bottom">
+                                    <span>Online Registration</span>
+                                    <span class="badge bg-primary rounded-pill fs-6 px-3 py-2">150 USD</span>
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center px-0 py-3 border-bottom">
+                                    <span>Attending without paper</span>
+                                    <span class="badge bg-primary rounded-pill fs-6 px-3 py-2">50 USD</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                    <span>Early Bird registration</span>
+                                    <span class="badge bg-primary rounded-pill fs-6 px-3 py-2">100 USD</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <a href="https://confpay.utb.edu.bh/" target="_blank"
+                                class="btn btn-success btn-lg px-4 py-2 shadow-sm">
+                                Proceed to Payment
+                            </a>
                         </div>
                     </div>
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-primary">Submit Registration</button>
+                </div>
+            </div>
+
+            <!-- Registration Form -->
+            <div class="col-lg-6">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h3 class="card-title mb-0 text-center text-white">Registration Form</h3>
                     </div>
-                </form>
+                    <div class="card-body p-4">
+                        <form action="{{ url_for('registration') }}" method="POST" enctype="multipart/form-data"
+                            id="registrationForm">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            placeholder="Full Name" required>
+                                        <label for="name">Full Name</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            placeholder="Email" required>
+                                        <label for="email">Email</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="phone" name="phone"
+                                            placeholder="Phone" required>
+                                        <label for="phone">Phone</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="affiliation" name="affiliation"
+                                            placeholder="Affiliation" required>
+                                        <label for="affiliation">Affiliation</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="country" name="country"
+                                            placeholder="Country" required>
+                                        <label for="country">Country</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="participantCategory" name="participant_category"
+                                            required>
+                                            <option value="" selected disabled>Select Participant Category</option>
+                                            <option value="student">Student</option>
+                                            <option value="faculty">Faculty</option>
+                                            <option value="industryProfessional">Industry Professional</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                        <label for="participantCategory">Participant Category</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="daysAttending" name="days_attending" required>
+                                            <option value="" selected disabled>Select Days Attending</option>
+                                            <option value="day1">Day 1</option>
+                                            <option value="day2">Day 2</option>
+                                            <option value="bothDays">Both Days</option>
+                                        </select>
+                                        <label for="daysAttending">Days Attending</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="areYouPresenting" name="are_you_presenting"
+                                            required>
+                                            <option value="" selected disabled>Select</option>
+                                            <option value="yes">Yes</option>
+                                            <option value="no">No</option>
+                                        </select>
+                                        <label for="areYouPresenting">Are You Presenting a Paper?</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-4 py-2 shadow-sm">
+                                    Submit Registration
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Registration Form End -->
+<!-- Payment and Registration Section End -->
 
 {% endblock %}

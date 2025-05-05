@@ -27,7 +27,7 @@ class _AddComponentPageState extends State<AddComponentPage> {
   List<CardModel> cards = [];
   List<StreamCardModel> streams = [];
   int _selectedOrder = 0;
-  Color _selectedColor = Colors.transparent;
+  Color? _selectedColor;
 
   @override
   void initState() {
@@ -130,7 +130,7 @@ class _AddComponentPageState extends State<AddComponentPage> {
                               title: const Text('Pick a color'),
                               content: SingleChildScrollView(
                                 child: ColorPicker(
-                                  pickerColor: _selectedColor,
+                                  pickerColor: _selectedColor ?? Colors.white,
                                   onColorChanged: (Color color) {
                                     setState(() => _selectedColor = color);
                                   },
@@ -236,8 +236,8 @@ class _AddComponentPageState extends State<AddComponentPage> {
                             fontSize: 16, fontWeight: FontWeight.bold)),
                     ElevatedButton.icon(
                       onPressed: _showYoutubeDialog,
-                      icon: const Icon(Icons.video_library),
-                      label: const Text('Embed Youtube'),
+                      icon: const Icon(Icons.code),
+                      label: const Text('Embed Custom Code (HTML)'),
                     ),
                   ],
                 ),
@@ -311,7 +311,7 @@ class _AddComponentPageState extends State<AddComponentPage> {
 
     // Ensure color values are converted to integers
     final safeColor = Color(
-      _selectedColor.value & 0xFFFFFFFF,
+      _selectedColor?.value ?? 0xFFFFFFFF,
     );
 
     // Validate cards or streams based on selected type

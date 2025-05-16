@@ -270,30 +270,6 @@ class _ComponentsPageState extends State<ComponentsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Website Settings',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          _buildEditableField(
-                              'Navigation Title', _controllers['navtitle']!),
-                          _buildEditableField('Title', _controllers['title']!),
-                          _buildEditableField(
-                              'Domain', _controllers['domain']!),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
                             'Payment Information',
                             style: TextStyle(
                               fontSize: 20,

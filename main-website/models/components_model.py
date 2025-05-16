@@ -52,6 +52,8 @@ class ComponentsModel:
     youtube: str
     email: str
     domain: str
+    payment: str
+    map: str
 
     def from_dict(data: dict):
         model = ComponentsModel(
@@ -66,7 +68,9 @@ class ComponentsModel:
             title=data.get('title', 'Not Set'),
             twitter=data.get('twitter', 'Not Set'),
             youtube=data.get('youtube', 'Not Set'),
-            domain=data.get('domain', 'Not Set')
+            domain=data.get('domain', 'Not Set'),
+            payment=data.get('payment', 'Not Set'),
+            map=data.get('map', 'Not Set')
         )
        
         return model

@@ -31,10 +31,12 @@ class _ComponentsPageState extends State<ComponentsPage> {
       'phone': TextEditingController(),
       'email': TextEditingController(),
       'address': TextEditingController(),
+      'map': TextEditingController(),
       'navtitle': TextEditingController(),
       'title': TextEditingController(),
       'logo': TextEditingController(),
       'domain': TextEditingController(),
+      'payment': TextEditingController(),
     };
   }
 
@@ -93,7 +95,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
       setState(() {
         _isUploading = true;
       });
-      
+
       if (kDebugMode) {
         print('Uploading SVG');
       }
@@ -101,7 +103,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
       if (kDebugMode) {
         print('SVG uploaded: $url');
       }
-      
+
       setState(() {
         _controllers['logo']!.text = url;
         _isUploading = false;
@@ -112,7 +114,6 @@ class _ComponentsPageState extends State<ComponentsPage> {
         {'logo': url},
         SetOptions(merge: true),
       );
-
     } catch (e) {
       setState(() {
         _isUploading = false;
@@ -256,6 +257,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
                           _buildEditableField('Email', _controllers['email']!),
                           _buildEditableField(
                               'Address', _controllers['address']!),
+                          _buildEditableField('Map', _controllers['map']!),
                         ],
                       ),
                     ),
@@ -278,7 +280,53 @@ class _ComponentsPageState extends State<ComponentsPage> {
                           _buildEditableField(
                               'Navigation Title', _controllers['navtitle']!),
                           _buildEditableField('Title', _controllers['title']!),
-                          _buildEditableField('Domain', _controllers['domain']!),
+                          _buildEditableField(
+                              'Domain', _controllers['domain']!),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Payment Information',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _buildEditableField(
+                              'HTML Payment Page', _controllers['payment']!),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Footer Settings',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _buildEditableField(
+                              'Navigation Title', _controllers['navtitle']!),
+                          _buildEditableField('Title', _controllers['title']!),
+                          _buildEditableField(
+                              'Domain', _controllers['domain']!),
                         ],
                       ),
                     ),
@@ -292,7 +340,8 @@ class _ComponentsPageState extends State<ComponentsPage> {
     );
   }
 
-  Widget _buildEditableField(String label, TextEditingController controller) {
+  Widget _buildEditableField(String label, TextEditingController controller,
+      {bool isHtml = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -311,6 +360,8 @@ class _ComponentsPageState extends State<ComponentsPage> {
             child: _isEditing
                 ? TextFormField(
                     controller: controller,
+                    maxLines: isHtml ? 10 : 1,
+                    minLines: isHtml ? 10 : 1,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                     ),
@@ -321,7 +372,10 @@ class _ComponentsPageState extends State<ComponentsPage> {
                       return null;
                     },
                   )
-                : Text(controller.text.isEmpty ? 'Not set' : controller.text),
+                : Text(
+                    controller.text.isEmpty ? 'Not set' : controller.text,
+                    maxLines: 2,
+                  ),
           ),
         ],
       ),

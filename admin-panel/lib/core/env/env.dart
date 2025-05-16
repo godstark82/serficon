@@ -3,7 +3,7 @@ import 'package:envied/envied.dart';
 
 part 'env.g.dart';
 
-@Envied(path: '.env.icostem')
+@Envied(path: '.env')
 abstract class Env {
   @EnviedField(varName: 'FIREBASE_OPTIONS_API_KEY')
   static const String apiKey = _Env.apiKey;

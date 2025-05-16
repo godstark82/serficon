@@ -12,3 +12,6 @@ build/
 __pycache__/
 /__pycache__/*
 .qodo
+.env.icostem
+.env.simdte
+

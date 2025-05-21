@@ -238,11 +238,11 @@ class _ArticlesPageState extends State<ArticlesPage> {
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: ExpansionTile(
-            title: Text(article.title),
+            title: Text(article.articleTitle),
             children: [
               ListTile(
                 title: const Text('Abstract:'),
-                subtitle: Text(article.abstractText),
+                subtitle: Text(article.abstractText)
               ),
               ListTile(
                 title: const Text('Authors:'),
@@ -383,7 +383,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                   const SizedBox(height: 20),
                   _buildDetailRow(Icons.person, 'Author Name', article.name),
                   _buildDetailRow(Icons.email, 'Email', article.email),
-                  _buildDetailRow(Icons.title, 'Title', article.title),
+                  _buildDetailRow(Icons.title, 'Title', article.articleTitle),
                   _buildDetailRow(
                       Icons.description, 'Document Type', article.documentType),
                   _buildDetailRow(
